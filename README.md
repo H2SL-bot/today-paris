@@ -10,7 +10,7 @@ MVP fonctionnel + **moteur de recommandation réutilisable**. Aucune dépendance
 
 ## 🌐 Site en ligne (GitHub Pages)
 
-**En ligne : https://h2sl-bot.github.io/today-paris/** (bientôt : https://today.paris)
+**En ligne : https://today.paris** (aussi accessible via https://h2sl-bot.github.io/today-paris/)
 
 La version en ligne est **100 % statique** : le navigateur importe le moteur, interroge
 directement l'API Open Data de Paris (CORS ouvert) et calcule les recommandations côté client.
