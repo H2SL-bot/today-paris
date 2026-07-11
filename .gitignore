@@ -1,0 +1,6 @@
+node_modules/
+# Données produites au runtime (clics, impressions, snapshots, rapports)
+data-store/
+*.log
+.DS_Store
+.env

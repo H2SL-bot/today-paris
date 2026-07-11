@@ -1,0 +1,27 @@
+{
+  "name": "today-paris",
+  "version": "0.1.0",
+  "description": "today.paris — Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire maintenant. MVP + moteur de recommandation réutilisable.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "loop": "node loop/run.js --once",
+    "loop:watch": "node loop/run.js --interval 15",
+    "seed": "node loop/run.js --once",
+    "build:web": "node scripts/build-web.mjs",
+    "test": "node --test"
+  },
+  "keywords": [
+    "recommandation",
+    "paris",
+    "moteur",
+    "today"
+  ],
+  "author": "Gérald Lefebvre",
+  "license": "UNLICENSED",
+  "private": true
+}

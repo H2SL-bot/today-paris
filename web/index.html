@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — Quoi faire maintenant ?</title>
+  <meta name="description" content="Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire, maintenant, à Paris." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Bandeau démo : masqué (données réelles Open Data) -->
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire, maintenant.</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 Où êtes-vous ?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="Quartier"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="Utiliser ma position">📍 Me localiser</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 Avec qui ?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="Avec qui"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 Budget par personne</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="Budget"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ Votre envie</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="Envie"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ Temps disponible</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="Temps disponible"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>Seulement ce qui est ouvert maintenant</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">
+        Qu'est-ce que je fais maintenant ?
+      </button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+  </main>
+
+  <footer class="footer">
+    <p>today.paris — Source : « Que faire à Paris ? », Open Data Ville de Paris.</p>
+  </footer>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
