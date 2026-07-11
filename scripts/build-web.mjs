@@ -5,6 +5,7 @@
 // Aucun bundler : on copie des modules ES natifs que le navigateur importe directement.
 
 import { cp, mkdir, rm, writeFile, readdir } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -28,10 +29,17 @@ async function build() {
   await copy("data/adapters/opendata-paris.js", "data/adapters/opendata-paris.js");
   // 3. Config du domaine
   await copy(`domains/${DOMAIN}/config.js`, "config.js");
-  // 4. Interface
+  // 4. Lieux (instantané OpenStreetMap) — s'il a été généré
+  if (existsSync(path.join(ROOT, "domains", DOMAIN, "venues.json"))) {
+    await copy(`domains/${DOMAIN}/venues.json`, "venues.json");
+  } else {
+    console.warn("[build:web] venues.json absent — lance `npm run fetch:venues` pour inclure les lieux.");
+  }
+  // 5. Interface + carte (Leaflet vendu localement)
   await copy("web/index.html", "index.html");
   await copy("web/app.js", "app.js");
   await copy("public/styles.css", "styles.css");
+  await copy("web/vendor", "vendor");
 
   // 5. Fichiers GitHub Pages
   await writeFile(path.join(DOCS, ".nojekyll"), ""); // sert le dossier tel quel

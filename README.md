@@ -124,6 +124,13 @@ que les **événements du jour** géolocalisés. Il les traduit dans le schéma 
 - Chaque événement porte `demo: false` ; aucun prix ni disponibilité n'est inventé.
 - Un prix inconnu s'affiche « Payant » (jamais « Gratuit » par erreur).
 
+**Lieux (cafés, bars, parcs) — OpenStreetMap.** `npm run fetch:venues` interroge Overpass et écrit
+`domains/today.paris/venues.json` en ne gardant QUE les lieux dont les horaires `opening_hours`
+sont convertibles **sûrement** (`data/opening-hours.js`, conservateur : en cas de doute, le lieu
+est écarté — jamais d'horaire inventé). Le « ouvert maintenant » est recalculé en direct côté
+navigateur à partir de ces vrais horaires. Les résultats sont aussi affichés sur une **carte**
+(Leaflet, vendu localement dans `web/vendor/`, tuiles OpenStreetMap/CARTO). Attribution : © OpenStreetMap.
+
 Le fichier de **démonstration** `domains/today.paris/offers.demo.json` reste un
 **secours hors-ligne** : décommentez sa ligne dans `domains/today.paris/config.js`
 (`sources: [...]`) si l'API est indisponible.

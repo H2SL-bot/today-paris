@@ -69,6 +69,8 @@ function present(r, config, now) {
     category: o.category,
     descriptionShort: o.descriptionShort,
     neighborhood: o.neighborhood,
+    lat: o.lat,
+    lng: o.lng,
     distance: formatDistance(r.distanceKm),
     distanceKm: Number(r.distanceKm?.toFixed?.(2) ?? r.distanceKm),
     price: priceLabel(o),

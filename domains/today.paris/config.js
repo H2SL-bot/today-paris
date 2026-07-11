@@ -19,6 +19,9 @@ export default {
   sources: [
     // Source RÉELLE : événements du jour de l'Open Data Ville de Paris (gratuit, sans clé).
     { type: "opendata-paris", name: "que-faire", limit: 300, timezone: "Europe/Paris" },
+    // Source RÉELLE : lieux (cafés, bars, parcs, jardins) d'OpenStreetMap avec vrais horaires.
+    // Instantané généré par `npm run fetch:venues` (le "ouvert maintenant" est recalculé en direct).
+    { type: "file", name: "lieux-osm", path: "venues.json" },
     // Secours hors-ligne (données de démo) : décommentez si l'API est indisponible.
     // { type: "file", name: "demo", path: "offers.demo.json", demo: true },
   ],

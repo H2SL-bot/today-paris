@@ -19,19 +19,30 @@ const state = {
   sel: { group: null, budget: undefined, moodId: null, time: undefined },
 };
 
-// Chargement des événements du jour (Open Data), en tâche de fond dès l'ouverture.
+// Chargement des données dès l'ouverture, en tâche de fond :
+//  - ÉVÉNEMENTS du jour : Open Data Ville de Paris (en direct).
+//  - LIEUX (cafés, bars, parcs) : instantané OpenStreetMap statique (venues.json), horaires réels.
 let offers = [];
 let offersError = null;
 const offersReady = (async () => {
-  try {
-    const now = new Date();
-    const raw = await opendataParisAdapter({ name: "que-faire", limit: 200, timezone: TZ }, { now });
-    const fresh = validateAndExpire(raw, now, { timeZone: TZ, staleAfterHours: config.freshness?.staleAfterHours });
-    offers = fresh.active;
-  } catch (err) {
-    offersError = err;
-    console.error("[today.paris] chargement Open Data échoué :", err);
-  }
+  const now = new Date();
+  const [events, venues] = await Promise.all([
+    opendataParisAdapter({ name: "que-faire", limit: 200, timezone: TZ }, { now }).catch((e) => {
+      console.warn("[today.paris] événements Open Data indisponibles :", e.message);
+      return [];
+    }),
+    fetch("./venues.json")
+      .then((r) => (r.ok ? r.json() : { offers: [] }))
+      .then((j) => j.offers || [])
+      .catch((e) => {
+        console.warn("[today.paris] lieux OSM indisponibles :", e.message);
+        return [];
+      }),
+  ]);
+  const raw = [...events, ...venues];
+  if (raw.length === 0) offersError = new Error("aucune donnée");
+  const fresh = validateAndExpire(raw, now, { timeZone: TZ, staleAfterHours: config.freshness?.staleAfterHours });
+  offers = fresh.active;
   return offers;
 })();
 
@@ -68,7 +79,7 @@ function initUI() {
   if (config.tagline) $("#tagline").textContent = config.tagline;
   $("#demoBanner").hidden = true; // données réelles
   const footer = document.querySelector(".footer p");
-  if (footer) footer.textContent = "today.paris — Source : « Que faire à Paris ? », Open Data Ville de Paris.";
+  if (footer) footer.textContent = "today.paris — Événements : Open Data Ville de Paris · Lieux & carte : © OpenStreetMap.";
 
   const sel = $("#neighborhood");
   sel.innerHTML = "";
@@ -178,6 +189,7 @@ function renderResults(data) {
   const list = data.results || [];
 
   if (list.length === 0) {
+    $("#map").hidden = true;
     results.innerHTML = `
       <div class="empty">
         <p><strong>Rien d'idéal à cet instant précis.</strong></p>
@@ -192,6 +204,60 @@ function renderResults(data) {
   results.querySelectorAll("[data-offer]").forEach((btn) => {
     btn.addEventListener("click", () => onAction(btn));
   });
+
+  renderMap(list);
+}
+
+// --- Carte des lieux (Leaflet + tuiles OpenStreetMap/CARTO) -------------
+let _map = null;
+let _markers = null;
+
+function ensureMap() {
+  if (_map) return _map;
+  const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = dark ? "dark_all" : "light_all";
+  _map = L.map("map", { scrollWheelZoom: false }).setView([config.city.center.lat, config.city.center.lng], 12);
+  L.tileLayer(`https://{s}.basemaps.cartocdn.com/${theme}/{z}/{x}/{y}{r}.png`, {
+    subdomains: "abcd",
+    maxZoom: 20,
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
+  }).addTo(_map);
+  _markers = L.layerGroup().addTo(_map);
+  return _map;
+}
+
+function pin(emoji) {
+  return L.divIcon({ className: "pin-wrap", html: `<div class="pin">${emoji}</div>`, iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
+}
+
+function renderMap(list) {
+  if (typeof L === "undefined") return; // carte optionnelle : si Leaflet absent, on ignore
+  const mapEl = $("#map");
+  mapEl.hidden = false;
+  const map = ensureMap();
+  map.invalidateSize();
+  _markers.clearLayers();
+  const cats = config.categories || {};
+  const bounds = [];
+
+  list.forEach((o) => {
+    if (!Number.isFinite(o.lat) || !Number.isFinite(o.lng)) return;
+    const emoji = cats[o.category]?.emoji || "📍";
+    L.marker([o.lat, o.lng], { icon: pin(emoji) })
+      .bindPopup(`<strong>${escapeHtml(o.name)}</strong><br>${escapeHtml(o.distance)} · ${escapeHtml(o.price)}`)
+      .addTo(_markers);
+    bounds.push([o.lat, o.lng]);
+  });
+
+  // Point "vous"
+  if (state.location) {
+    L.circleMarker([state.location.lat, state.location.lng], {
+      radius: 7, color: "#fff", weight: 2, fillColor: "#b8324f", fillOpacity: 1,
+    }).bindPopup("Vous êtes ici").addTo(_markers);
+    bounds.push([state.location.lat, state.location.lng]);
+  }
+
+  if (bounds.length) map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
 }
 
 function availabilityBadge(a) {
