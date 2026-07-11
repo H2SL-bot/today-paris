@@ -130,9 +130,11 @@ async function main() {
   }
 
   const byCat = offers.reduce((a, o) => ((a[o.category] = (a[o.category] || 0) + 1), a), {});
+  // Tri stable (par id) + pas d'horodatage : le fichier ne change QUE si les lieux changent
+  // vraiment → la boucle automatique ne republie pas pour rien.
+  offers.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
   const payload = {
     _source: "© OpenStreetMap contributors (ODbL)",
-    generatedAt: new Date().toISOString(),
     count: offers.length,
     offers,
   };
