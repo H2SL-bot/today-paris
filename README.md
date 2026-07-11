@@ -8,6 +8,25 @@ MVP fonctionnel + **moteur de recommandation réutilisable**. Aucune dépendance
 > **« Que faire à Paris ? »** de l'[Open Data de la Ville de Paris](https://opendata.paris.fr/explore/dataset/que-faire-a-paris-/) (gratuit, sans clé d'API). Rien n'est inventé.
 > Un jeu de démonstration reste disponible comme secours hors-ligne. Voir [« Les sources de données »](#les-sources-de-données).
 
+## 🌐 Site en ligne (GitHub Pages)
+
+**En ligne : https://h2sl-bot.github.io/today-paris/** (bientôt : https://today.paris)
+
+La version en ligne est **100 % statique** : le navigateur importe le moteur, interroge
+directement l'API Open Data de Paris (CORS ouvert) et calcule les recommandations côté client.
+Aucun serveur n'est nécessaire pour la mise en ligne.
+
+```bash
+npm run build:web    # (re)génère le dossier docs/ servi par GitHub Pages
+```
+
+`docs/` est assemblé par `scripts/build-web.mjs` à partir des modules réels (source unique) :
+`engine/`, `data/freshness.js`, l'adaptateur Open Data, la config du domaine, et `web/`.
+GitHub Pages est configuré sur la branche `main`, dossier `/docs`.
+
+> Note : en statique, la **mesure des clics côté serveur** (boucle d'amélioration) ne tourne
+> pas en ligne — elle reste un outil local (`npm start` + `npm run loop`).
+
 ---
 
 ## Démarrer en 30 secondes
