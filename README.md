@@ -24,6 +24,12 @@ npm run build:web    # (re)génère le dossier docs/ servi par GitHub Pages
 `engine/`, `data/freshness.js`, l'adaptateur Open Data, la config du domaine, et `web/`.
 GitHub Pages est configuré sur la branche `main`, dossier `/docs`.
 
+**Boucle autonome (cloud).** `.github/workflows/loop.yml` (GitHub Actions) rafraîchit chaque jour
+les lieux (`fetch:venues`), reconstruit le site (`build:web`) et **republie automatiquement si les
+données ont changé** — sans aucune machine locale. C'est la boucle « récupère → fraîcheur → classe
+→ republie → recommence » du produit, côté données. Les événements, eux, sont déjà en direct à
+chaque visite. (Le script `scripts/publish.sh` fait la même chose en local, si besoin.)
+
 > Note : en statique, la **mesure des clics côté serveur** (boucle d'amélioration) ne tourne
 > pas en ligne — elle reste un outil local (`npm start` + `npm run loop`).
 
