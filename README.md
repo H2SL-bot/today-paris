@@ -109,13 +109,20 @@ Les données produites (snapshot, clics, impressions, rapports) vont dans `data-
 
 ---
 
-## Mesure des clics (le signal qui fait progresser)
+## Apprentissage (mesure des clics → reco qui s'améliore)
 
-- Quand le moteur montre des offres → une **impression** est journalisée.
-- Quand l'utilisateur clique « Ça m'intéresse » ou un bouton de réservation → un **clic**.
-- La boucle calcule le **taux de clic** par offre et par catégorie, et en tire des pistes.
+Un **« cerveau »** en ligne (Cloudflare Worker, `cloud/brain/`, gratuit et toujours actif)
+mesure ce que font les visiteurs — **sans aucune donnée personnelle**, uniquement des compteurs :
 
-C'est le carburant honnête de l'amélioration continue : pas de faux chiffres.
+- Offres montrées → **impressions** ; « Ça m'intéresse » / bouton d'action → **clics**
+  (`POST /event`, agrégés dans un KV).
+- `GET /stats` expose le taux de clic par catégorie et les offres les plus cliquées.
+- Le site lit `/stats` et le moteur applique un critère **`popularity`** (poids `0.08`, lissé
+  pour ne pas sur-réagir tôt) : les recommandations favorisent peu à peu ce qui marche
+  vraiment, tout en gardant de l'exploration (`novelty`).
+
+C'est le carburant honnête de l'amélioration continue : pas de faux chiffres, et ça tourne
+en ligne 24/7. Adresse du cerveau : `config.brainUrl`. Redéploiement : `cd cloud/brain && npx wrangler deploy`.
 
 ---
 
