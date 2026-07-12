@@ -104,6 +104,24 @@ export function scoreNovelty(offer, context) {
 }
 
 /**
+ * Popularité : ce que les visiteurs cliquent vraiment (via context.stats du "cerveau").
+ * Lissé pour ne PAS sur-réagir tant qu'il y a peu de données (reste neutre au début).
+ */
+export function scorePopularity(offer, context) {
+  const stats = context.stats;
+  if (!stats) return 0.5; // pas de cerveau branché -> neutre
+  let base = 0.5;
+  const cat = stats.categories?.[offer.category];
+  if (cat && cat.i >= 5) {
+    const ctr = (cat.c + 0.5) / (cat.i + 5); // taux de clic lissé
+    base = clamp01(ctr * 4); // ctr ~0.1 -> 0.4 ; ctr ~0.25 -> 1
+  }
+  const clicks = stats.offerClicks?.[offer.id] || 0;
+  const bonus = clicks > 0 ? Math.min(0.3, 0.1 * clicks) : 0;
+  return clamp01(base + bonus);
+}
+
+/**
  * Calcule toutes les dimensions + le total pondéré et normalisé.
  * @returns {{total:number, dims:Record<string,number>, weighted:Record<string,number>, km:number}}
  */
@@ -115,6 +133,7 @@ export function scoreOffer(offer, context, config, km, avail) {
     time: scoreTime(offer, context, km, config),
     group: scoreGroup(offer, context),
     openWindow: scoreOpenWindow(offer, context, km, config, avail),
+    popularity: scorePopularity(offer, context),
     novelty: scoreNovelty(offer, context),
   };
 

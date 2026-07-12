@@ -1,4 +1,5 @@
 node_modules/
+.wrangler/
 # Données produites au runtime (clics, impressions, snapshots, rapports)
 data-store/
 *.log

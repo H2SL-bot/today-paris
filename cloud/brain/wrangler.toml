@@ -1,0 +1,9 @@
+name = "today-paris-brain"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+workers_dev = true
+
+# Collecte des impressions/clics (aucune donnée personnelle, que des compteurs).
+[[kv_namespaces]]
+binding = "STATS"
+id = "c3f2bcd42e014318a8f473882ecebc87"

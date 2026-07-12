@@ -16,6 +16,7 @@ const state = {
   geoActive: false,
   bounds: config.city?.bounds || null,
   cityLabel: config.city?.label || "la zone",
+  stats: null, // ce que les visiteurs cliquent (vient du "cerveau")
   sel: { group: null, budget: undefined, moodId: null, time: undefined },
 };
 
@@ -45,6 +46,25 @@ const offersReady = (async () => {
   offers = fresh.active;
   return offers;
 })();
+
+// "Cerveau" : on charge ce que les visiteurs cliquent (pour apprendre), et on lui
+// renvoie impressions + clics. Aucune donnée personnelle, juste des compteurs.
+const BRAIN = config.brainUrl;
+if (BRAIN) {
+  fetch(`${BRAIN}/stats`)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((s) => { state.stats = s; })
+    .catch(() => {});
+}
+function sendEvents(events) {
+  if (!BRAIN || !events || !events.length) return;
+  fetch(`${BRAIN}/event`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ events }),
+    keepalive: true,
+  }).catch(() => {});
+}
 
 // --- Horloge -------------------------------------------------------------
 function tickClock() {
@@ -169,6 +189,7 @@ async function getRecommendations(e) {
     moodId: state.sel.moodId,
     timeAvailableMin: state.sel.time,
     requireOpenNow: $("#openNow").checked,
+    stats: state.stats, // apprentissage : ce que les visiteurs cliquent
   };
 
   try {
@@ -204,6 +225,9 @@ function renderResults(data) {
   results.querySelectorAll("[data-offer]").forEach((btn) => {
     btn.addEventListener("click", () => onAction(btn));
   });
+
+  // Mesure : on signale les offres réellement montrées (impressions).
+  sendEvents(list.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
 
   renderMap(list);
 }
@@ -284,8 +308,8 @@ function card(o, i, cats) {
   ].join("");
 
   const action = o.booking
-    ? `<a class="btn-action" href="${escapeAttr(o.booking.url)}" target="_blank" rel="noopener" data-offer="${escapeAttr(o.id)}" data-action="booking" data-pos="${i}">${escapeHtml(o.booking.label)}</a>`
-    : `<button class="btn-action" type="button" data-offer="${escapeAttr(o.id)}" data-action="interest" data-pos="${i}">👍 Ça m'intéresse</button>`;
+    ? `<a class="btn-action" href="${escapeAttr(o.booking.url)}" target="_blank" rel="noopener" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="booking" data-pos="${i}">${escapeHtml(o.booking.label)}</a>`
+    : `<button class="btn-action" type="button" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="interest" data-pos="${i}">👍 Ça m'intéresse</button>`;
 
   return `
     <article class="offer">
@@ -303,6 +327,8 @@ function card(o, i, cats) {
 // Version statique : pas de serveur, donc pas de mesure de clic côté serveur.
 // On donne juste un retour visuel ; le lien de réservation s'ouvre normalement.
 function onAction(btn) {
+  // Mesure : clic sur une reco (bouton "réserver"/"site web" ou "ça m'intéresse").
+  sendEvents([{ type: "click", category: btn.getAttribute("data-cat"), offerId: btn.getAttribute("data-offer") }]);
   if (btn.getAttribute("data-action") === "interest") {
     btn.classList.add("done");
     btn.textContent = "✓ Noté";

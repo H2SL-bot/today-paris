@@ -13,6 +13,10 @@ export default {
     bounds: { minLat: 48.7, maxLat: 49.0, minLng: 2.1, maxLng: 2.6 }, // zone couverte (géoloc)
   },
 
+  // "Cerveau" en ligne (Cloudflare Worker) : mesure les clics et sert /stats.
+  // Le site apprend de ce qui marche via le critère "popularity" ci-dessous.
+  brainUrl: "https://today-paris-brain.today-paris.workers.dev",
+
   // --- Sources de données (adaptateurs interchangeables) ------------------
   // Aujourd'hui : un fichier de DÉMONSTRATION clairement marqué.
   // Demain : ajouter { type:'http', name:'billetterie', url:'...' } sans toucher au reste.
@@ -43,6 +47,7 @@ export default {
     time: 0.12,
     group: 0.10,
     openWindow: 0.08,  // assez de temps avant fermeture
+    popularity: 0.08,  // ce que les visiteurs cliquent vraiment (apprentissage)
     novelty: 0.05,     // un peu d'exploration
   },
 
