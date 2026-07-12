@@ -13,6 +13,8 @@
     "loop:watch": "node loop/run.js --interval 15",
     "seed": "node loop/run.js --once",
     "build:web": "node scripts/build-web.mjs",
+    "build:pages": "node scripts/build-pages.mjs",
+    "build": "node scripts/build-web.mjs && node scripts/build-pages.mjs",
     "fetch:venues": "node scripts/fetch-venues.mjs",
     "test": "node --test"
   },

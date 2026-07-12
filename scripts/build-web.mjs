@@ -41,6 +41,12 @@ async function build() {
   await copy("public/styles.css", "styles.css");
   await copy("web/vendor", "vendor");
   await copy("web/og.png", "og.png"); // carte de partage (Open Graph)
+  // Appli installable (PWA)
+  await copy("web/manifest.webmanifest", "manifest.webmanifest");
+  await copy("web/sw.js", "sw.js");
+  await copy("web/icon-192.png", "icon-192.png");
+  await copy("web/icon-512.png", "icon-512.png");
+  await copy("web/apple-touch-icon.png", "apple-touch-icon.png");
 
   // 5. SEO : robots.txt + sitemap.xml
   const baseUrl = CUSTOM_DOMAIN ? `https://${CUSTOM_DOMAIN}/` : "https://h2sl-bot.github.io/today-paris/";

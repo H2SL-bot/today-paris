@@ -14,7 +14,7 @@ echo "===== boucle publish : $(date) ====="
 
 npm run fetch:venues || echo "[publish] fetch:venues indisponible — on garde l'instantané précédent"
 node loop/run.js --once || echo "[publish] loop KO (ignoré)"
-CUSTOM_DOMAIN=today.paris npm run build:web || { echo "[publish] build KO — abandon"; exit 1; }
+CUSTOM_DOMAIN=today.paris npm run build || { echo "[publish] build KO — abandon"; exit 1; }
 
 # On ne met en index QUE les données et le site construit (jamais de fichier workflow).
 git add domains/today.paris/venues.json docs

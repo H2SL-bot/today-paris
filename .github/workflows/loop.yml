@@ -41,10 +41,10 @@ jobs:
         continue-on-error: true
 
       # Reconstruit le site statique (docs/) à partir des données rafraîchies.
-      - name: Reconstruire le site
+      - name: Reconstruire le site (SPA + pages piliers SEO)
         env:
           CUSTOM_DOMAIN: today.paris
-        run: npm run build:web
+        run: npm run build
 
       # 8. Republie UNIQUEMENT si les données ont réellement changé.
       - name: Publier si changement

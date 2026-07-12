@@ -43,6 +43,15 @@
   <meta name="twitter:image" content="https://today.paris/og.png" />
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+
+  <!-- Application installable (PWA) -->
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
   <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
   <link rel="stylesheet" href="./styles.css" />
 </head>
@@ -121,6 +130,15 @@
         <p>Indiquez où vous êtes, avec qui, votre budget, votre envie et le temps dont vous disposez.
         Le moteur classe pour vous les meilleures idées <em>disponibles maintenant</em>, autour de vous.</p>
       </details>
+      <nav class="prelated" aria-label="Explorer">
+        <span>Explorer :</span>
+        <a href="/ouvert-maintenant/">Ouvert maintenant</a> ·
+        <a href="/ce-soir/">Ce soir</a> ·
+        <a href="/marais/">Le Marais</a> ·
+        <a href="/montmartre/">Montmartre</a> ·
+        <a href="/quartier-latin/">Quartier latin</a> ·
+        <a href="/canal-saint-martin/">Canal Saint-Martin</a>
+      </nav>
     </section>
   </main>
 

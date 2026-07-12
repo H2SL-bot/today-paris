@@ -347,3 +347,8 @@ setInterval(tickClock, 30000);
 initUI();
 $("#form").addEventListener("submit", getRecommendations);
 $("#geoloc").addEventListener("click", useGeolocation);
+
+// Appli installable (PWA) : chargements rapides + "Ajouter à l'écran d'accueil".
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
+}
