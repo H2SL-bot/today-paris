@@ -40,6 +40,7 @@ async function build() {
   await copy("web/app.js", "app.js");
   await copy("public/styles.css", "styles.css");
   await copy("web/vendor", "vendor");
+  await copy("web/og.png", "og.png"); // carte de partage (Open Graph)
 
   // 5. Fichiers GitHub Pages
   await writeFile(path.join(DOCS, ".nojekyll"), ""); // sert le dossier tel quel
