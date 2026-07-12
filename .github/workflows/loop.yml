@@ -1,0 +1,61 @@
+name: Boucle today.paris
+
+# La boucle automatisée du produit, côté données du site EN LIGNE :
+#   1. récupère les nouvelles données (lieux OpenStreetMap)   <- ici
+#   2-4. fraîcheur / expiration / classement                  <- + à chaque visite (navigateur)
+#   7. produit un rapport d'amélioration (dans les logs)      <- ici
+#   8. recommence automatiquement                              <- ici (programmé)
+# (5-6 = mesure des clics : nécessite un petit backend, voir README.)
+
+on:
+  schedule:
+    - cron: "23 4 * * *" # chaque jour à 04h23 UTC (~06h23 Paris)
+  workflow_dispatch: {} # + lancement manuel depuis l'onglet Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: boucle-today-paris
+  cancel-in-progress: false
+
+jobs:
+  boucle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 1. Récupère les lieux (cafés, bars, parcs) avec leurs vrais horaires.
+      #    Si Overpass est momentanément indisponible, on garde l'instantané précédent.
+      - name: Rafraîchir les lieux (OpenStreetMap)
+        run: npm run fetch:venues
+        continue-on-error: true
+
+      # 2-3-4 + 7. Contrôle fraîcheur + rapport d'amélioration (santé des données) dans les logs.
+      - name: Boucle (fraîcheur + rapport)
+        run: node loop/run.js --once
+        continue-on-error: true
+
+      # Reconstruit le site statique (docs/) à partir des données rafraîchies.
+      - name: Reconstruire le site
+        env:
+          CUSTOM_DOMAIN: today.paris
+        run: npm run build:web
+
+      # 8. Republie UNIQUEMENT si les données ont réellement changé.
+      - name: Publier si changement
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Aucun changement de données — rien à republier."
+          else
+            git commit -m "boucle: rafraîchissement automatique des lieux (OpenStreetMap)"
+            git push
+            echo "Site republié avec les lieux à jour."
+          fi
