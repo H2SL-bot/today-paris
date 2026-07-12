@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://today.paris/sitemap.xml

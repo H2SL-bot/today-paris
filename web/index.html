@@ -3,8 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>today.paris — Quoi faire maintenant ?</title>
-  <meta name="description" content="Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire, maintenant, à Paris." />
+  <title>today.paris — Que faire à Paris maintenant ? Sorties, événements, bars &amp; cafés</title>
+  <meta name="description" content="Que faire à Paris maintenant ? Dites où vous êtes, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs ouverts près de vous, sur une carte. Gratuit, en temps réel." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      { "@type": "WebSite", "name": "today.paris", "url": "https://today.paris/", "inLanguage": "fr" },
+      {
+        "@type": "WebApplication",
+        "name": "today.paris",
+        "url": "https://today.paris/",
+        "description": "Que faire à Paris maintenant : événements du jour, bars, cafés et parcs ouverts près de vous, selon votre position, l'heure, votre budget et votre envie.",
+        "applicationCategory": "TravelApplication",
+        "operatingSystem": "Web",
+        "inLanguage": "fr",
+        "areaServed": { "@type": "City", "name": "Paris" },
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+      }
+    ]
+  }
+  </script>
 
   <!-- Carte de partage (Open Graph + Twitter) -->
   <meta property="og:type" content="website" />
@@ -78,6 +99,29 @@
 
     <div id="map" class="map" hidden aria-label="Carte des lieux proposés"></div>
     <section id="results" class="results" aria-live="polite"></section>
+
+    <section class="about">
+      <h2>Que faire à Paris maintenant ?</h2>
+      <p>
+        <strong>today.paris</strong> est un outil gratuit qui vous dit <strong>quoi faire à Paris, maintenant</strong>,
+        selon votre position, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs
+        ouverts près de vous, affichés sur une carte. En temps réel, sans inscription.
+      </p>
+      <details>
+        <summary>C'est vraiment gratuit ?</summary>
+        <p>Oui, entièrement gratuit et sans inscription.</p>
+      </details>
+      <details>
+        <summary>D'où viennent les informations ?</summary>
+        <p>Les événements viennent de l'Open Data de la Ville de Paris (« Que faire à Paris ? ») ; les lieux
+        (bars, cafés, parcs) d'OpenStreetMap. Les horaires et disponibilités sont réels — jamais inventés.</p>
+      </details>
+      <details>
+        <summary>Comment ça marche ?</summary>
+        <p>Indiquez où vous êtes, avec qui, votre budget, votre envie et le temps dont vous disposez.
+        Le moteur classe pour vous les meilleures idées <em>disponibles maintenant</em>, autour de vous.</p>
+      </details>
+    </section>
   </main>
 
   <footer class="footer">

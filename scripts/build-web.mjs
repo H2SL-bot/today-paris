@@ -42,7 +42,15 @@ async function build() {
   await copy("web/vendor", "vendor");
   await copy("web/og.png", "og.png"); // carte de partage (Open Graph)
 
-  // 5. Fichiers GitHub Pages
+  // 5. SEO : robots.txt + sitemap.xml
+  const baseUrl = CUSTOM_DOMAIN ? `https://${CUSTOM_DOMAIN}/` : "https://h2sl-bot.github.io/today-paris/";
+  await writeFile(path.join(DOCS, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${baseUrl}sitemap.xml\n`);
+  await writeFile(
+    path.join(DOCS, "sitemap.xml"),
+    `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url><loc>${baseUrl}</loc><changefreq>daily</changefreq><priority>1.0</priority></url>\n</urlset>\n`
+  );
+
+  // 6. Fichiers GitHub Pages
   await writeFile(path.join(DOCS, ".nojekyll"), ""); // sert le dossier tel quel
   if (CUSTOM_DOMAIN) await writeFile(path.join(DOCS, "CNAME"), CUSTOM_DOMAIN + "\n");
 
