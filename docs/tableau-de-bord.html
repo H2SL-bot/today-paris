@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tableau de bord — today.paris</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0; }
+    .tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 18px; text-align: center; }
+    .tile .num { font-size: 34px; font-weight: 800; color: var(--ink); }
+    .tile .num.accent { color: var(--accent); }
+    .tile .lab { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .rows { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 16px; margin: 14px 0; }
+    .rows h2 { font-size: 15px; margin: 12px 0 6px; }
+    .row { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding: 8px 0; font-size: 14px; }
+    .row:first-of-type { border-top: none; }
+    .row .k { color: var(--ink); } .row .v { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .upd { font-size: 12px; color: var(--muted); text-align: center; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1 class="logo" style="font-size:clamp(26px,6vw,40px)">📊 Tableau de bord</h1>
+    <p class="tagline">today.paris — les chiffres, en direct. Anonyme, sans cookie.</p>
+  </header>
+  <main>
+    <div id="dash"><div class="spinner"></div></div>
+    <p style="text-align:center"><a class="btn-ghost" href="/">← Retour au site</a></p>
+  </main>
+  <script>
+    const B = "https://today-paris-brain.today-paris.workers.dev";
+    const parisDay = () => new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Paris", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+    const n = (x) => (x || 0).toLocaleString("fr-FR");
+
+    fetch(B + "/stats?_=" + Date.now())
+      .then((r) => r.json())
+      .then(render)
+      .catch(() => { document.getElementById("dash").innerHTML = '<p class="error">Impossible de charger les chiffres pour l\'instant.</p>'; });
+
+    function render(d) {
+      const today = parisDay();
+      const visits = d.visits || { total: 0, byDay: {} };
+      const views = d.views || { total: 0, byDay: {}, byPath: {} };
+      const totals = d.totals || { i: 0, c: 0 };
+      const ctr = totals.i ? Math.round((100 * totals.c) / totals.i) : 0;
+
+      const tiles = [
+        { num: n(visits.total), lab: "Visites (total)", accent: true },
+        { num: n(visits.byDay[today]), lab: "Visites aujourd'hui" },
+        { num: n(views.total), lab: "Pages vues" },
+        { num: n(totals.c), lab: "Clics sur une reco" },
+        { num: ctr + " %", lab: "Taux de clic" },
+      ];
+
+      const pages = Object.entries(views.byPath || {}).sort((a, b) => b[1] - a[1]).slice(0, 10);
+      const cats = Object.entries(d.categories || {}).map(([k, v]) => [k, v.i ? Math.round((100 * v.c) / v.i) : 0, v]).sort((a, b) => b[1] - a[1]).slice(0, 8);
+
+      let html = '<div class="tiles">' + tiles.map((t) => `<div class="tile"><div class="num ${t.accent ? "accent" : ""}">${t.num}</div><div class="lab">${t.lab}</div></div>`).join("") + "</div>";
+
+      if (pages.length) html += '<div class="rows"><h2>Pages les plus vues</h2>' + pages.map(([p, c]) => `<div class="row"><span class="k">${p}</span><span class="v">${n(c)} vues</span></div>`).join("") + "</div>";
+      if (cats.length) html += '<div class="rows"><h2>Ce qui est le plus cliqué (par catégorie)</h2>' + cats.map(([k, pct, v]) => `<div class="row"><span class="k">${k}</span><span class="v">${pct}% &middot; ${n(v.c)}/${n(v.i)}</span></div>`).join("") + "</div>";
+      html += `<p class="upd">Dernière activité : ${d.updatedAt ? new Date(d.updatedAt).toLocaleString("fr-FR") : "—"}</p>`;
+
+      document.getElementById("dash").innerHTML = html;
+    }
+  </script>
+</body>
+</html>

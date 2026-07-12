@@ -38,6 +38,7 @@ async function build() {
   // 5. Interface + carte (Leaflet vendu localement)
   await copy("web/index.html", "index.html");
   await copy("web/app.js", "app.js");
+  await copy("web/tableau-de-bord.html", "tableau-de-bord.html"); // compteur privé (noindex)
   await copy("public/styles.css", "styles.css");
   await copy("web/vendor", "vendor");
   await copy("web/og.png", "og.png"); // carte de partage (Open Graph)

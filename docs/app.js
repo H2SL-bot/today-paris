@@ -66,6 +66,15 @@ function sendEvents(events) {
   }).catch(() => {});
 }
 
+// Compteur de visites (anonyme, sans cookie) : 1 "visite" par session, 1 "vue" par page.
+(function countView() {
+  try {
+    const isVisit = !sessionStorage.getItem("tp_v");
+    if (isVisit) sessionStorage.setItem("tp_v", "1");
+    sendEvents([{ type: "view", path: location.pathname, visit: isVisit }]);
+  } catch {}
+})();
+
 // --- Horloge -------------------------------------------------------------
 function tickClock() {
   const opts = { weekday: "long", hour: "2-digit", minute: "2-digit" };

@@ -140,6 +140,7 @@ function pageHtml({ slug, title, description, h1, intro, sections, related }) {
     </article>
   </main>
   <footer class="footer"><p>today.paris — Quoi faire à Paris, maintenant. Événements : Open Data Ville de Paris · Lieux : © OpenStreetMap.</p></footer>
+  <script>(function(){var B=${JSON.stringify(config.brainUrl || "")};if(!B)return;try{var v=!sessionStorage.getItem("tp_v");if(v)sessionStorage.setItem("tp_v","1");fetch(B+"/event",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({events:[{type:"view",path:location.pathname,visit:v}]}),keepalive:true}).catch(function(){});}catch(e){}})();</script>
 </body>
 </html>
 `;
