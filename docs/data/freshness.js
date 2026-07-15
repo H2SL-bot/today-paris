@@ -23,8 +23,10 @@ export function validateAndExpire(offers, now = new Date(), opts = {}) {
   for (const raw of offers) {
     const offer = normalize(raw);
 
-    // Champs indispensables : sans eux, l'offre est inexploitable
-    if (!offer.id || !offer.name || offer.lat == null || offer.lng == null) {
+    // Champs indispensables : sans eux, l'offre est inexploitable.
+    // Coordonnées : on exige des nombres FINIS (NaN passerait le test `== null`), sinon
+    // l'offre survivrait au filtre distance (NaN > maxKm = faux) et s'afficherait sans point.
+    if (!offer.id || !offer.name || !Number.isFinite(offer.lat) || !Number.isFinite(offer.lng)) {
       invalid.push({ offer, reason: "champs-obligatoires-manquants" });
       continue;
     }

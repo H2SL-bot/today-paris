@@ -10,17 +10,20 @@ const BASE = "https://opendata.paris.fr/api/explore/v2.1/catalog/datasets/que-fa
 const PAGE = 100; // maximum autorisé par l'API par appel
 
 // qfap_tags (normalisé) -> catégorie du moteur (déjà présentes dans les affinités d'humeur).
+// Établi à partir du VRAI vocabulaire de tags du jeu de données (qfap_tags), pas de noms devinés.
 const CATEGORY_MAP = {
-  concert: "live-music", festival: "live-music", musique: "live-music", "musique live": "live-music",
-  expo: "museum", exposition: "museum", "visite guidée": "walk", visite: "walk",
-  "théâtre": "theatre", humour: "theatre", spectacle: "theatre", danse: "theatre", cirque: "theatre", "one man show": "theatre",
-  "cinéma": "cinema", projection: "cinema",
-  "conférence": "workshop", rencontre: "workshop", atelier: "workshop", "jeune public": "workshop", stage: "workshop",
+  concert: "live-music", festival: "live-music", musique: "live-music", "musique live": "live-music", "spectacle musical": "live-music",
+  expo: "museum", exposition: "museum", "art contemporain": "museum", peinture: "museum", photo: "museum",
+  "arts plastiques": "museum", "arts visuels": "museum", "street-art": "museum", "street art": "museum", sculpture: "museum", histoire: "museum", patrimoine: "museum",
+  "visite guidée": "walk", visite: "walk",
+  "théâtre": "theatre", humour: "theatre", spectacle: "theatre", danse: "theatre", cirque: "theatre", "one man show": "theatre", "arts de la rue": "theatre",
+  "cinéma": "cinema", projection: "cinema", ecrans: "cinema", "écrans": "cinema",
+  "conférence": "workshop", rencontre: "workshop", atelier: "workshop", "jeune public": "workshop", stage: "workshop", loisirs: "workshop", loisir: "workshop", enfants: "workshop", "atelier créatif": "workshop",
   lecture: "bookshop", "littérature": "bookshop", "dédicace": "bookshop",
   balade: "walk", "balade urbaine": "walk", promenade: "walk", randonnée: "walk",
-  brocante: "market", "marché": "market", salon: "market", "vide-grenier": "market",
+  brocante: "market", "marché": "market", salon: "market", "vide-grenier": "market", gastronomie: "market", gourmand: "market",
   sport: "sport", "activité sportive": "sport",
-  "loisir": "workshop", nature: "park", "sortie nature": "park",
+  nature: "park", "sortie nature": "park", jardinage: "park",
 };
 
 const normTag = (t) => String(t || "").trim().toLowerCase();
@@ -50,11 +53,18 @@ export function parsePrice(priceType, priceDetail) {
   if (type.includes("gratuit")) {
     return type.includes("condition") ? { free: true, note: "(sous condition)" } : { free: true };
   }
-  // payant : on extrait le plus petit tarif > 0 du texte.
-  // Gère les milliers "1 500 €" / "10 000 €" (espace normal, insécable, insécable fin).
   const text = stripHtml(priceDetail);
+  // Prix libre / au chapeau : gratuit, montant à la discrétion du visiteur.
+  if (/prix libre|participation libre|libre participation|au chapeau/i.test(text)) return { free: true, note: "(prix libre)" };
+  // Fourchette démarrant à 0 (« de 0 à X », « 0 à X ») : une entrée gratuite existe (sous condition).
+  if (/(?:^|\bde\b|\bà partir de\b|\bentre\b|\bdès\b)\s*0\s*(?:€|euros?)?\s*(?:à|a|-|–|—|et)/i.test(text)) {
+    return { free: true, note: "(sous condition)" };
+  }
+  // Payant : on extrait le plus petit tarif > 0. Accepte le glyphe € OU le mot « euro(s) » / « eur »
+  // (l'Open Data l'écrit très souvent en toutes lettres : « 220 euros », « De 6 à 9 euros »).
+  // Gère les milliers "1 500 €" / "10 000 €" (espace normal, insécable, insécable fin).
   const SEP = "[\\u0020\\u00a0\\u202f]";
-  const re = new RegExp(`(\\d{1,3}(?:${SEP}\\d{3})+|\\d+)(?:[.,](\\d{1,2}))?\\s*€`, "g");
+  const re = new RegExp(`(\\d{1,3}(?:${SEP}\\d{3})+|\\d+)(?:[.,](\\d{1,2}))?\\s*(?:€|euros?|eur\\b)`, "gi");
   const nums = [...text.matchAll(re)]
     .map((m) => parseFloat(m[1].replace(new RegExp(SEP, "g"), "") + (m[2] ? "." + m[2] : "")))
     .filter((n) => Number.isFinite(n) && n > 0);
@@ -72,11 +82,14 @@ export function audienceToGroups(audience) {
   // classer "famille" un événement réservé aux ados/adultes.
   const ageMatch = a.match(/(?:à partir de|dès)\s*(\d{1,2})\s*ans?/);
   const minAge = ageMatch ? parseInt(ageMatch[1], 10) : null;
+  const mentionsChild = /enfant|famille|tout public|jeune public|en famille|petit|tout-petit|bébé|ado/.test(a);
+  // « adultes » ne suffit PAS à exclure la famille s'il cohabite avec un signal enfant
+  // (ex. « Public enfants, jeunes et adultes »). On n'exclut que sur un signal EXCLUSIF adulte.
   const adultsOnly =
-    /adulte|interdit aux mineurs|\+\s*18|18\s*ans et plus|réservé aux adultes/.test(a) ||
-    (minAge != null && minAge >= 13);
-  const familyHint =
-    /tout public|famille|enfant|jeune public|en famille/.test(a) || (minAge != null && minAge <= 12);
+    /interdit aux mineurs|réservé aux adultes|\+\s*18\b|18 ans et plus/.test(a) ||
+    (minAge != null && minAge >= 13) ||
+    (/\badultes?\b/.test(a) && !mentionsChild);
+  const familyHint = mentionsChild || (minAge != null && minAge <= 12);
   if (familyHint && !adultsOnly) groups.push("family");
   return groups;
 }
@@ -127,8 +140,13 @@ function mapRecord(r, now) {
     descriptionShort: shorten(r.lead_text || r.description),
     bookingUrl: r.access_link || r.url || null,
     bookingLabel: r.access_link ? "Réserver" : "En savoir plus",
-    validFrom: r.date_start || undefined,
-    validUntil: r.date_end || undefined,
+    // Photo réelle de l'événement (CDN officiel paris.fr) — jamais inventée.
+    imageUrl: r.cover_url || null,
+    imageAlt: r.cover_alt || null,
+    // Bornes de VALIDITÉ au jour (pas à l'instant) : un événement de ce soir ne doit pas être
+    // masqué tout l'après-midi. Le minutage précis reste géré par occurrences/eventWindow.
+    validFrom: (r.date_start || "").slice(0, 10) || undefined,
+    validUntil: (r.date_end || "").slice(0, 10) || undefined,
   };
 
   if (occurrences.length) offer.occurrences = occurrences;

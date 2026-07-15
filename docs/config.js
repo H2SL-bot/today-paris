@@ -64,7 +64,7 @@ export default {
     },
     gourmand: {
       label: "Gourmand", emoji: "🍽️",
-      affinities: { restaurant: 0.95, patisserie: 0.85, "food-market": 0.85, "wine-bar": 0.75, market: 0.6, cafe: 0.55 },
+      affinities: { restaurant: 0.95, patisserie: 0.85, "food-market": 0.85, "wine-bar": 0.75, market: 0.6, cafe: 0.55, bar: 0.45 },
     },
     fete: {
       label: "Fête / sortir", emoji: "🎉",
@@ -76,7 +76,7 @@ export default {
     },
     romantique: {
       label: "Romantique", emoji: "💛",
-      affinities: { rooftop: 0.85, "wine-bar": 0.8, viewpoint: 0.85, boat: 0.8, restaurant: 0.7, walk: 0.6, garden: 0.6, vue: 0.6 },
+      affinities: { rooftop: 0.85, "wine-bar": 0.8, viewpoint: 0.85, boat: 0.8, restaurant: 0.7, walk: 0.6, garden: 0.6, vue: 0.6, cafe: 0.55, bar: 0.5, park: 0.5 },
     },
     sport: {
       label: "Bouger", emoji: "🏃",
@@ -84,7 +84,7 @@ export default {
     },
     decouverte: {
       label: "Découverte", emoji: "✨",
-      affinities: { workshop: 0.85, market: 0.7, gallery: 0.7, monument: 0.7, viewpoint: 0.7, "live-music": 0.6, shopping: 0.6, event: 0.7, insolite: 0.8 },
+      affinities: { workshop: 0.85, market: 0.7, gallery: 0.7, monument: 0.7, viewpoint: 0.7, "live-music": 0.6, shopping: 0.6, event: 0.7, insolite: 0.8, cafe: 0.45, bar: 0.45, park: 0.5, garden: 0.5 },
     },
   },
 

@@ -25,6 +25,13 @@ const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || "today.paris";
 const BASE = `https://${CUSTOM_DOMAIN}/`;
 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+// N'accepte qu'une URL http(s) absolue (normalise « www.x.fr »). Écarte javascript:/data:/…
+function safeUrl(u) {
+  if (!u) return null;
+  let s = String(u).trim();
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = "https://" + s.replace(/^\/+/, "");
+  try { const url = new URL(s); return url.protocol === "http:" || url.protocol === "https:" ? url.href : null; } catch { return null; }
+}
 const localDate = (d) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
 const hhmm = (d) => new Intl.DateTimeFormat("fr-FR", { timeZone: TZ, hour: "2-digit", minute: "2-digit" }).format(d).replace(":", "h");
 
@@ -63,10 +70,11 @@ function cardHtml(o, lang, cats, copy, extra = "", tr = (n) => ({ name: n })) {
   const emoji = cats[o.category]?.emoji || "📍";
   const cat = cats[o.category]?.label || o.category;
   let link = "";
-  if (o.bookingUrl) {
+  const bookUrl = safeUrl(o.bookingUrl);
+  if (bookUrl) {
     const raw = o.bookingLabel || (lang === "en" ? "learn more" : "en savoir plus");
     const label = lang === "en" ? BOOK_EN[raw] || raw : raw;
-    link = ` — <a href="${esc(o.bookingUrl)}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`;
+    link = ` — <a href="${esc(bookUrl)}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`;
   }
   return `<li class="pcard"><span class="pemoji">${emoji}</span><span class="pbody"><strong>${esc(tr(o.name).name)}</strong><span class="pmeta">${esc(cat)} · ${esc(localizeNeighborhood(o.neighborhood || "Paris", lang))}${extra ? " · " + esc(extra) : ""} · ${esc(priceLabel(o, copy))}${link}</span></span></li>`;
 }
@@ -178,7 +186,11 @@ function pillarSpec(pillar, lang, active, cats, copy, now) {
 
 async function main() {
   const now = new Date();
-  const events = await opendataParisAdapter({ name: "que-faire", limit: 300, timezone: TZ }, { now }).catch((e) => { console.warn("[pages] événements indisponibles:", e.message); return []; });
+  // Événements : on privilégie l'instantané quotidien (inventaire complet ~850), sinon direct.
+  const eventsPath = path.join(ROOT, "domains", "today.paris", "events.json");
+  const events = existsSync(eventsPath)
+    ? (JSON.parse(await readFile(eventsPath, "utf8")).offers || [])
+    : await opendataParisAdapter({ name: "que-faire", limit: 1000, timezone: TZ }, { now }).catch((e) => { console.warn("[pages] événements indisponibles:", e.message); return []; });
   const venuesPath = path.join(ROOT, "domains", "today.paris", "venues.json");
   const venues = existsSync(venuesPath) ? JSON.parse(await readFile(venuesPath, "utf8")).offers : [];
   const { active } = validateAndExpire([...events, ...venues], now, { timeZone: TZ });

@@ -45,10 +45,13 @@ export function evaluateHardFilters(offer, context, config, now, avail) {
   const maxKm = (config.output?.maxDistanceKm ?? 6) * 1.5;
   if (km > maxKm) return { ok: false, reason: "too-far", km };
 
-  // 5. Temps disponible : au minimum pouvoir s'y rendre + s'engager un peu
+  // 5. Temps disponible : au minimum pouvoir s'y rendre + s'engager un peu.
+  //    L'engagement minimum s'adapte au temps dispo (sinon « 30 min » est impossible :
+  //    30 min de plancher + le trajet dépasse toujours 30). Pour 30 min → 15 min sur place
+  //    d'un lieu proche suffisent ; pour les budgets plus larges, comportement quasi inchangé.
   if (Number.isFinite(context.timeAvailableMin)) {
     const travel = travelMinutes(km, config.output?.travelSpeedKmh ?? 11);
-    const minEngage = Math.min(offer.durationMin ?? 30, 30);
+    const minEngage = Math.min(offer.durationMin ?? 30, Math.max(15, context.timeAvailableMin - 15));
     if (travel + minEngage > context.timeAvailableMin) {
       return { ok: false, reason: "not-enough-time", km };
     }
@@ -62,5 +65,5 @@ export function priceAmount(offer) {
   if (!offer.price || offer.price.free) return 0;
   if (offer.price.unknown) return null; // "payant" sans montant connu
   const n = Number(offer.price.amount);
-  return Number.isFinite(n) ? n : 0;
+  return Number.isFinite(n) ? n : null; // montant illisible -> "payant inconnu", jamais "gratuit"
 }

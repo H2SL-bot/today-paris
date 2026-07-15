@@ -83,6 +83,7 @@ function present(r, config, now) {
     },
     closingLabel: a.kind === "venue" ? a.label : null, // rétro-compat
     durationMin: o.durationMin ?? null,
+    image: o.imageUrl ? { url: o.imageUrl, alt: o.imageAlt || null } : null,
     reasons: r.reasons,
     booking: o.bookingUrl
       ? { url: o.bookingUrl, label: o.bookingLabel || "Réserver" }

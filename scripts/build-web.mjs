@@ -46,7 +46,7 @@ function renderHome(lang, template) {
     ogLocale: lang === "en" ? "en_US" : "fr_FR", canonical, hreflang, jsonld,
     switchHref: L.switchHref, switchTo: esc(L.switchTo), tagline: esc(L.tagline),
     where: esc(L.where), geoloc: esc(L.geoloc), geolocTitle: esc(L.geolocTitle), who: esc(L.who),
-    budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit),
+    budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit), mapLabel: esc(L.mapLabel),
     aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, explore: esc(L.explore), pillarLinks, footer: esc(L.footer),
   };
   let html = template;
@@ -73,6 +73,9 @@ async function build() {
   // 4. Lieux (instantané OpenStreetMap)
   if (existsSync(path.join(ROOT, "domains", DOMAIN, "venues.json"))) await copy(`domains/${DOMAIN}/venues.json`, "venues.json");
   else console.warn("[build:web] venues.json absent — lance `npm run fetch:venues`.");
+  // 4 bis. Événements (instantané quotidien Open Data — inventaire complet)
+  if (existsSync(path.join(ROOT, "domains", DOMAIN, "events.json"))) await copy(`domains/${DOMAIN}/events.json`, "events.json");
+  else console.warn("[build:web] events.json absent — lance `npm run fetch:events` (le site repassera en direct).");
 
   // 5. Interface bilingue : / (fr) et /en/ (en)
   const template = await readFile(path.join(ROOT, "web", "index.html"), "utf8");

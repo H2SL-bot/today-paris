@@ -6,10 +6,10 @@
 // Renvoie une forme commune que les filtres, le score et l'affichage consomment.
 
 import { isOpenAt, minutesUntilClose, closingTimeLabel } from "./time.js";
-import { wallClock } from "./clock.js";
+import { wallClock, dtf } from "./clock.js";
 
 const localDateStr = (date, tz) =>
-  new Intl.DateTimeFormat("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+  dtf("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
 
 const hhmm = (date, tz) => {
   const wc = wallClock(date, tz);

@@ -29,10 +29,17 @@ jobs:
         with:
           node-version: "20"
 
-      # 1. Récupère les lieux (cafés, bars, parcs) avec leurs vrais horaires.
-      #    Si Overpass est momentanément indisponible, on garde l'instantané précédent.
+      # 1a. Récupère les lieux (cafés, bars, parcs) avec leurs vrais horaires.
+      #     Si Overpass est momentanément indisponible, on garde l'instantané précédent.
       - name: Rafraîchir les lieux (OpenStreetMap)
         run: npm run fetch:venues
+        continue-on-error: true
+
+      # 1b. Récupère l'inventaire COMPLET des événements du jour (Open Data Ville de Paris).
+      #     Si l'API est momentanément indisponible, on garde l'instantané précédent
+      #     (et le site repasse en direct côté navigateur).
+      - name: Rafraîchir les événements (Open Data Paris)
+        run: npm run fetch:events
         continue-on-error: true
 
       # 2-3-4 + 7. Contrôle fraîcheur + rapport d'amélioration (santé des données) dans les logs.
@@ -55,7 +62,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "Aucun changement de données — rien à republier."
           else
-            git commit -m "boucle: rafraîchissement automatique des lieux (OpenStreetMap)"
+            git commit -m "boucle: rafraîchissement automatique (événements Open Data + lieux OpenStreetMap)"
             git push
             echo "Site republié avec les lieux à jour."
           fi

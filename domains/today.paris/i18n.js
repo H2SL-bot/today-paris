@@ -50,7 +50,7 @@ export const UI = {
       ["D'où viennent les informations ?", "Les événements viennent de l'Open Data de la Ville de Paris (« Que faire à Paris ? ») ; les lieux (bars, cafés, parcs) d'OpenStreetMap. Les horaires et disponibilités sont réels — jamais inventés."],
       ["Comment ça marche ?", "Indiquez où vous êtes, avec qui, votre budget, votre envie et le temps dont vous disposez. Le moteur classe pour vous les meilleures idées disponibles maintenant, autour de vous."],
     ],
-    explore: "Explorer :", switchTo: "English", switchHref: "/en/", youAreHere: "Vous êtes ici", clockLocale: "fr-FR",
+    explore: "Explorer :", switchTo: "English", switchHref: "/en/", youAreHere: "Vous êtes ici", clockLocale: "fr-FR", mapLabel: "Carte des lieux proposés",
   },
   en: {
     htmlLang: "en",
@@ -85,7 +85,7 @@ export const UI = {
       ["Where does the information come from?", "Events come from the City of Paris Open Data (« Que faire à Paris ? »); places (bars, cafés, parks) from OpenStreetMap. Opening hours and availability are real — never made up."],
       ["How does it work?", "Tell us where you are, who you're with, your budget, your mood and how much time you have. The engine ranks the best ideas available right now, around you."],
     ],
-    explore: "Explore:", switchTo: "Français", switchHref: "/", youAreHere: "You are here", clockLocale: "en-GB",
+    explore: "Explore:", switchTo: "Français", switchHref: "/", youAreHere: "You are here", clockLocale: "en-GB", mapLabel: "Map of suggested places",
   },
 };
 
@@ -112,7 +112,7 @@ const COPY_EN = {
   decimalSep: ".", // séparateur décimal des distances en anglais (2.8 km, pas 2,8 km)
   distance: "{distance} away", budget: "Within your budget ({price})", free: "Free", paid: "Paid",
   mood: "Perfect for « {mood} »", open: "Open until {close}", time: "Fits your time slot",
-  priceNotes: { "à la conso": "pay on site", "(sous condition)": "(conditions apply)", "Payant": "Paid", "à p. de": "from" },
+  priceNotes: { "à la conso": "pay on site", "(sous condition)": "(conditions apply)", "(prix libre)": "(pay what you want)", "Payant": "Paid", "à p. de": "from" },
 };
 
 /**

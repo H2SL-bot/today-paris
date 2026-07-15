@@ -40,7 +40,9 @@ export function scoreTime(offer, context, km, config) {
 export function scoreMood(offer, context, config) {
   const mood = config.moods?.[context.moodId];
   if (!mood || !mood.affinities) return 0.5;
-  const keys = [offer.category, ...(offer.tags || [])];
+  // Dédoublonnage : les lieux répètent leur catégorie dans les tags (category:"cafe", tags:["cafe",…]),
+  // ce qui comptait deux fois la même affinité et gonflait injustement les lieux face aux événements.
+  const keys = [...new Set([offer.category, ...(offer.tags || [])])];
   let best = 0;
   let sum = 0;
   for (const k of keys) {

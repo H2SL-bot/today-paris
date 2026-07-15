@@ -4,6 +4,16 @@
 
 const DAY_INDEX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
+// Cache des formateurs : `new Intl.DateTimeFormat` est coûteux et était reconstruit des milliers
+// de fois par recherche (une fois par lieu/événement). Les options sont constantes -> on réutilise.
+const _dtfCache = new Map();
+export function dtf(locale, options) {
+  const key = locale + "|" + JSON.stringify(options);
+  let f = _dtfCache.get(key);
+  if (!f) { f = new Intl.DateTimeFormat(locale, options); _dtfCache.set(key, f); }
+  return f;
+}
+
 /**
  * "Heure murale" d'un instant dans un fuseau donné.
  * @param {Date} date
@@ -14,7 +24,7 @@ export function wallClock(date, timeZone) {
   if (!timeZone) {
     return { dayIndex: date.getDay(), minutes: date.getHours() * 60 + date.getMinutes(), hh: date.getHours(), mm: date.getMinutes() };
   }
-  const parts = new Intl.DateTimeFormat("en-US", {
+  const parts = dtf("en-US", {
     timeZone, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false,
   }).formatToParts(date);
   let wd, h = 0, m = 0;
@@ -29,7 +39,7 @@ export function wallClock(date, timeZone) {
 /** Décalage (minutes) du fuseau à cet instant : local = utc + offset. */
 export function tzOffsetMinutes(date, timeZone) {
   if (!timeZone) return -date.getTimezoneOffset();
-  const p = new Intl.DateTimeFormat("en-US", {
+  const p = dtf("en-US", {
     timeZone, year: "numeric", month: "2-digit", day: "2-digit",
     hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false,
   }).formatToParts(date).reduce((a, x) => ((a[x.type] = x.value), a), {});

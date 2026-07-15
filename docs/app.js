@@ -33,13 +33,24 @@ let offers = [];
 let offersError = null;
 const offersReady = (async () => {
   const now = new Date();
-  const [events, venues, dict] = await Promise.all([
-    opendataParisAdapter({ name: "que-faire", limit: 200, timezone: TZ }, { now }).catch(() => []),
+  const todayParis = new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
+  const [snapshot, venues, dict] = await Promise.all([
+    // Instantané quotidien des événements (inventaire COMPLET ~850, léger & mis en cache).
+    fetch("/events.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
     fetch("/venues.json").then((r) => (r.ok ? r.json() : { offers: [] })).then((j) => j.offers || []).catch(() => []),
     // Dictionnaire de traduction des événements : seulement en anglais.
     LANG === "en" ? fetch("/translations.events.json").then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null),
   ]);
   translate = makeEventTranslator(dict, LANG);
+
+  let events;
+  if (snapshot && snapshot.builtFor === todayParis && Array.isArray(snapshot.offers)) {
+    events = snapshot.offers; // instantané du jour à jour : on l'utilise tel quel
+  } else {
+    // Instantané absent ou daté d'hier (avant le passage de la boucle) → direct Open Data.
+    events = await opendataParisAdapter({ name: "que-faire", limit: 1000, timezone: TZ }, { now })
+      .catch(() => (snapshot && snapshot.offers) || []);
+  }
   const raw = [...events, ...venues];
   if (raw.length === 0) offersError = new Error("no data");
   const fresh = validateAndExpire(raw, now, { timeZone: TZ, staleAfterHours: config.freshness?.staleAfterHours });
@@ -80,11 +91,11 @@ function renderChips(containerId, items, stateKey, defaultValue) {
     b.textContent = it.emoji ? `${it.emoji} ${it.label}` : it.label;
     b.setAttribute("role", "radio");
     const isDefault = it.value === defaultValue || it.id === defaultValue;
-    b.setAttribute("aria-pressed", String(isDefault));
+    b.setAttribute("aria-checked", String(isDefault)); // aria-checked (pas aria-pressed) pour role=radio
     if (isDefault) state.sel[stateKey] = it.value !== undefined ? it.value : it.id;
     b.addEventListener("click", () => {
-      [...box.children].forEach((c) => c.setAttribute("aria-pressed", "false"));
-      b.setAttribute("aria-pressed", "true");
+      [...box.children].forEach((c) => c.setAttribute("aria-checked", "false"));
+      b.setAttribute("aria-checked", "true");
       state.sel[stateKey] = it.value !== undefined ? it.value : it.id;
     });
     box.appendChild(b);
@@ -195,6 +206,9 @@ function renderResults(data) {
   results.querySelectorAll("[data-offer]").forEach((btn) => btn.addEventListener("click", () => onAction(btn)));
   sendEvents(list.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
   renderMap(list);
+  // La réponse d'abord : on l'amène à l'écran (sur mobile elle était sous la carte, hors champ).
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  results.querySelector(".results-head")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 }
 
 // --- Carte (Leaflet + tuiles OpenStreetMap/CARTO) -----------------------
@@ -260,11 +274,15 @@ function card(o, i, cats) {
     o.durationMin ? `<span>⏳ ~${o.durationMin} min</span>` : "",
     `<span class="price">💶 ${escapeHtml(o.price)}</span>`,
   ].join("");
-  const action = o.booking
-    ? `<a class="btn-action" href="${escapeAttr(o.booking.url)}" target="_blank" rel="noopener" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="booking" data-pos="${i}">${escapeHtml(bookLabel(o.booking.label))}</a>`
+  const bookUrl = o.booking ? safeUrl(o.booking.url) : null;
+  const action = bookUrl
+    ? `<a class="btn-action" href="${escapeAttr(bookUrl)}" target="_blank" rel="noopener nofollow" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="booking" data-pos="${i}">${escapeHtml(bookLabel(o.booking.label))}</a>`
     : `<button class="btn-action" type="button" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="interest" data-pos="${i}">${L.interest}</button>`;
+  const imgSrc = o.image && safeUrl(o.image.url);
+  const img = imgSrc ? `<img class="offer-img" src="${escapeAttr(imgSrc)}" alt="${escapeAttr(o.image.alt || t.name)}" loading="lazy" onerror="this.remove()">` : "";
   return `
     <article class="offer">
+      ${img}
       <div class="offer-top"><span class="offer-emoji">${emoji}</span><h3 class="offer-name">${escapeHtml(t.name)}</h3></div>
       <p class="offer-desc">${escapeHtml(catLabel)} · ${escapeHtml(localizeNeighborhood(o.neighborhood || "", LANG))}<br>${escapeHtml(t.desc || "")}</p>
       <div class="offer-meta">${meta}</div>
@@ -285,6 +303,20 @@ function escapeHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 function escapeAttr(s) { return escapeHtml(s); }
+
+// N'accepte qu'une URL http(s) absolue (normalise « www.x.fr » en https://). Écarte javascript:,
+// data:, etc. — les liens viennent d'organisateurs tiers via l'Open Data (non maîtrisés).
+function safeUrl(u) {
+  if (!u) return null;
+  let s = String(u).trim();
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = "https://" + s.replace(/^\/+/, ""); // pas de schéma -> https://
+  try {
+    const url = new URL(s);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : null;
+  } catch {
+    return null;
+  }
+}
 
 // --- Init ----------------------------------------------------------------
 tickClock();
