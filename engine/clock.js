@@ -20,10 +20,17 @@ export function dtf(locale, options) {
  * @param {string} [timeZone] ex. "Europe/Paris". Si absent -> heure locale du process.
  * @returns {{dayIndex:number, minutes:number, hh:number, mm:number}}
  */
+// Cache du RÉSULTAT : dans une recommandation, `now` est identique pour tous les lieux/événements,
+// et wallClock(now, tz) est appelé ~4× par lieu. On mémorise le résultat (pas juste le formateur)
+// → une seule construction par instant. (Objet en lecture seule côté appelants : partage sûr.)
+const _wallCache = new Map();
 export function wallClock(date, timeZone) {
   if (!timeZone) {
     return { dayIndex: date.getDay(), minutes: date.getHours() * 60 + date.getMinutes(), hh: date.getHours(), mm: date.getMinutes() };
   }
+  const key = date.getTime() + "|" + timeZone;
+  const cached = _wallCache.get(key);
+  if (cached) return cached;
   const parts = dtf("en-US", {
     timeZone, weekday: "short", hour: "2-digit", minute: "2-digit", hour12: false,
   }).formatToParts(date);
@@ -33,7 +40,10 @@ export function wallClock(date, timeZone) {
     else if (p.type === "hour") h = parseInt(p.value, 10) % 24; // "24" (minuit) -> 0
     else if (p.type === "minute") m = parseInt(p.value, 10);
   }
-  return { dayIndex: DAY_INDEX[wd] ?? date.getDay(), minutes: h * 60 + m, hh: h, mm: m };
+  const result = { dayIndex: DAY_INDEX[wd] ?? date.getDay(), minutes: h * 60 + m, hh: h, mm: m };
+  if (_wallCache.size > 256) _wallCache.clear(); // borne mémoire (nouvel instant à chaque recherche)
+  _wallCache.set(key, result);
+  return result;
 }
 
 /** Décalage (minutes) du fuseau à cet instant : local = utc + offset. */

@@ -29,6 +29,10 @@ function normKey(s) {
 const VENUE_DESC_EN = {
   "Un café où se poser.": "A café to settle into.",
   "Un bar pour boire un verre.": "A bar for a drink.",
+  "Un bar à vin pour un verre choisi.": "A wine bar for a good glass.",
+  "Un restaurant pour un vrai repas.": "A restaurant for a proper meal.",
+  "Une pâtisserie pour une pause sucrée.": "A pâtisserie for a sweet treat.",
+  "Un marché / une épicerie fine à parcourir.": "A market / deli to browse.",
   "Un espace vert pour souffler.": "A green space to unwind.",
   "Un jardin pour une pause au calme.": "A garden for a quiet break.",
 };

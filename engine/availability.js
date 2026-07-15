@@ -8,8 +8,17 @@
 import { isOpenAt, minutesUntilClose, closingTimeLabel } from "./time.js";
 import { wallClock, dtf } from "./clock.js";
 
-const localDateStr = (date, tz) =>
-  dtf("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+// Cache du résultat (même `now`/`tz` pour tous les candidats d'une recommandation).
+const _dateStrCache = new Map();
+const localDateStr = (date, tz) => {
+  const key = date.getTime() + "|" + tz;
+  const hit = _dateStrCache.get(key);
+  if (hit) return hit;
+  const s = dtf("en-CA", { timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit" }).format(date);
+  if (_dateStrCache.size > 256) _dateStrCache.clear();
+  _dateStrCache.set(key, s);
+  return s;
+};
 
 const hhmm = (date, tz) => {
   const wc = wallClock(date, tz);

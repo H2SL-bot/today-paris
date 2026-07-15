@@ -112,7 +112,7 @@ const COPY_EN = {
   decimalSep: ".", // séparateur décimal des distances en anglais (2.8 km, pas 2,8 km)
   distance: "{distance} away", budget: "Within your budget ({price})", free: "Free", paid: "Paid",
   mood: "Perfect for « {mood} »", open: "Open until {close}", time: "Fits your time slot",
-  priceNotes: { "à la conso": "pay on site", "(sous condition)": "(conditions apply)", "(prix libre)": "(pay what you want)", "Payant": "Paid", "à p. de": "from" },
+  priceNotes: { "à la conso": "pay on site", "à la carte": "à la carte", "à la pièce": "per item", "(sous condition)": "(conditions apply)", "(prix libre)": "(pay what you want)", "Payant": "Paid", "à p. de": "from" },
 };
 
 /**
