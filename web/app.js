@@ -91,6 +91,7 @@ function renderChips(containerId, items, stateKey, defaultValue) {
     b.className = "chip";
     b.textContent = it.emoji ? `${it.emoji} ${it.label}` : it.label;
     b.setAttribute("role", "radio");
+    b.dataset.val = String(it.value !== undefined ? it.value : it.id); // pour refléter un choix (ex. « au hasard »)
     const isDefault = it.value === defaultValue || it.id === defaultValue;
     b.setAttribute("aria-checked", String(isDefault)); // aria-checked (pas aria-pressed) pour role=radio
     if (isDefault) state.sel[stateKey] = it.value !== undefined ? it.value : it.id;
@@ -213,11 +214,28 @@ function renderResults(data) {
   results.querySelector(".results-head")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
 }
 
-// --- Carte (Leaflet + tuiles OpenStreetMap/CARTO) -----------------------
-// NB : `L` (majuscule) désigne mes textes ; Leaflet est accessible via window.L (LF).
-const LF = typeof window !== "undefined" ? window.L : undefined;
+// --- Carte (Leaflet chargé À LA DEMANDE : seulement au 1er affichage de résultats) ----------
+// NB : `L` (majuscule) désigne mes textes ; Leaflet est window.L. On n'alourdit pas l'accueil
+// des visiteurs qui ne lancent pas de recherche (~46 Ko gzip + CSS économisés).
+let _leafletPromise = null;
+function ensureLeaflet() {
+  if (window.L) return Promise.resolve(window.L);
+  if (_leafletPromise) return _leafletPromise;
+  _leafletPromise = new Promise((resolve) => {
+    const css = document.createElement("link");
+    css.rel = "stylesheet";
+    css.href = "/vendor/leaflet/leaflet.css";
+    document.head.appendChild(css);
+    const s = document.createElement("script");
+    s.src = "/vendor/leaflet/leaflet.js";
+    s.onload = () => resolve(window.L || null);
+    s.onerror = () => resolve(null); // carte optionnelle : on n'échoue jamais là-dessus
+    document.head.appendChild(s);
+  });
+  return _leafletPromise;
+}
 let _map = null, _markers = null;
-function ensureMap() {
+function ensureMap(LF) {
   if (_map) return _map;
   const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   _map = LF.map("map", { scrollWheelZoom: false }).setView([config.city.center.lat, config.city.center.lng], 12);
@@ -228,20 +246,21 @@ function ensureMap() {
   _markers = LF.layerGroup().addTo(_map);
   return _map;
 }
-function pin(emoji) {
+function pin(LF, emoji) {
   return LF.divIcon({ className: "pin-wrap", html: `<div class="pin">${emoji}</div>`, iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15] });
 }
-function renderMap(list) {
-  if (!LF) return; // Leaflet absent : carte optionnelle
+async function renderMap(list) {
+  const LF = await ensureLeaflet();
+  if (!LF) return; // Leaflet indisponible : carte optionnelle, le reste marche
   $("#map").hidden = false;
-  const map = ensureMap();
+  const map = ensureMap(LF);
   map.invalidateSize();
   _markers.clearLayers();
   const cats = CFG.categories || {};
   const bounds = [];
   list.forEach((o) => {
     if (!Number.isFinite(o.lat) || !Number.isFinite(o.lng)) return;
-    LF.marker([o.lat, o.lng], { icon: pin(cats[o.category]?.emoji || "📍") })
+    LF.marker([o.lat, o.lng], { icon: pin(LF, cats[o.category]?.emoji || "📍") })
       .bindPopup(`<strong>${escapeHtml(translate(o.name).name)}</strong><br>${escapeHtml(o.distance)} · ${escapeHtml(o.price)}`)
       .addTo(_markers);
     bounds.push([o.lat, o.lng]);
@@ -337,11 +356,24 @@ function safeUrl(u) {
   }
 }
 
+// « Au hasard » : tire une envie au hasard, la reflète dans les chips, et lance la recherche.
+function surpriseMe(e) {
+  const moodIds = Object.keys(CFG.moods || {});
+  if (moodIds.length) {
+    const pick = moodIds[Math.floor(Math.random() * moodIds.length)];
+    state.sel.moodId = pick;
+    const box = $("#moods");
+    if (box) [...box.children].forEach((c) => c.setAttribute("aria-checked", String(c.dataset.val === pick)));
+  }
+  getRecommendations(e);
+}
+
 // --- Init ----------------------------------------------------------------
 tickClock();
 setInterval(tickClock, 30000);
 initUI();
 $("#form").addEventListener("submit", getRecommendations);
+$("#surprise").addEventListener("click", surpriseMe);
 $("#geoloc").addEventListener("click", useGeolocation);
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));

@@ -46,7 +46,7 @@ function renderHome(lang, template) {
     ogLocale: lang === "en" ? "en_US" : "fr_FR", canonical, hreflang, jsonld,
     switchHref: L.switchHref, switchTo: esc(L.switchTo), tagline: esc(L.tagline),
     where: esc(L.where), geoloc: esc(L.geoloc), geolocTitle: esc(L.geolocTitle), who: esc(L.who),
-    budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit), mapLabel: esc(L.mapLabel),
+    budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit), surprise: esc(L.surprise), mapLabel: esc(L.mapLabel),
     aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, explore: esc(L.explore), pillarLinks, footer: esc(L.footer),
   };
   let html = template;

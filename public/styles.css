@@ -165,6 +165,12 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 12px 16px 40px; }
 }
 .btn-primary:hover { filter: brightness(1.05); }
 .btn-primary:disabled { opacity: .6; cursor: progress; }
+.btn-surprise {
+  width: 100%; margin-top: 10px; padding: 13px 18px;
+  border: 1px solid var(--line); border-radius: 12px; background: transparent;
+  color: var(--muted); font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.btn-surprise:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Résultats */
 .results { margin-top: 22px; display: grid; gap: 14px; }
