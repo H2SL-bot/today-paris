@@ -65,6 +65,12 @@ body {
   padding: 28px 20px 8px;
   text-align: center;
 }
+.langswitch { text-align: right; margin: 0 0 6px; font-size: 13px; }
+.langswitch a {
+  color: var(--muted); text-decoration: none; border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 12px;
+}
+.langswitch a:hover { border-color: var(--accent); color: var(--accent); }
 .logo {
   font-size: clamp(30px, 7vw, 44px);
   font-weight: 800;

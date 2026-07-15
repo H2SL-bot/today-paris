@@ -7,27 +7,11 @@
   <meta name="description" content="Que faire à Paris maintenant ? Dites où vous êtes, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs ouverts près de vous, sur une carte. Gratuit, en temps réel." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://today.paris/" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      { "@type": "WebSite", "name": "today.paris", "url": "https://today.paris/", "inLanguage": "fr" },
-      {
-        "@type": "WebApplication",
-        "name": "today.paris",
-        "url": "https://today.paris/",
-        "description": "Que faire à Paris maintenant : événements du jour, bars, cafés et parcs ouverts près de vous, selon votre position, l'heure, votre budget et votre envie.",
-        "applicationCategory": "TravelApplication",
-        "operatingSystem": "Web",
-        "inLanguage": "fr",
-        "areaServed": { "@type": "City", "name": "Paris" },
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
-      }
-    ]
-  }
-  </script>
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"fr"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/","description":"Que faire à Paris maintenant ? Dites où vous êtes, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs ouverts près de vous, sur une carte. Gratuit, en temps réel.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"fr","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
 
-  <!-- Carte de partage (Open Graph + Twitter) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://today.paris/" />
   <meta property="og:site_name" content="today.paris" />
@@ -39,12 +23,10 @@
   <meta property="og:locale" content="fr_FR" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="today.paris — Quoi faire à Paris, maintenant" />
-  <meta name="twitter:description" content="Où êtes-vous ? L'heure, le budget, l'envie → quoi faire à Paris, maintenant." />
+  <meta name="twitter:description" content="Dites où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire à Paris, maintenant — événements et lieux, en direct." />
   <meta name="twitter:image" content="https://today.paris/og.png" />
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
-
-  <!-- Application installable (PWA) -->
   <link rel="manifest" href="/manifest.webmanifest" />
   <meta name="theme-color" content="#17161a" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -52,14 +34,14 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="today.paris" />
 
-  <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
-  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="/vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <!-- Bandeau démo : masqué (données réelles Open Data) -->
   <div class="demo-banner" id="demoBanner" hidden></div>
 
   <header class="hero">
+    <p class="langswitch"><a href="/en/">English</a></p>
     <h1 class="logo">today<span>.paris</span></h1>
     <p class="tagline" id="tagline">Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire, maintenant.</p>
     <p class="clock" id="clock"></p>
@@ -70,7 +52,7 @@
       <section class="field">
         <label class="field-label">📍 Où êtes-vous ?</label>
         <div class="row">
-          <select id="neighborhood" class="select" aria-label="Quartier"></select>
+          <select id="neighborhood" class="select" aria-label="📍 Où êtes-vous ?"></select>
           <button type="button" id="geoloc" class="btn-ghost" title="Utiliser ma position">📍 Me localiser</button>
         </div>
         <p class="geo-status" id="geoStatus" hidden></p>
@@ -78,22 +60,22 @@
 
       <section class="field">
         <label class="field-label">👥 Avec qui ?</label>
-        <div class="chips" id="groups" role="radiogroup" aria-label="Avec qui"></div>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 Avec qui ?"></div>
       </section>
 
       <section class="field">
         <label class="field-label">💶 Budget par personne</label>
-        <div class="chips" id="budgets" role="radiogroup" aria-label="Budget"></div>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 Budget par personne"></div>
       </section>
 
       <section class="field">
         <label class="field-label">✨ Votre envie</label>
-        <div class="chips" id="moods" role="radiogroup" aria-label="Envie"></div>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ Votre envie"></div>
       </section>
 
       <section class="field">
         <label class="field-label">⏱️ Temps disponible</label>
-        <div class="chips" id="times" role="radiogroup" aria-label="Temps disponible"></div>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ Temps disponible"></div>
       </section>
 
       <label class="toggle">
@@ -101,36 +83,19 @@
         <span>Seulement ce qui est ouvert maintenant</span>
       </label>
 
-      <button type="submit" class="btn-primary" id="submit">
-        Qu'est-ce que je fais maintenant ?
-      </button>
+      <button type="submit" class="btn-primary" id="submit">Qu'est-ce que je fais maintenant ?</button>
     </form>
 
-    <div id="map" class="map" hidden aria-label="Carte des lieux proposés"></div>
+    <div id="map" class="map" hidden aria-label="Map"></div>
     <section id="results" class="results" aria-live="polite"></section>
 
     <section class="about">
       <h2>Que faire à Paris maintenant ?</h2>
-      <p>
-        <strong>today.paris</strong> est un outil gratuit qui vous dit <strong>quoi faire à Paris, maintenant</strong>,
-        selon votre position, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs
-        ouverts près de vous, affichés sur une carte. En temps réel, sans inscription.
-      </p>
-      <details>
-        <summary>C'est vraiment gratuit ?</summary>
-        <p>Oui, entièrement gratuit et sans inscription.</p>
-      </details>
-      <details>
-        <summary>D'où viennent les informations ?</summary>
-        <p>Les événements viennent de l'Open Data de la Ville de Paris (« Que faire à Paris ? ») ; les lieux
-        (bars, cafés, parcs) d'OpenStreetMap. Les horaires et disponibilités sont réels — jamais inventés.</p>
-      </details>
-      <details>
-        <summary>Comment ça marche ?</summary>
-        <p>Indiquez où vous êtes, avec qui, votre budget, votre envie et le temps dont vous disposez.
-        Le moteur classe pour vous les meilleures idées <em>disponibles maintenant</em>, autour de vous.</p>
-      </details>
-      <nav class="prelated" aria-label="Explorer">
+      <p><strong>today.paris</strong> est un outil gratuit qui vous dit <strong>quoi faire à Paris, maintenant</strong>, selon votre position, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs ouverts près de vous, affichés sur une carte. En temps réel, sans inscription.</p>
+      <details><summary>C'est vraiment gratuit ?</summary><p>Oui, entièrement gratuit et sans inscription.</p></details>
+      <details><summary>D'où viennent les informations ?</summary><p>Les événements viennent de l'Open Data de la Ville de Paris (« Que faire à Paris ? ») ; les lieux (bars, cafés, parcs) d'OpenStreetMap. Les horaires et disponibilités sont réels — jamais inventés.</p></details>
+      <details><summary>Comment ça marche ?</summary><p>Indiquez où vous êtes, avec qui, votre budget, votre envie et le temps dont vous disposez. Le moteur classe pour vous les meilleures idées disponibles maintenant, autour de vous.</p></details>
+      <nav class="prelated" aria-label="Explorer :">
         <span>Explorer :</span>
         <a href="/ouvert-maintenant/">Ouvert maintenant</a> ·
         <a href="/ce-soir/">Ce soir</a> ·
@@ -142,11 +107,9 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <p>today.paris — Source : « Que faire à Paris ? », Open Data Ville de Paris.</p>
-  </footer>
+  <footer class="footer"><p>today.paris — Événements : Open Data Ville de Paris · Lieux &amp; carte : © OpenStreetMap.</p></footer>
 
-  <script src="./vendor/leaflet/leaflet.js"></script>
-  <script src="./app.js" type="module"></script>
+  <script src="/vendor/leaflet/leaflet.js"></script>
+  <script src="/app.js" type="module"></script>
 </body>
 </html>

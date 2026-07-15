@@ -73,7 +73,7 @@ function present(r, config, now) {
     lng: o.lng,
     distance: formatDistance(r.distanceKm),
     distanceKm: Number(r.distanceKm?.toFixed?.(2) ?? r.distanceKm),
-    price: priceLabel(o),
+    price: priceLabel(o, config),
     // Disponibilité prête pour l'UI (lieu ouvert / événement en cours / événement ce jour)
     availability: {
       kind: a.kind,
@@ -94,11 +94,15 @@ function present(r, config, now) {
   };
 }
 
-function priceLabel(offer) {
+function priceLabel(offer, config) {
+  const copy = (config && config.copy) || {};
+  const free = copy.free || "Gratuit";
+  const paid = copy.paid || "Payant";
+  const tn = (note) => (note && copy.priceNotes && copy.priceNotes[note]) || note; // traduit les notes connues
   if (!offer.price || offer.price.free) {
-    return offer.price?.note ? `Gratuit ${offer.price.note}` : "Gratuit";
+    return offer.price?.note ? `${free} ${tn(offer.price.note)}` : free;
   }
-  if (offer.price.unknown) return offer.price.note || "Payant";
-  const suffix = offer.price.note ? ` ${offer.price.note}` : "";
+  if (offer.price.unknown) return tn(offer.price.note) || paid;
+  const suffix = offer.price.note ? ` ${tn(offer.price.note)}` : "";
   return `${offer.price.amount} €${suffix}`;
 }
