@@ -200,7 +200,8 @@ function renderResults(data) {
 
   if (list.length === 0) {
     $("#map").hidden = true;
-    results.innerHTML = `<div class="empty"><p><strong>${L.emptyTitle}</strong></p><p>${L.emptyHint}</p></div>`;
+    results.innerHTML = `<div class="empty"><p><strong>${L.emptyTitle}</strong></p><p>${L.emptyHint}</p><button class="btn-primary pcta" id="relax" type="button">${L.relax}</button></div>`;
+    $("#relax")?.addEventListener("click", relaxFilters);
     return;
   }
 
@@ -366,6 +367,21 @@ function surpriseMe(e) {
     if (box) [...box.children].forEach((c) => c.setAttribute("aria-checked", String(c.dataset.val === pick)));
   }
   getRecommendations(e);
+}
+
+// « Élargir la recherche » (état vide) : relâche les filtres les plus restrictifs
+// (décoche « ouvert maintenant », budget → peu importe, temps → tout mon temps) puis relance.
+function relaxFilters(e) {
+  const openNow = $("#openNow");
+  if (openNow) openNow.checked = false;
+  setChoiceToAny("budgets", "budget");
+  setChoiceToAny("times", "time");
+  getRecommendations(e);
+}
+function setChoiceToAny(containerId, stateKey) {
+  const box = $("#" + containerId);
+  if (box) [...box.children].forEach((c) => c.setAttribute("aria-checked", String(c.dataset.val === "null")));
+  state.sel[stateKey] = null; // « peu importe » / « tout mon temps » = aucune contrainte
 }
 
 // --- Init ----------------------------------------------------------------
