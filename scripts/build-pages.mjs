@@ -16,6 +16,7 @@ import { UI, PILLARS, localizeConfig } from "../domains/today.paris/i18n.js";
 import { opendataParisAdapter } from "../data/adapters/opendata-paris.js";
 import { validateAndExpire } from "../data/freshness.js";
 import { distanceKm } from "../engine/geo.js";
+import { makeEventTranslator, localizeNeighborhood } from "../domains/today.paris/translate.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
@@ -58,7 +59,7 @@ function tonight(o, now) {
   return best;
 }
 
-function cardHtml(o, lang, cats, copy, extra = "") {
+function cardHtml(o, lang, cats, copy, extra = "", tr = (n) => ({ name: n })) {
   const emoji = cats[o.category]?.emoji || "📍";
   const cat = cats[o.category]?.label || o.category;
   let link = "";
@@ -67,10 +68,10 @@ function cardHtml(o, lang, cats, copy, extra = "") {
     const label = lang === "en" ? BOOK_EN[raw] || raw : raw;
     link = ` — <a href="${esc(o.bookingUrl)}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`;
   }
-  return `<li class="pcard"><span class="pemoji">${emoji}</span><span class="pbody"><strong>${esc(o.name)}</strong><span class="pmeta">${esc(cat)} · ${esc(o.neighborhood || "Paris")}${extra ? " · " + esc(extra) : ""} · ${esc(priceLabel(o, copy))}${link}</span></span></li>`;
+  return `<li class="pcard"><span class="pemoji">${emoji}</span><span class="pbody"><strong>${esc(tr(o.name).name)}</strong><span class="pmeta">${esc(cat)} · ${esc(localizeNeighborhood(o.neighborhood || "Paris", lang))}${extra ? " · " + esc(extra) : ""} · ${esc(priceLabel(o, copy))}${link}</span></span></li>`;
 }
 
-function pageHtml({ lang, slug, altUrl, title, description, h1, intro, sections, relatedLinks }) {
+function pageHtml({ lang, slug, altUrl, title, description, h1, intro, sections, relatedLinks, tr = (n) => ({ name: n }) }) {
   const L = UI[lang], C = CHROME[lang];
   const home = lang === "en" ? "/en/" : "/";
   const url = `${BASE}${lang === "en" ? "en/" : ""}${slug}/`;
@@ -79,10 +80,10 @@ function pageHtml({ lang, slug, altUrl, title, description, h1, intro, sections,
     "@graph": [
       { "@type": "WebPage", name: title, url, description, inLanguage: lang, isPartOf: { "@type": "WebSite", url: BASE, name: "today.paris" } },
       { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "today.paris", item: BASE + (lang === "en" ? "en/" : "") }, { "@type": "ListItem", position: 2, name: h1 }] },
-      ...sections.filter((s) => s.offers.length).map((s) => ({ "@type": "ItemList", name: s.h2, numberOfItems: s.offers.length, itemListElement: s.offers.slice(0, 20).map((o, i) => ({ "@type": "ListItem", position: i + 1, name: o.name })) })),
+      ...sections.filter((s) => s.offers.length).map((s) => ({ "@type": "ItemList", name: s.h2, numberOfItems: s.offers.length, itemListElement: s.offers.slice(0, 20).map((o, i) => ({ "@type": "ListItem", position: i + 1, name: tr(o.name).name })) })),
     ],
   };
-  const body = sections.map((s) => (s.offers.length ? `<h2>${esc(s.h2)}</h2>\n<ul class="plist">\n${s.offers.map((o) => cardHtml(o, lang, s.cats, s.copy, s.extra?.(o))).join("\n")}\n</ul>` : "")).join("\n");
+  const body = sections.map((s) => (s.offers.length ? `<h2>${esc(s.h2)}</h2>\n<ul class="plist">\n${s.offers.map((o) => cardHtml(o, lang, s.cats, s.copy, s.extra?.(o), tr)).join("\n")}\n</ul>` : "")).join("\n");
   const alt = altUrl
     ? `  <link rel="alternate" hreflang="${lang === "en" ? "fr" : "en"}" href="${altUrl}" />\n  <link rel="alternate" hreflang="${lang}" href="${url}" />\n  <link rel="alternate" hreflang="x-default" href="${url.replace("/en/", "/")}" />`
     : "";
@@ -182,11 +183,16 @@ async function main() {
   const venues = existsSync(venuesPath) ? JSON.parse(await readFile(venuesPath, "utf8")).offers : [];
   const { active } = validateAndExpire([...events, ...venues], now, { timeZone: TZ });
 
+  // Dictionnaire de traduction des événements (facultatif) : noms/desc en anglais.
+  const trPath = path.join(ROOT, "domains", "today.paris", "translations.events.json");
+  const dict = existsSync(trPath) ? JSON.parse(await readFile(trPath, "utf8")) : null;
+
   const urls = [BASE, BASE + "en/"];
   let count = 0;
   for (const lang of ["fr", "en"]) {
     const cats = localizeConfig(config, lang).categories;
     const copy = localizeConfig(config, lang).copy;
+    const tr = makeEventTranslator(dict, lang);
     const en = lang === "en";
     for (const pillar of PILLARS) {
       const slug = en ? pillar.en : pillar.fr;
@@ -195,7 +201,7 @@ async function main() {
       const spec = pillarSpec(pillar, lang, active, cats, copy, now);
       spec.sections.forEach((s) => { s.cats = cats; s.copy = copy; });
       const related = PILLARS.map((p) => `<a href="/${en ? "en/" + p.en : p.fr}/">${esc(en ? p.labelEn : p.labelFr)}</a>`).join(" · ");
-      const html = pageHtml({ lang, slug, altUrl, ...spec, relatedLinks: related });
+      const html = pageHtml({ lang, slug, altUrl, ...spec, relatedLinks: related, tr });
       await writePage(en ? ["en", slug] : [slug], html);
       urls.push(`${BASE}${en ? "en/" : ""}${slug}/`);
       count++;

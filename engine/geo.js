@@ -34,9 +34,9 @@ export function travelMinutes(km, speedKmh = 11) {
   return Math.round((km / speedKmh) * 60) + 4;
 }
 
-/** Formatte une distance pour l'affichage : "400 m", "1,2 km". */
-export function formatDistance(km) {
+/** Formatte une distance pour l'affichage : "400 m", "1,2 km" (séparateur décimal selon la langue). */
+export function formatDistance(km, decimalSep = ",") {
   if (!isFinite(km)) return "—";
   if (km < 1) return `${Math.round(km * 1000)} m`;
-  return `${km.toFixed(1).replace(".", ",")} km`;
+  return `${km.toFixed(1).replace(".", decimalSep)} km`;
 }

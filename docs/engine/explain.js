@@ -14,6 +14,7 @@ import { priceAmount } from "./filters.js";
  */
 export function explain(offer, scored, context, config, avail) {
   const copy = config.copy || {};
+  const sep = copy.decimalSep || ","; // séparateur décimal des distances (langue)
   const reasons = [];
 
   // Classe les dimensions par contribution pondérée décroissante
@@ -24,8 +25,8 @@ export function explain(offer, scored, context, config, avail) {
   const builders = {
     distance: () => {
       if (scored.km == null) return null;
-      return tpl(copy.distance, { distance: formatDistance(scored.km) }) ||
-        `À ${formatDistance(scored.km)} de vous`;
+      return tpl(copy.distance, { distance: formatDistance(scored.km, sep) }) ||
+        `À ${formatDistance(scored.km, sep)} de vous`;
     },
     budget: () => {
       const price = priceAmount(offer);
@@ -69,7 +70,7 @@ export function explain(offer, scored, context, config, avail) {
 
   // Toujours garantir au moins la distance comme repère concret
   if (reasons.length === 0 && scored.km != null) {
-    reasons.push(`À ${formatDistance(scored.km)} de vous`);
+    reasons.push(`À ${formatDistance(scored.km, sep)} de vous`);
   }
   return reasons.slice(0, 3);
 }

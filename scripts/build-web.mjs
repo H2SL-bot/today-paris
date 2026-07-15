@@ -66,6 +66,10 @@ async function build() {
   await copy("data/adapters/opendata-paris.js", "data/adapters/opendata-paris.js");
   await copy(`domains/${DOMAIN}/config.js`, "config.js");
   await copy(`domains/${DOMAIN}/i18n.js`, "i18n.js");
+  await copy(`domains/${DOMAIN}/translate.js`, "translate.js");
+  // Dictionnaire de traduction des événements (facultatif — présent une fois généré).
+  if (existsSync(path.join(ROOT, "domains", DOMAIN, "translations.events.json")))
+    await copy(`domains/${DOMAIN}/translations.events.json`, "translations.events.json");
   // 4. Lieux (instantané OpenStreetMap)
   if (existsSync(path.join(ROOT, "domains", DOMAIN, "venues.json"))) await copy(`domains/${DOMAIN}/venues.json`, "venues.json");
   else console.warn("[build:web] venues.json absent — lance `npm run fetch:venues`.");

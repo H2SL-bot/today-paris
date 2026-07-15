@@ -109,6 +109,7 @@ const CATS = {
 const BUDGETS = { "0": "Free", "10": "≤ €10", "25": "≤ €25", "50": "≤ €50", "null": "Any budget" };
 const TIMES = { "30": "30 min", "60": "1 hr", "120": "2 hrs", "240": "Half a day", "null": "All my time" };
 const COPY_EN = {
+  decimalSep: ".", // séparateur décimal des distances en anglais (2.8 km, pas 2,8 km)
   distance: "{distance} away", budget: "Within your budget ({price})", free: "Free", paid: "Paid",
   mood: "Perfect for « {mood} »", open: "Open until {close}", time: "Fits your time slot",
   priceNotes: { "à la conso": "pay on site", "(sous condition)": "(conditions apply)", "Payant": "Paid", "à p. de": "from" },

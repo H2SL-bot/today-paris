@@ -71,7 +71,7 @@ function present(r, config, now) {
     neighborhood: o.neighborhood,
     lat: o.lat,
     lng: o.lng,
-    distance: formatDistance(r.distanceKm),
+    distance: formatDistance(r.distanceKm, (config.copy && config.copy.decimalSep) || ","),
     distanceKm: Number(r.distanceKm?.toFixed?.(2) ?? r.distanceKm),
     price: priceLabel(o, config),
     // Disponibilité prête pour l'UI (lieu ouvert / événement en cours / événement ce jour)

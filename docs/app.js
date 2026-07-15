@@ -3,6 +3,7 @@
 
 import config from "./config.js";
 import { UI, localizeConfig } from "./i18n.js";
+import { makeEventTranslator, localizeNeighborhood } from "./translate.js";
 import { recommend } from "./engine/index.js";
 import { validateAndExpire } from "./data/freshness.js";
 import { opendataParisAdapter } from "./data/adapters/opendata-paris.js";
@@ -14,6 +15,8 @@ const L = UI[LANG];
 const CFG = localizeConfig(config, LANG); // config avec libellés/textes traduits pour le moteur
 const BOOK_EN = { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website" };
 const bookLabel = (s) => (LANG === "en" ? BOOK_EN[s] || s : s);
+// Traduction d'affichage des noms/desc d'événements (dico chargé plus bas ; fr = identité).
+let translate = makeEventTranslator(null, LANG);
 
 const state = {
   neighborhoods: {},
@@ -30,10 +33,13 @@ let offers = [];
 let offersError = null;
 const offersReady = (async () => {
   const now = new Date();
-  const [events, venues] = await Promise.all([
+  const [events, venues, dict] = await Promise.all([
     opendataParisAdapter({ name: "que-faire", limit: 200, timezone: TZ }, { now }).catch(() => []),
     fetch("/venues.json").then((r) => (r.ok ? r.json() : { offers: [] })).then((j) => j.offers || []).catch(() => []),
+    // Dictionnaire de traduction des événements : seulement en anglais.
+    LANG === "en" ? fetch("/translations.events.json").then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null),
   ]);
+  translate = makeEventTranslator(dict, LANG);
   const raw = [...events, ...venues];
   if (raw.length === 0) offersError = new Error("no data");
   const fresh = validateAndExpire(raw, now, { timeZone: TZ, staleAfterHours: config.freshness?.staleAfterHours });
@@ -220,7 +226,7 @@ function renderMap(list) {
   list.forEach((o) => {
     if (!Number.isFinite(o.lat) || !Number.isFinite(o.lng)) return;
     LF.marker([o.lat, o.lng], { icon: pin(cats[o.category]?.emoji || "📍") })
-      .bindPopup(`<strong>${escapeHtml(o.name)}</strong><br>${escapeHtml(o.distance)} · ${escapeHtml(o.price)}`)
+      .bindPopup(`<strong>${escapeHtml(translate(o.name).name)}</strong><br>${escapeHtml(o.distance)} · ${escapeHtml(o.price)}`)
       .addTo(_markers);
     bounds.push([o.lat, o.lng]);
   });
@@ -245,6 +251,7 @@ function availabilityBadge(a) {
 function card(o, i, cats) {
   const emoji = cats[o.category]?.emoji || "📍";
   const catLabel = cats[o.category]?.label || o.category;
+  const t = translate(o.name, o.descriptionShort || ""); // nom + desc traduits (événements)
   const reasons = (o.reasons || []).map((r) => `<span class="reason">${escapeHtml(r)}</span>`).join("");
   const avail = availabilityBadge(o.availability);
   const meta = [
@@ -258,8 +265,8 @@ function card(o, i, cats) {
     : `<button class="btn-action" type="button" data-offer="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-action="interest" data-pos="${i}">${L.interest}</button>`;
   return `
     <article class="offer">
-      <div class="offer-top"><span class="offer-emoji">${emoji}</span><h3 class="offer-name">${escapeHtml(o.name)}</h3></div>
-      <p class="offer-desc">${escapeHtml(catLabel)} · ${escapeHtml(o.neighborhood || "")}<br>${escapeHtml(o.descriptionShort || "")}</p>
+      <div class="offer-top"><span class="offer-emoji">${emoji}</span><h3 class="offer-name">${escapeHtml(t.name)}</h3></div>
+      <p class="offer-desc">${escapeHtml(catLabel)} · ${escapeHtml(localizeNeighborhood(o.neighborhood || "", LANG))}<br>${escapeHtml(t.desc || "")}</p>
       <div class="offer-meta">${meta}</div>
       <div class="reasons">${reasons}</div>
       <div class="offer-actions">${action}</div>
