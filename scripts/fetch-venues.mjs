@@ -14,8 +14,12 @@ import { writeFile, readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseOpeningHours } from "../data/opening-hours.js";
+import { arrondissementLabel } from "../data/arrondissement.js";
 
-const OUT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "domains", "today.paris", "venues.json");
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
+const OUT = path.join(ROOT, "domains", "today.paris", "venues.json");
+const BOUND_PATH = path.join(ROOT, "domains", "today.paris", "arrondissements.json");
+let BOUNDARIES = []; // limites des arrondissements (chargées dans main)
 
 // Paris intra-muros (+ marges)
 const BBOX = "48.815,2.224,48.902,2.470";
@@ -113,7 +117,8 @@ function toOffer(el) {
     name: t.name,
     category,
     tags: [category, indoor ? "abrité" : "plein-air"],
-    neighborhood: arrondissement(t["addr:postcode"]) || "Paris",
+    // Code postal OSM d'abord ; sinon point-dans-polygone (2/3 des lieux n'ont pas de CP).
+    neighborhood: arrondissement(t["addr:postcode"]) || arrondissementLabel(lat, lng, BOUNDARIES) || "Paris",
     lat, lng,
     hours,
     price: price(category),
@@ -162,6 +167,8 @@ async function loadExisting() {
 }
 
 async function main() {
+  try { BOUNDARIES = JSON.parse(await readFile(BOUND_PATH, "utf8")); }
+  catch { console.warn("[venues] arrondissements.json absent — quartiers via code postal seulement."); }
   console.log("[venues] interrogation d'OpenStreetMap (Overpass)…");
   const existing = await loadExisting();
   const offers = [];

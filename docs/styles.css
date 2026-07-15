@@ -213,6 +213,12 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 12px 16px 40px; }
 }
 .btn-action:hover { background: var(--accent); color: var(--accent-ink); }
 .btn-action.done { background: var(--good); border-color: var(--good); color: #fff; cursor: default; }
+.btn-share {
+  padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line);
+  background: transparent; color: var(--muted); font-weight: 600; font-size: 13px; cursor: pointer;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.btn-share:hover { border-color: var(--accent); color: var(--accent); }
 
 .empty, .error {
   text-align: center; color: var(--muted); padding: 30px 16px;

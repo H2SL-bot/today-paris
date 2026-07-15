@@ -15,6 +15,7 @@ const L = UI[LANG];
 const CFG = localizeConfig(config, LANG); // config avec libellés/textes traduits pour le moteur
 const BOOK_EN = { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website" };
 const bookLabel = (s) => (LANG === "en" ? BOOK_EN[s] || s : s);
+const HOME = "https://today.paris" + (LANG === "en" ? "/en/" : "/"); // lien de partage par défaut
 // Traduction d'affichage des noms/desc d'événements (dico chargé plus bas ; fr = identité).
 let translate = makeEventTranslator(null, LANG);
 
@@ -204,6 +205,7 @@ function renderResults(data) {
 
   results.innerHTML = `<p class="results-head">${L.resultsHead(list.length)}</p>` + list.map((o, i) => card(o, i, cats)).join("");
   results.querySelectorAll("[data-offer]").forEach((btn) => btn.addEventListener("click", () => onAction(btn)));
+  results.querySelectorAll(".btn-share").forEach((btn) => btn.addEventListener("click", () => onShare(btn)));
   sendEvents(list.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
   renderMap(list);
   // La réponse d'abord : on l'amène à l'écran (sur mobile elle était sous la carte, hors champ).
@@ -287,7 +289,7 @@ function card(o, i, cats) {
       <p class="offer-desc">${escapeHtml(catLabel)} · ${escapeHtml(localizeNeighborhood(o.neighborhood || "", LANG))}<br>${escapeHtml(t.desc || "")}</p>
       <div class="offer-meta">${meta}</div>
       <div class="reasons">${reasons}</div>
-      <div class="offer-actions">${action}</div>
+      <div class="offer-actions">${action}<button class="btn-share" type="button" data-oid="${escapeAttr(o.id)}" data-cat="${escapeAttr(o.category)}" data-name="${escapeAttr(t.name)}" data-url="${escapeAttr(bookUrl || HOME)}">${L.share}</button></div>
     </article>`;
 }
 
@@ -297,6 +299,23 @@ function onAction(btn) {
     btn.classList.add("done");
     btn.textContent = L.noted;
   }
+}
+
+// Partage : partage natif (mobile) sinon copie du lien (ordinateur). Ne partage que des données réelles.
+async function onShare(btn) {
+  const name = btn.getAttribute("data-name");
+  const url = btn.getAttribute("data-url");
+  const text = L.shareText(name);
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: name, text, url });
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      btn.textContent = L.shared;
+      setTimeout(() => { btn.textContent = L.share; }, 2000);
+    }
+  } catch { /* partage annulé : rien à faire */ }
+  sendEvents([{ type: "click", category: btn.getAttribute("data-cat"), offerId: btn.getAttribute("data-oid") }]);
 }
 
 function escapeHtml(s) {
