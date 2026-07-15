@@ -12,7 +12,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import config from "../domains/today.paris/config.js";
-import { UI, PILLARS, localizeConfig } from "../domains/today.paris/i18n.js";
+import { UI, PILLARS, localizeConfig, LANGS } from "../domains/today.paris/i18n.js";
 import { opendataParisAdapter } from "../data/adapters/opendata-paris.js";
 import { validateAndExpire } from "../data/freshness.js";
 import { distanceKm } from "../engine/geo.js";
@@ -199,7 +199,8 @@ async function main() {
   const trPath = path.join(ROOT, "domains", "today.paris", "translations.events.json");
   const dict = existsSync(trPath) ? JSON.parse(await readFile(trPath, "utf8")) : null;
 
-  const urls = [BASE, BASE + "en/"];
+  // Sitemap : tous les accueils de langue (fr, en, zh, ar) + les piliers fr/en ajoutés plus bas.
+  const urls = LANGS.map((l) => BASE + (l === "fr" ? "" : l + "/"));
   let count = 0;
   for (const lang of ["fr", "en"]) {
     const cats = localizeConfig(config, lang).categories;

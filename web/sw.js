@@ -1,7 +1,7 @@
 // today.paris — service worker (appli installable, chargements rapides, hors-ligne léger).
 // On ne cache QUE le même-origine ; l'Open Data, OpenStreetMap, les tuiles et le "cerveau"
 // (autres origines) passent toujours par le réseau, et les envois (POST) ne sont jamais mis en cache.
-const CACHE = "today-paris-v7";
+const CACHE = "today-paris-v8";
 const SHELL = ["/", "/index.html", "/styles.css", "/app.js", "/config.js", "/manifest.webmanifest"];
 
 self.addEventListener("install", (e) => {

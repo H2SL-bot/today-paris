@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -9,6 +9,8 @@
   <link rel="canonical" href="https://today.paris/" />
   <link rel="alternate" hreflang="fr" href="https://today.paris/" />
   <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
   <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
   <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"fr"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/","description":"Que faire à Paris maintenant ? Dites où vous êtes, l'heure, votre budget et votre envie : événements du jour, bars, cafés et parcs ouverts près de vous, sur une carte. Gratuit, en temps réel.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"fr","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
 
@@ -40,7 +42,7 @@
   <div class="demo-banner" id="demoBanner" hidden></div>
 
   <header class="hero">
-    <p class="langswitch"><a href="/en/">English</a></p>
+    <nav class="langswitch" aria-label="Language"><span class="cur">FR</span> · <a href="/en/" hreflang="en">EN</a> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ar/" hreflang="ar">العربية</a></nav>
     <h1 class="logo">today<span>.paris</span></h1>
     <p class="tagline" id="tagline">Dites-nous où vous êtes, l'heure, votre budget et votre envie. On vous dit quoi faire, maintenant.</p>
     <p class="clock" id="clock"></p>

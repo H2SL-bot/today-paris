@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — 此刻在巴黎做什么？现在开放的活动、酒吧和咖啡馆</title>
+  <meta name="description" content="此刻在巴黎做什么？告诉我们你的位置、时间、预算和心情：地图上呈现你附近今天开放的活动、酒吧、咖啡馆和公园。免费，实时。" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"zh"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/zh/","description":"此刻在巴黎做什么？告诉我们你的位置、时间、预算和心情：地图上呈现你附近今天开放的活动、酒吧、咖啡馆和公园。免费，实时。","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"zh","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/zh/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — 此刻在巴黎做什么" />
+  <meta property="og:description" content="告诉我们你的位置、时间、预算和心情。我们会告诉你此刻在巴黎能做什么——实时的活动和地点。" />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — 此刻在巴黎做什么" />
+  <meta name="twitter:description" content="告诉我们你的位置、时间、预算和心情。我们会告诉你此刻在巴黎能做什么——实时的活动和地点。" />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <span class="cur">中文</span> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">告诉我们你的位置、时间、预算和心情。我们会告诉你此刻能做什么。</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 你在哪里？</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 你在哪里？"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="使用我的位置">📍 使用我的位置</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 和谁一起？</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 和谁一起？"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 每人预算</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 每人预算"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ 你的心情</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ 你的心情"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ 可用时间</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ 可用时间"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>只看现在开放的</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">我现在该做什么？</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 给我惊喜</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="推荐地点地图"></div>
+
+    <section class="about">
+      <h2>此刻在巴黎做什么？</h2>
+      <p><strong>today.paris</strong> 是一个免费工具，根据你的位置、时间、预算和心情，告诉你<strong>此刻在巴黎能做什么</strong>：地图上呈现你附近今天开放的活动、酒吧、咖啡馆和公园。实时，无需注册。</p>
+      <details><summary>真的免费吗？</summary><p>是的，完全免费，无需注册。</p></details>
+      <details><summary>信息来自哪里？</summary><p>活动来自巴黎市 Open Data；地点（酒吧、咖啡馆、公园）来自 OpenStreetMap。营业时间和可用情况均真实——绝不虚构。</p></details>
+      <details><summary>它是如何运作的？</summary><p>告诉我们你的位置、同行的人、预算、心情以及你有多少时间。引擎会为你排列出此刻在你周围最值得做的好主意。</p></details>
+      <nav class="prelated" aria-label="探索：">
+        <span>探索：</span>
+        <a href="/zh/open-now/">现在开放</a> ·
+        <a href="/zh/tonight/">今晚</a> ·
+        <a href="/zh/marais/">Le Marais</a> ·
+        <a href="/zh/montmartre/">Montmartre</a> ·
+        <a href="/zh/latin-quarter/">拉丁区</a> ·
+        <a href="/zh/canal-saint-martin/">Canal Saint-Martin</a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — 活动：巴黎市 Open Data · 地点与地图：© OpenStreetMap。</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

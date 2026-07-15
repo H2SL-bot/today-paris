@@ -3,6 +3,7 @@
 
 import config from "./config.js";
 import { UI, localizeConfig } from "./i18n.js";
+import { UI_DATA } from "./ui-i18n.data.js";
 import { makeEventTranslator, localizeNeighborhood } from "./translate.js";
 import { recommend } from "./engine/index.js";
 import { validateAndExpire } from "./data/freshness.js";
@@ -10,12 +11,13 @@ import { opendataParisAdapter } from "./data/adapters/opendata-paris.js";
 
 const $ = (sel) => document.querySelector(sel);
 const TZ = config.city?.timezone;
-const LANG = /^\/en(\/|$)/.test(location.pathname) ? "en" : "fr";
+const LANG = (location.pathname.match(/^\/(en|zh|ar)(\/|$)/) || [])[1] || "fr";
 const L = UI[LANG];
 const CFG = localizeConfig(config, LANG); // config avec libellés/textes traduits pour le moteur
-const BOOK_EN = { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website" };
-const bookLabel = (s) => (LANG === "en" ? BOOK_EN[s] || s : s);
-const HOME = "https://today.paris" + (LANG === "en" ? "/en/" : "/"); // lien de partage par défaut
+// Libellés de réservation par langue (les clés sont les valeurs françaises produites par l'adaptateur).
+const BOOK = { en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" }, zh: UI_DATA.zh.booking, ar: UI_DATA.ar.booking };
+const bookLabel = (s) => (BOOK[LANG] ? BOOK[LANG][s] || s : s);
+const HOME = "https://today.paris" + (LANG === "fr" ? "/" : `/${LANG}/`); // lien de partage par défaut
 // Traduction d'affichage des noms/desc d'événements (dico chargé plus bas ; fr = identité).
 let translate = makeEventTranslator(null, LANG);
 
@@ -39,8 +41,8 @@ const offersReady = (async () => {
     // Instantané quotidien des événements (inventaire COMPLET ~850, léger & mis en cache).
     fetch("/events.json").then((r) => (r.ok ? r.json() : null)).catch(() => null),
     fetch("/venues.json").then((r) => (r.ok ? r.json() : { offers: [] })).then((j) => j.offers || []).catch(() => []),
-    // Dictionnaire de traduction des événements : seulement en anglais.
-    LANG === "en" ? fetch("/translations.events.json").then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null),
+    // Dictionnaire de traduction des événements de la langue courante (fr = aucun).
+    LANG !== "fr" ? fetch(`/translations.${LANG}.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null),
   ]);
   translate = makeEventTranslator(dict, LANG);
 

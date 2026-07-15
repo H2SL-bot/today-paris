@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{htmlLang}}">
+<html lang="{{htmlLang}}" dir="{{dir}}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -38,7 +38,7 @@
   <div class="demo-banner" id="demoBanner" hidden></div>
 
   <header class="hero">
-    <p class="langswitch"><a href="{{switchHref}}">{{switchTo}}</a></p>
+    <nav class="langswitch" aria-label="Language">{{langSwitch}}</nav>
     <h1 class="logo">today<span>.paris</span></h1>
     <p class="tagline" id="tagline">{{tagline}}</p>
     <p class="clock" id="clock"></p>
