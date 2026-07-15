@@ -332,5 +332,7 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 12px 16px 40px; }
   border: 1px dashed var(--line); border-radius: var(--radius); text-align: center;
 }
 .affiliate > p { margin: 0 0 12px; font-size: 15px; color: var(--ink); }
-.affiliate-cta { display: inline-block; text-decoration: none; }
 .affiliate-note { color: var(--muted); font-size: 12px; margin: 12px 0 0 !important; }
+.gyg-widget { min-height: 300px; } /* réserve la place le temps que le widget se charge */
+.gyg-widget > span { color: var(--muted); font-size: 12px; }
+[dir="rtl"] .gyg-widget { direction: ltr; } /* le widget GetYourGuide reste en LTR */

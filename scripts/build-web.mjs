@@ -43,9 +43,10 @@ function renderHome(lang, template) {
   });
   const faqHtml = L.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n      ");
   const g = GYG.text[lang] || GYG.text.en;
+  const gygLocale = GYG.locales[lang] || "en-US";
   const gygSection = `<aside class="affiliate">
       <p>${esc(g.p)}</p>
-      <p><a class="btn-action affiliate-cta" href="${GYG.url}" target="_blank" rel="sponsored noopener nofollow">${esc(g.cta)}</a></p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="${gygLocale}" data-gyg-widget="activities" data-gyg-number-of-items="${GYG.numberOfItems}" data-gyg-partner-id="${GYG.partnerId}" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=${GYG.partnerId}">GetYourGuide</a></span></div>
       <p class="affiliate-note">${esc(g.note)}</p>
     </aside>`;
   const pillarLinks = PILLARS.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" ·\n        ");

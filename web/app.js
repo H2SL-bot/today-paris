@@ -2,7 +2,7 @@
 // Tout se passe dans le navigateur : config + Open Data + moteur, côté client. Aucun serveur.
 
 import config from "./config.js";
-import { UI, localizeConfig } from "./i18n.js";
+import { UI, localizeConfig, GYG } from "./i18n.js";
 import { UI_DATA } from "./ui-i18n.data.js";
 import { makeEventTranslator, localizeNeighborhood } from "./translate.js";
 import { recommend } from "./engine/index.js";
@@ -396,3 +396,20 @@ $("#geoloc").addEventListener("click", useGeolocation);
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => navigator.serviceWorker.register("/sw.js").catch(() => {}));
 }
+
+// Widget GetYourGuide (expériences réservables) chargé APRÈS le rendu de la page (non bloquant) :
+// le script tiers n'entre pas en concurrence avec l'affichage initial du site.
+(function loadGyg() {
+  if (!document.querySelector(".affiliate")) return;
+  const inject = () => {
+    if (document.querySelector('script[src*="widget.getyourguide.com"]')) return;
+    const s = document.createElement("script");
+    s.async = true;
+    s.defer = true;
+    s.src = GYG.loader;
+    s.setAttribute("data-gyg-partner-id", GYG.partnerId);
+    document.body.appendChild(s);
+  };
+  if (document.readyState === "complete") setTimeout(inject, 600);
+  else window.addEventListener("load", () => setTimeout(inject, 600), { once: true });
+})();

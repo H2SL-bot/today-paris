@@ -14,12 +14,15 @@ export const langHref = (lang) => (lang === "fr" ? "/" : `/${lang}/`);
 // on renvoie vers GetYourGuide où figurent les vrais tarifs/dispos ; transparence obligatoire.
 export const GYG = {
   partnerId: "PPLGBBV",
-  url: "https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV",
+  loader: "https://widget.getyourguide.com/dist/pa.umd.production.min.js", // chargé à la demande (au scroll)
+  numberOfItems: 4,
+  // GetYourGuide ne propose pas l'arabe → on sert le widget arabe en anglais (repli lisible).
+  locales: { fr: "fr-FR", en: "en-US", zh: "zh-CN", ar: "en-US" },
   text: {
-    fr: { p: "Envie de réserver ? Visites guidées, billets coupe-file et activités à Paris.", cta: "🎟️ Réserver une expérience", note: "Lien partenaire GetYourGuide — nous pouvons percevoir une commission, sans surcoût pour vous." },
-    en: { p: "Want to book ahead? Guided tours, skip-the-line tickets and activities in Paris.", cta: "🎟️ Book an experience", note: "GetYourGuide partner link — we may earn a commission at no extra cost to you." },
-    zh: { p: "想提前预订？巴黎的导览、免排队门票和各类活动。", cta: "🎟️ 预订体验", note: "GetYourGuide 合作伙伴链接 — 我们可能获得佣金，您无需额外付费。" },
-    ar: { p: "ترغب بالحجز مسبقًا؟ جولات مصحوبة بمرشد وتذاكر بدون انتظار وأنشطة في باريس.", cta: "🎟️ احجز تجربة", note: "رابط شراكة مع GetYourGuide — قد نحصل على عمولة دون أي تكلفة إضافية عليك." },
+    fr: { p: "🎟️ Réserver une expérience à Paris — visites, billets, activités (prix en direct) :", note: "Widget partenaire GetYourGuide — nous pouvons percevoir une commission, sans surcoût pour vous." },
+    en: { p: "🎟️ Book an experience in Paris — tours, tickets, activities (live prices):", note: "GetYourGuide partner widget — we may earn a commission at no extra cost to you." },
+    zh: { p: "🎟️ 在巴黎预订体验 —— 导览、门票、活动（实时价格）：", note: "GetYourGuide 合作伙伴组件 — 我们可能获得佣金，您无需额外付费。" },
+    ar: { p: "🎟️ احجز تجربة في باريس — جولات وتذاكر وأنشطة (أسعار مباشرة):", note: "أداة شريك GetYourGuide — قد نحصل على عمولة دون أي تكلفة إضافية عليك." },
   },
 };
 
