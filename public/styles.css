@@ -325,3 +325,12 @@ main { max-width: var(--maxw); margin: 0 auto; padding: 12px 16px 40px; }
 [dir="rtl"] .about details p { text-align: right; }
 /* Le badge démo et les emojis de préfixe restent lisibles ; la carte Leaflet reste en LTR. */
 [dir="rtl"] .map { direction: ltr; }
+
+/* Section affiliée (GetYourGuide) — encadré CLAIREMENT distinct des recommandations réelles. */
+.affiliate {
+  max-width: var(--maxw); margin: 22px auto 0; padding: 18px 20px;
+  border: 1px dashed var(--line); border-radius: var(--radius); text-align: center;
+}
+.affiliate > p { margin: 0 0 12px; font-size: 15px; color: var(--ink); }
+.affiliate-cta { display: inline-block; text-decoration: none; }
+.affiliate-note { color: var(--muted); font-size: 12px; margin: 12px 0 0 !important; }

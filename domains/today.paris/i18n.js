@@ -10,6 +10,19 @@ export const LANGS = ["fr", "en", "zh", "ar"];
 export const LANG_LABELS = { fr: "FR", en: "EN", zh: "中文", ar: "العربية" };
 export const langHref = (lang) => (lang === "fr" ? "/" : `/${lang}/`);
 
+// Affiliation GetYourGuide : lien partenaire (l'ID attribue la commission). PAS de prix ici —
+// on renvoie vers GetYourGuide où figurent les vrais tarifs/dispos ; transparence obligatoire.
+export const GYG = {
+  partnerId: "PPLGBBV",
+  url: "https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV",
+  text: {
+    fr: { p: "Envie de réserver ? Visites guidées, billets coupe-file et activités à Paris.", cta: "🎟️ Réserver une expérience", note: "Lien partenaire GetYourGuide — nous pouvons percevoir une commission, sans surcoût pour vous." },
+    en: { p: "Want to book ahead? Guided tours, skip-the-line tickets and activities in Paris.", cta: "🎟️ Book an experience", note: "GetYourGuide partner link — we may earn a commission at no extra cost to you." },
+    zh: { p: "想提前预订？巴黎的导览、免排队门票和各类活动。", cta: "🎟️ 预订体验", note: "GetYourGuide 合作伙伴链接 — 我们可能获得佣金，您无需额外付费。" },
+    ar: { p: "ترغب بالحجز مسبقًا؟ جولات مصحوبة بمرشد وتذاكر بدون انتظار وأنشطة في باريس.", cta: "🎟️ احجز تجربة", note: "رابط شراكة مع GetYourGuide — قد نحصل على عمولة دون أي تكلفة إضافية عليك." },
+  },
+};
+
 // Pages piliers (le slug d'URL reste en ASCII : /zh/open-now/, /ar/open-now/ — on réutilise le slug EN).
 export const PILLARS = [
   { fr: "ouvert-maintenant", en: "open-now", labelFr: "Ouvert maintenant", labelEn: "Open now", kind: "venues" },

@@ -7,7 +7,7 @@ import { cp, mkdir, rm, writeFile, readdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { UI, PILLARS, LANGS, LANG_LABELS, langHref, pillarSlug, pillarLabel } from "../domains/today.paris/i18n.js";
+import { UI, PILLARS, LANGS, LANG_LABELS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
@@ -42,6 +42,12 @@ function renderHome(lang, template) {
     ],
   });
   const faqHtml = L.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n      ");
+  const g = GYG.text[lang] || GYG.text.en;
+  const gygSection = `<aside class="affiliate">
+      <p>${esc(g.p)}</p>
+      <p><a class="btn-action affiliate-cta" href="${GYG.url}" target="_blank" rel="sponsored noopener nofollow">${esc(g.cta)}</a></p>
+      <p class="affiliate-note">${esc(g.note)}</p>
+    </aside>`;
   const pillarLinks = PILLARS.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" ·\n        ");
 
   const vars = {
@@ -49,7 +55,7 @@ function renderHome(lang, template) {
     ogLocale: L.ogLocale, canonical, hreflang, jsonld, langSwitch, tagline: esc(L.tagline),
     where: esc(L.where), geoloc: esc(L.geoloc), geolocTitle: esc(L.geolocTitle), who: esc(L.who),
     budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit), surprise: esc(L.surprise), mapLabel: esc(L.mapLabel),
-    aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, explore: esc(L.explore), pillarLinks, footer: esc(L.footer),
+    aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, explore: esc(L.explore), pillarLinks, footer: esc(L.footer), gygSection,
   };
   let html = template;
   for (const [k, v] of Object.entries(vars)) html = html.replaceAll(`{{${k}}}`, v);
