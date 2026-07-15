@@ -19,6 +19,20 @@ const VENUE_DESC_EN = {
   "Un espace vert pour souffler.": "A green space to unwind.",
   "Un jardin pour une pause au calme.": "A garden for a quiet break.",
 };
+const VENUE_DESC_ES = {
+  "Un café où se poser.": "Un café para sentarse un rato.",
+  "Un bar pour boire un verre.": "Un bar para tomar algo.",
+  "Un bar à vin pour un verre choisi.": "Un bar de vinos para una buena copa.",
+  "Un restaurant pour un vrai repas.": "Un restaurante para comer de verdad.",
+  "Une pâtisserie pour une pause sucrée.": "Una pastelería para un capricho dulce.",
+  "Un marché / une épicerie fine à parcourir.": "Un mercado o tienda gourmet para curiosear.",
+  "Un espace vert pour souffler.": "Una zona verde para respirar.",
+  "Un jardin pour une pause au calme.": "Un jardín para una pausa tranquila.",
+};
+// Descriptions de lieux par langue écrite à la main (les autres via UI_DATA[lang].venueDesc).
+const VENUE_DESC = { en: VENUE_DESC_EN, es: VENUE_DESC_ES };
+// Formats d'arrondissement pour les langues écrites à la main (en = ordinal spécial ; zh/ar via UI_DATA).
+const ARR_FORMAT = { es: "distrito {n}" };
 
 // Clé normalisée : neutralise espaces insécables/fines et apostrophes/guillemets courbes.
 function normKey(s) {
@@ -46,7 +60,7 @@ export function localizeNeighborhood(nb, lang) {
   if (!m) return nb; // « Paris » ou autre : inchangé
   const n = Number(m[1]);
   if (lang === "en") return `${enOrdinal(n)} arrondissement`;
-  const fmt = UI_DATA[lang] && UI_DATA[lang].arrondissementFormat;
+  const fmt = ARR_FORMAT[lang] || (UI_DATA[lang] && UI_DATA[lang].arrondissementFormat);
   return fmt ? String(fmt).replace("{n}", n) : nb;
 }
 
@@ -58,7 +72,7 @@ export function localizeNeighborhood(nb, lang) {
  */
 export function makeEventTranslator(dict, lang) {
   if (lang === "fr") return (name, desc = "") => ({ name, desc: desc || "" });
-  const venueDesc = lang === "en" ? VENUE_DESC_EN : (UI_DATA[lang] && UI_DATA[lang].venueDesc) || {};
+  const venueDesc = VENUE_DESC[lang] || (UI_DATA[lang] && UI_DATA[lang].venueDesc) || {};
   const map = new Map();
   for (const k of Object.keys(dict || {})) map.set(normKey(k), dict[k]);
   return (name, desc = "") => {

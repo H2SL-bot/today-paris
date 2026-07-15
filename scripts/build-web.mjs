@@ -7,7 +7,7 @@ import { cp, mkdir, rm, writeFile, readdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { UI, PILLARS, LANGS, LANG_LABELS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
+import { UI, PILLARS, LANGS, LANG_LABELS, PILLAR_LANGS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
@@ -49,14 +49,18 @@ function renderHome(lang, template) {
       <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="${gygLocale}" data-gyg-widget="activities" data-gyg-number-of-items="${GYG.numberOfItems}" data-gyg-partner-id="${GYG.partnerId}" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=${GYG.partnerId}">GetYourGuide</a></span></div>
       <p class="affiliate-note">${esc(g.note)}</p>
     </aside>`;
+  // Nav « Explorer » (liens piliers) seulement pour les langues qui ONT des pages piliers.
   const pillarLinks = PILLARS.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" ·\n        ");
+  const exploreNav = PILLAR_LANGS.includes(lang)
+    ? `<nav class="prelated" aria-label="${esc(L.explore)}"><span>${esc(L.explore)}</span>\n        ${pillarLinks}</nav>`
+    : "";
 
   const vars = {
     htmlLang: L.htmlLang, dir: L.dir, title: esc(L.title), metaDesc: esc(L.metaDesc), ogTitle: esc(L.ogTitle), ogDesc: esc(L.ogDesc),
     ogLocale: L.ogLocale, canonical, hreflang, jsonld, langSwitch, tagline: esc(L.tagline),
     where: esc(L.where), geoloc: esc(L.geoloc), geolocTitle: esc(L.geolocTitle), who: esc(L.who),
     budget: esc(L.budget), mood: esc(L.mood), time: esc(L.time), openNow: esc(L.openNow), submit: esc(L.submit), surprise: esc(L.surprise), mapLabel: esc(L.mapLabel),
-    aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, explore: esc(L.explore), pillarLinks, footer: esc(L.footer), gygSection,
+    aboutH2: esc(L.aboutH2), aboutP: L.aboutP, faqHtml, exploreNav, footer: esc(L.footer), gygSection,
   };
   let html = template;
   for (const [k, v] of Object.entries(vars)) html = html.replaceAll(`{{${k}}}`, v);

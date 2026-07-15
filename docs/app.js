@@ -11,11 +11,11 @@ import { opendataParisAdapter } from "./data/adapters/opendata-paris.js";
 
 const $ = (sel) => document.querySelector(sel);
 const TZ = config.city?.timezone;
-const LANG = (location.pathname.match(/^\/(en|zh|ar)(\/|$)/) || [])[1] || "fr";
+const LANG = (location.pathname.match(/^\/(en|es|zh|ar)(\/|$)/) || [])[1] || "fr";
 const L = UI[LANG];
 const CFG = localizeConfig(config, LANG); // config avec libellés/textes traduits pour le moteur
 // Libellés de réservation par langue (les clés sont les valeurs françaises produites par l'adaptateur).
-const BOOK = { en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" }, zh: UI_DATA.zh.booking, ar: UI_DATA.ar.booking };
+const BOOK = { en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" }, es: { "Réserver": "Reservar", "En savoir plus": "Saber más", "Site web": "Sitio web", "Y aller": "Cómo llegar" }, zh: UI_DATA.zh.booking, ar: UI_DATA.ar.booking };
 const bookLabel = (s) => (BOOK[LANG] ? BOOK[LANG][s] || s : s);
 const HOME = "https://today.paris" + (LANG === "fr" ? "/" : `/${LANG}/`); // lien de partage par défaut
 // Traduction d'affichage des noms/desc d'événements (dico chargé plus bas ; fr = identité).
