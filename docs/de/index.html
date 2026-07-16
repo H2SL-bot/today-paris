@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — Was jetzt in Paris machen? Ausgehtipps, Events, Bars &amp; Cafés</title>
+  <meta name="description" content="Was jetzt in Paris machen? Sag uns, wo du bist, wie spät es ist, welches Budget du hast und worauf du Lust hast: Events des Tages, Bars, Cafés und Parks in deiner Nähe — geöffnet und auf der Karte. Kostenlos, in Echtzeit." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="es" href="https://today.paris/es/" />
+  <link rel="alternate" hreflang="it" href="https://today.paris/it/" />
+  <link rel="alternate" hreflang="de" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="pt" href="https://today.paris/pt/" />
+  <link rel="alternate" hreflang="nl" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="ru" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="hi" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://today.paris/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"de"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/de/","description":"Was jetzt in Paris machen? Sag uns, wo du bist, wie spät es ist, welches Budget du hast und worauf du Lust hast: Events des Tages, Bars, Cafés und Parks in deiner Nähe — geöffnet und auf der Karte. Kostenlos, in Echtzeit.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"de","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/de/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — Was in Paris machen, jetzt gleich" />
+  <meta property="og:description" content="Sag uns, wo du bist, wie spät es ist, welches Budget du hast und worauf du Lust hast. Wir sagen dir, was du jetzt in Paris machen kannst — Events und Orte, live." />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="de_DE" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — Was in Paris machen, jetzt gleich" />
+  <meta name="twitter:description" content="Sag uns, wo du bist, wie spät es ist, welches Budget du hast und worauf du Lust hast. Wir sagen dir, was du jetzt in Paris machen kannst — Events und Orte, live." />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <a href="/es/" hreflang="es">ES</a> · <a href="/it/" hreflang="it">IT</a> · <span class="cur">DE</span> · <a href="/pt/" hreflang="pt">PT</a> · <a href="/nl/" hreflang="nl">NL</a> · <a href="/ru/" hreflang="ru">RU</a> · <a href="/hi/" hreflang="hi">हिन्दी</a> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ja/" hreflang="ja">日本語</a> · <a href="/ko/" hreflang="ko">한국어</a> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">Sag uns, wo du bist, wie spät es ist, welches Budget du hast und worauf du Lust hast. Wir sagen dir, was du jetzt machen kannst.</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 Wo bist du?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 Wo bist du?"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="Meinen Standort verwenden">📍 Mich orten</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 Mit wem?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 Mit wem?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 Budget pro Person</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 Budget pro Person"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ Deine Stimmung</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ Deine Stimmung"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ Verfügbare Zeit</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ Verfügbare Zeit"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>Nur, was jetzt geöffnet ist</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">Was mache ich jetzt?</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 Überrasch mich</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="Karte der vorgeschlagenen Orte"></div>
+
+    <aside class="affiliate">
+      <p>🎟️ Erlebnisse in Paris buchen — Touren, Tickets, Aktivitäten (Live-Preise):</p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="de-DE" data-gyg-widget="activities" data-gyg-number-of-items="4" data-gyg-partner-id="PPLGBBV" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV">GetYourGuide</a></span></div>
+      <p class="affiliate-note">GetYourGuide-Partner-Widget — wir erhalten ggf. eine Provision, ohne Mehrkosten für dich.</p>
+    </aside>
+
+    <section class="about">
+      <h2>Was jetzt in Paris machen?</h2>
+      <p><strong>today.paris</strong> ist ein kostenloses Tool, das dir sagt, <strong>was du jetzt in Paris machen kannst</strong> — passend zu deinem Standort, der Uhrzeit, deinem Budget und deiner Stimmung: Events des Tages, geöffnete Bars, Cafés und Parks in deiner Nähe, angezeigt auf einer Karte. In Echtzeit, ohne Anmeldung.</p>
+      <details><summary>Ist das wirklich kostenlos?</summary><p>Ja, komplett kostenlos und ohne Anmeldung.</p></details>
+      <details><summary>Woher kommen die Infos?</summary><p>Die Events stammen aus dem Open-Data-Portal der Stadt Paris („Que faire à Paris ?“), die Orte (Bars, Cafés, Parks) von OpenStreetMap. Öffnungszeiten und Verfügbarkeiten sind echt — nie erfunden.</p></details>
+      <details><summary>Wie funktioniert das?</summary><p>Sag uns, wo du bist, mit wem du unterwegs bist, dein Budget, deine Stimmung und wie viel Zeit du hast. Der Algorithmus sortiert für dich die besten Ideen, die jetzt in deiner Nähe verfügbar sind.</p></details>
+      
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — Events: Open Data der Stadt Paris · Orte &amp; Karte: © OpenStreetMap.</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

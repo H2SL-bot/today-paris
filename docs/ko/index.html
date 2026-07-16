@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — 지금 파리에서 뭐 할까? 나들이, 이벤트, 바 &amp; 카페</title>
+  <meta name="description" content="지금 파리에서 뭐 할까요? 위치, 시간, 예산, 기분만 알려주세요. 오늘의 이벤트, 가까운 바·카페·공원 중 지금 열려 있는 곳을 지도에서 보여드려요. 무료, 실시간." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="es" href="https://today.paris/es/" />
+  <link rel="alternate" hreflang="it" href="https://today.paris/it/" />
+  <link rel="alternate" hreflang="de" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="pt" href="https://today.paris/pt/" />
+  <link rel="alternate" hreflang="nl" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="ru" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="hi" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://today.paris/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"ko"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/ko/","description":"지금 파리에서 뭐 할까요? 위치, 시간, 예산, 기분만 알려주세요. 오늘의 이벤트, 가까운 바·카페·공원 중 지금 열려 있는 곳을 지도에서 보여드려요. 무료, 실시간.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"ko","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/ko/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — 지금 파리에서 뭐 할까" />
+  <meta property="og:description" content="위치, 시간, 예산, 기분만 알려주세요. 지금 파리에서 뭘 하면 좋을지 알려드려요 — 이벤트와 장소를 실시간으로." />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — 지금 파리에서 뭐 할까" />
+  <meta name="twitter:description" content="위치, 시간, 예산, 기분만 알려주세요. 지금 파리에서 뭘 하면 좋을지 알려드려요 — 이벤트와 장소를 실시간으로." />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <a href="/es/" hreflang="es">ES</a> · <a href="/it/" hreflang="it">IT</a> · <a href="/de/" hreflang="de">DE</a> · <a href="/pt/" hreflang="pt">PT</a> · <a href="/nl/" hreflang="nl">NL</a> · <a href="/ru/" hreflang="ru">RU</a> · <a href="/hi/" hreflang="hi">हिन्दी</a> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ja/" hreflang="ja">日本語</a> · <span class="cur">한국어</span> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">위치, 시간, 예산, 기분을 알려주세요. 지금 뭘 하면 좋을지 알려드려요.</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 어디에 계세요?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 어디에 계세요?"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="내 위치 사용하기">📍 내 위치 찾기</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 누구와 함께?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 누구와 함께?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 1인 예산</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 1인 예산"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ 오늘의 기분</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ 오늘의 기분"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ 가능한 시간</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ 가능한 시간"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>지금 열려 있는 곳만</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">지금 뭐 하지?</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 랜덤 추천</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="추천 장소 지도"></div>
+
+    <aside class="affiliate">
+      <p>🎟️ 파리 체험 예약하기 — 투어, 티켓, 액티비티 (실시간 가격):</p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="ko-KR" data-gyg-widget="activities" data-gyg-number-of-items="4" data-gyg-partner-id="PPLGBBV" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV">GetYourGuide</a></span></div>
+      <p class="affiliate-note">GetYourGuide 파트너 위젯 — 저희가 수수료를 받을 수 있지만, 추가 비용은 없어요.</p>
+    </aside>
+
+    <section class="about">
+      <h2>지금 파리에서 뭐 할까?</h2>
+      <p><strong>today.paris</strong>는 위치, 시간, 예산, 기분에 따라 <strong>지금 파리에서 뭘 하면 좋을지</strong> 알려주는 무료 도구예요. 오늘의 이벤트, 가까운 바·카페·공원 중 열려 있는 곳을 지도에 보여드려요. 실시간, 가입 없이.</p>
+      <details><summary>정말 무료인가요?</summary><p>네, 완전 무료이고 가입도 필요 없어요.</p></details>
+      <details><summary>정보는 어디서 오나요?</summary><p>이벤트는 파리시 오픈 데이터('Que faire à Paris ?')에서, 장소(바, 카페, 공원)는 OpenStreetMap에서 가져와요. 영업시간과 운영 여부는 모두 실제 데이터예요 — 절대 지어내지 않아요.</p></details>
+      <details><summary>어떻게 사용하나요?</summary><p>어디에 있는지, 누구와 함께인지, 예산과 기분, 가능한 시간을 알려주세요. 추천 엔진이 지금 주변에서 가능한 최고의 아이디어를 골라 순위대로 보여드려요.</p></details>
+      
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — 이벤트: 파리시 오픈 데이터 · 장소 &amp; 지도: © OpenStreetMap.</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

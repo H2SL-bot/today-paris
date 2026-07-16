@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — Чем заняться в Париже прямо сейчас? Развлечения, события, бары и кафе</title>
+  <meta name="description" content="Чем заняться в Париже прямо сейчас? Укажите, где вы, время, бюджет и настроение — события дня, бары, кафе и парки, открытые рядом с вами, на карте. Бесплатно, в реальном времени." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="es" href="https://today.paris/es/" />
+  <link rel="alternate" hreflang="it" href="https://today.paris/it/" />
+  <link rel="alternate" hreflang="de" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="pt" href="https://today.paris/pt/" />
+  <link rel="alternate" hreflang="nl" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="ru" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="hi" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://today.paris/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"ru"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/ru/","description":"Чем заняться в Париже прямо сейчас? Укажите, где вы, время, бюджет и настроение — события дня, бары, кафе и парки, открытые рядом с вами, на карте. Бесплатно, в реальном времени.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"ru","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/ru/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — Чем заняться в Париже прямо сейчас" />
+  <meta property="og:description" content="Укажите, где вы, время, бюджет и настроение. Мы подскажем, чем заняться в Париже прямо сейчас — события и места в реальном времени." />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — Чем заняться в Париже прямо сейчас" />
+  <meta name="twitter:description" content="Укажите, где вы, время, бюджет и настроение. Мы подскажем, чем заняться в Париже прямо сейчас — события и места в реальном времени." />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <a href="/es/" hreflang="es">ES</a> · <a href="/it/" hreflang="it">IT</a> · <a href="/de/" hreflang="de">DE</a> · <a href="/pt/" hreflang="pt">PT</a> · <a href="/nl/" hreflang="nl">NL</a> · <span class="cur">RU</span> · <a href="/hi/" hreflang="hi">हिन्दी</a> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ja/" hreflang="ja">日本語</a> · <a href="/ko/" hreflang="ko">한국어</a> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">Укажите, где вы, время, бюджет и настроение — и мы подскажем, чем заняться прямо сейчас.</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 Где вы находитесь?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 Где вы находитесь?"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="Использовать моё местоположение">📍 Моё местоположение</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 С кем вы?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 С кем вы?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 Бюджет на человека</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 Бюджет на человека"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ Ваше настроение</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ Ваше настроение"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ Сколько у вас времени</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ Сколько у вас времени"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>Только то, что открыто сейчас</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">Чем мне заняться прямо сейчас?</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 Наугад</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="Карта предложенных мест"></div>
+
+    <aside class="affiliate">
+      <p>🎟️ Забронировать впечатления в Париже — экскурсии, билеты, развлечения (цены в реальном времени):</p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="en-US" data-gyg-widget="activities" data-gyg-number-of-items="4" data-gyg-partner-id="PPLGBBV" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV">GetYourGuide</a></span></div>
+      <p class="affiliate-note">Партнёрский виджет GetYourGuide — мы можем получать комиссию, для вас цена не меняется.</p>
+    </aside>
+
+    <section class="about">
+      <h2>Чем заняться в Париже прямо сейчас?</h2>
+      <p><strong>today.paris</strong> — бесплатный сервис, который подсказывает, <strong>чем заняться в Париже прямо сейчас</strong>, с учётом вашего местоположения, времени, бюджета и настроения: события дня, бары, кафе и парки, открытые рядом с вами, на карте. В реальном времени и без регистрации.</p>
+      <details><summary>Это действительно бесплатно?</summary><p>Да, полностью бесплатно и без регистрации.</p></details>
+      <details><summary>Откуда берутся данные?</summary><p>События — из открытых данных мэрии Парижа («Que faire à Paris ?»), места (бары, кафе, парки) — из OpenStreetMap. Часы работы и доступность реальные — мы ничего не выдумываем.</p></details>
+      <details><summary>Как это работает?</summary><p>Укажите, где вы, с кем, ваш бюджет, настроение и сколько у вас времени. Движок подберёт и отсортирует лучшие идеи, доступные прямо сейчас рядом с вами.</p></details>
+      
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — События: открытые данные города Парижа · Места и карта: © OpenStreetMap.</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

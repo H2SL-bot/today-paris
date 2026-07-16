@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="nl" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — Wat te doen in Parijs, nu? Uitjes, evenementen, bars &amp; cafés</title>
+  <meta name="description" content="Wat te doen in Parijs, nu? Zeg waar je bent, hoe laat het is, wat je budget is en waar je zin in hebt: evenementen van vandaag, bars, koffiebars en parken die open zijn bij jou in de buurt, op een kaart. Gratis, in realtime." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="es" href="https://today.paris/es/" />
+  <link rel="alternate" hreflang="it" href="https://today.paris/it/" />
+  <link rel="alternate" hreflang="de" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="pt" href="https://today.paris/pt/" />
+  <link rel="alternate" hreflang="nl" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="ru" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="hi" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://today.paris/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"nl"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/nl/","description":"Wat te doen in Parijs, nu? Zeg waar je bent, hoe laat het is, wat je budget is en waar je zin in hebt: evenementen van vandaag, bars, koffiebars en parken die open zijn bij jou in de buurt, op een kaart. Gratis, in realtime.","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"nl","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/nl/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — Wat te doen in Parijs, nu" />
+  <meta property="og:description" content="Zeg waar je bent, hoe laat het is, wat je budget is en waar je zin in hebt. Wij vertellen je wat je nu kunt doen in Parijs — evenementen en plekken, live." />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="nl_NL" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — Wat te doen in Parijs, nu" />
+  <meta name="twitter:description" content="Zeg waar je bent, hoe laat het is, wat je budget is en waar je zin in hebt. Wij vertellen je wat je nu kunt doen in Parijs — evenementen en plekken, live." />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <a href="/es/" hreflang="es">ES</a> · <a href="/it/" hreflang="it">IT</a> · <a href="/de/" hreflang="de">DE</a> · <a href="/pt/" hreflang="pt">PT</a> · <span class="cur">NL</span> · <a href="/ru/" hreflang="ru">RU</a> · <a href="/hi/" hreflang="hi">हिन्दी</a> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ja/" hreflang="ja">日本語</a> · <a href="/ko/" hreflang="ko">한국어</a> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">Vertel ons waar je bent, hoe laat het is, wat je budget is en waar je zin in hebt. Wij vertellen je wat je nu kunt doen.</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 Waar ben je?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 Waar ben je?"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="Mijn locatie gebruiken">📍 Mijn locatie</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 Met wie?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 Met wie?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 Budget per persoon</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 Budget per persoon"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ Waar heb je zin in?</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ Waar heb je zin in?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ Beschikbare tijd</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ Beschikbare tijd"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>Alleen wat nu open is</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">Wat ga ik nu doen?</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 Verras me</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="Kaart met voorgestelde plekken"></div>
+
+    <aside class="affiliate">
+      <p>🎟️ Boek een ervaring in Parijs — tours, tickets, activiteiten (actuele prijzen):</p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="nl-NL" data-gyg-widget="activities" data-gyg-number-of-items="4" data-gyg-partner-id="PPLGBBV" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV">GetYourGuide</a></span></div>
+      <p class="affiliate-note">Partnerwidget van GetYourGuide — wij kunnen een commissie ontvangen, zonder extra kosten voor jou.</p>
+    </aside>
+
+    <section class="about">
+      <h2>Wat te doen in Parijs, nu?</h2>
+      <p><strong>today.paris</strong> is een gratis tool die je vertelt <strong>wat je nu kunt doen in Parijs</strong>, op basis van je locatie, het tijdstip, je budget en waar je zin in hebt: evenementen van vandaag, bars, koffiebars en parken die open zijn bij jou in de buurt, weergegeven op een kaart. In realtime, zonder account.</p>
+      <details><summary>Is het echt gratis?</summary><p>Ja, helemaal gratis en zonder account.</p></details>
+      <details><summary>Waar komt de informatie vandaan?</summary><p>De evenementen komen uit de Open Data van de stad Parijs (‘Que faire à Paris ?’); de plekken (bars, koffiebars, parken) uit OpenStreetMap. Openingstijden en beschikbaarheid zijn echt — nooit verzonnen.</p></details>
+      <details><summary>Hoe werkt het?</summary><p>Geef aan waar je bent, met wie, wat je budget is, waar je zin in hebt en hoeveel tijd je hebt. De engine zet de beste ideeën die nu bij jou in de buurt beschikbaar zijn voor je op een rij.</p></details>
+      
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — Evenementen: Open Data Ville de Paris · Plekken &amp; kaart: © OpenStreetMap.</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

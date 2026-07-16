@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>today.paris — पेरिस में अभी क्या करें? आउटिंग, इवेंट्स, बार और कैफ़े</title>
+  <meta name="description" content="पेरिस में अभी क्या करें? बताइए आप कहाँ हैं, समय, बजट और आपका मूड: आज के इवेंट्स, बार, कैफ़े और आपके पास खुले पार्क, एक नक्शे पर। मुफ़्त, रियल-टाइम में।" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="fr" href="https://today.paris/" />
+  <link rel="alternate" hreflang="en" href="https://today.paris/en/" />
+  <link rel="alternate" hreflang="es" href="https://today.paris/es/" />
+  <link rel="alternate" hreflang="it" href="https://today.paris/it/" />
+  <link rel="alternate" hreflang="de" href="https://today.paris/de/" />
+  <link rel="alternate" hreflang="pt" href="https://today.paris/pt/" />
+  <link rel="alternate" hreflang="nl" href="https://today.paris/nl/" />
+  <link rel="alternate" hreflang="ru" href="https://today.paris/ru/" />
+  <link rel="alternate" hreflang="hi" href="https://today.paris/hi/" />
+  <link rel="alternate" hreflang="zh" href="https://today.paris/zh/" />
+  <link rel="alternate" hreflang="ja" href="https://today.paris/ja/" />
+  <link rel="alternate" hreflang="ko" href="https://today.paris/ko/" />
+  <link rel="alternate" hreflang="ar" href="https://today.paris/ar/" />
+  <link rel="alternate" hreflang="x-default" href="https://today.paris/" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"today.paris","url":"https://today.paris/","inLanguage":"hi"},{"@type":"WebApplication","name":"today.paris","url":"https://today.paris/hi/","description":"पेरिस में अभी क्या करें? बताइए आप कहाँ हैं, समय, बजट और आपका मूड: आज के इवेंट्स, बार, कैफ़े और आपके पास खुले पार्क, एक नक्शे पर। मुफ़्त, रियल-टाइम में।","applicationCategory":"TravelApplication","operatingSystem":"Web","inLanguage":"hi","areaServed":{"@type":"City","name":"Paris"},"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}]}</script>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://today.paris/hi/" />
+  <meta property="og:site_name" content="today.paris" />
+  <meta property="og:title" content="today.paris — पेरिस में क्या करें, अभी" />
+  <meta property="og:description" content="बताइए आप कहाँ हैं, समय, बजट और आपका मूड। हम बताएँगे पेरिस में अभी क्या करें — इवेंट्स और जगहें, लाइव।" />
+  <meta property="og:image" content="https://today.paris/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="hi_IN" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="today.paris — पेरिस में क्या करें, अभी" />
+  <meta name="twitter:description" content="बताइए आप कहाँ हैं, समय, बजट और आपका मूड। हम बताएँगे पेरिस में अभी क्या करें — इवेंट्स और जगहें, लाइव।" />
+  <meta name="twitter:image" content="https://today.paris/og.png" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗼</text></svg>" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <meta name="theme-color" content="#17161a" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="today.paris" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="demo-banner" id="demoBanner" hidden></div>
+
+  <header class="hero">
+    <nav class="langswitch" aria-label="Language"><a href="/" hreflang="fr">FR</a> · <a href="/en/" hreflang="en">EN</a> · <a href="/es/" hreflang="es">ES</a> · <a href="/it/" hreflang="it">IT</a> · <a href="/de/" hreflang="de">DE</a> · <a href="/pt/" hreflang="pt">PT</a> · <a href="/nl/" hreflang="nl">NL</a> · <a href="/ru/" hreflang="ru">RU</a> · <span class="cur">हिन्दी</span> · <a href="/zh/" hreflang="zh">中文</a> · <a href="/ja/" hreflang="ja">日本語</a> · <a href="/ko/" hreflang="ko">한국어</a> · <a href="/ar/" hreflang="ar">العربية</a></nav>
+    <h1 class="logo">today<span>.paris</span></h1>
+    <p class="tagline" id="tagline">हमें बताइए आप कहाँ हैं, समय, बजट और आपका मूड। हम बताएँगे अभी क्या करें।</p>
+    <p class="clock" id="clock"></p>
+  </header>
+
+  <main>
+    <form id="form" class="card form">
+      <section class="field">
+        <label class="field-label">📍 आप कहाँ हैं?</label>
+        <div class="row">
+          <select id="neighborhood" class="select" aria-label="📍 आप कहाँ हैं?"></select>
+          <button type="button" id="geoloc" class="btn-ghost" title="मेरी लोकेशन इस्तेमाल करें">📍 मेरी लोकेशन</button>
+        </div>
+        <p class="geo-status" id="geoStatus" hidden></p>
+      </section>
+
+      <section class="field">
+        <label class="field-label">👥 किसके साथ?</label>
+        <div class="chips" id="groups" role="radiogroup" aria-label="👥 किसके साथ?"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">💶 प्रति व्यक्ति बजट</label>
+        <div class="chips" id="budgets" role="radiogroup" aria-label="💶 प्रति व्यक्ति बजट"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">✨ आपका मूड</label>
+        <div class="chips" id="moods" role="radiogroup" aria-label="✨ आपका मूड"></div>
+      </section>
+
+      <section class="field">
+        <label class="field-label">⏱️ उपलब्ध समय</label>
+        <div class="chips" id="times" role="radiogroup" aria-label="⏱️ उपलब्ध समय"></div>
+      </section>
+
+      <label class="toggle">
+        <input type="checkbox" id="openNow" checked />
+        <span>सिर्फ़ वही जो अभी खुला है</span>
+      </label>
+
+      <button type="submit" class="btn-primary" id="submit">मैं अभी क्या करूँ?</button>
+      <button type="button" class="btn-surprise" id="surprise">🎲 रैंडम</button>
+    </form>
+
+    <section id="results" class="results" aria-live="polite"></section>
+    <div id="map" class="map" hidden role="img" aria-label="सुझाई गई जगहों का नक्शा"></div>
+
+    <aside class="affiliate">
+      <p>🎟️ पेरिस में कोई अनुभव बुक करें — टूर, टिकट, एक्टिविटीज़ (लाइव क़ीमतें):</p>
+      <div class="gyg-widget" data-gyg-href="https://widget.getyourguide.com/default/activities.frame" data-gyg-locale-code="en-US" data-gyg-widget="activities" data-gyg-number-of-items="4" data-gyg-partner-id="PPLGBBV" data-gyg-q="Paris"><span>Powered by <a target="_blank" rel="sponsored noopener nofollow" href="https://www.getyourguide.com/paris-l16/?partner_id=PPLGBBV">GetYourGuide</a></span></div>
+      <p class="affiliate-note">GetYourGuide पार्टनर विजेट — हमें कमीशन मिल सकता है, आपके लिए कोई अतिरिक्त लागत नहीं।</p>
+    </aside>
+
+    <section class="about">
+      <h2>पेरिस में अभी क्या करें?</h2>
+      <p><strong>today.paris</strong> एक मुफ़्त टूल है जो आपकी लोकेशन, समय, बजट और मूड के हिसाब से बताता है कि <strong>पेरिस में अभी क्या करें</strong>: आज के इवेंट्स, बार, कैफ़े और आपके पास खुले पार्क, एक नक्शे पर। रियल-टाइम में, बिना साइन-अप के।</p>
+      <details><summary>क्या यह वाक़ई मुफ़्त है?</summary><p>हाँ, पूरी तरह मुफ़्त और बिना किसी साइन-अप के।</p></details>
+      <details><summary>जानकारी कहाँ से आती है?</summary><p>इवेंट्स पेरिस नगर के Open Data (« Que faire à Paris ? ») से आते हैं; जगहें (बार, कैफ़े, पार्क) OpenStreetMap से। समय और उपलब्धता असली हैं — कभी गढ़े नहीं जाते।</p></details>
+      <details><summary>यह कैसे काम करता है?</summary><p>बताइए आप कहाँ हैं, किसके साथ, आपका बजट, मूड और आपके पास कितना समय है। इंजन आपके आस-पास अभी उपलब्ध बेहतरीन आइडिया आपके लिए रैंक कर देता है।</p></details>
+      
+    </section>
+  </main>
+
+  <footer class="footer"><p>today.paris — इवेंट्स: Open Data Ville de Paris · जगहें और नक्शा: © OpenStreetMap.</p></footer>
+
+  <script src="/app.js" type="module"></script>
+</body>
+</html>

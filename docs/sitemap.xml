@@ -4,7 +4,14 @@
   <url><loc>https://today.paris/en/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ouvert-maintenant/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ce-soir/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
