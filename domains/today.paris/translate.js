@@ -29,10 +29,21 @@ const VENUE_DESC_ES = {
   "Un espace vert pour souffler.": "Una zona verde para respirar.",
   "Un jardin pour une pause au calme.": "Un jardín para una pausa tranquila.",
 };
+const VENUE_DESC_IT = {
+  "Un café où se poser.": "Un caffè dove fermarsi un po'.",
+  "Un bar pour boire un verre.": "Un bar per bere qualcosa.",
+  "Un bar à vin pour un verre choisi.": "Un'enoteca per un buon bicchiere.",
+  "Un restaurant pour un vrai repas.": "Un ristorante per un vero pasto.",
+  "Une pâtisserie pour une pause sucrée.": "Una pasticceria per una pausa dolce.",
+  "Un marché / une épicerie fine à parcourir.": "Un mercato o una gastronomia da esplorare.",
+  "Un espace vert pour souffler.": "Uno spazio verde per respirare.",
+  "Un jardin pour une pause au calme.": "Un giardino per una pausa tranquilla.",
+};
 // Descriptions de lieux par langue écrite à la main (les autres via UI_DATA[lang].venueDesc).
-const VENUE_DESC = { en: VENUE_DESC_EN, es: VENUE_DESC_ES };
+const VENUE_DESC = { en: VENUE_DESC_EN, es: VENUE_DESC_ES, it: VENUE_DESC_IT };
 // Formats d'arrondissement pour les langues écrites à la main (en = ordinal spécial ; zh/ar via UI_DATA).
-const ARR_FORMAT = { es: "distrito {n}" };
+// it : l'usage italien garde le mot « arrondissement » pour Paris, avec l'ordinal « n° ».
+const ARR_FORMAT = { es: "distrito {n}", it: "{n}° arrondissement" };
 
 // Clé normalisée : neutralise espaces insécables/fines et apostrophes/guillemets courbes.
 function normKey(s) {

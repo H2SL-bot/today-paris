@@ -6,8 +6,8 @@
 
 import { UI_DATA } from "./ui-i18n.data.js";
 
-export const LANGS = ["fr", "en", "es", "zh", "ar"];
-export const LANG_LABELS = { fr: "FR", en: "EN", es: "ES", zh: "中文", ar: "العربية" };
+export const LANGS = ["fr", "en", "es", "it", "zh", "ar"];
+export const LANG_LABELS = { fr: "FR", en: "EN", es: "ES", it: "IT", zh: "中文", ar: "العربية" };
 // Langues avec pages piliers SEO (les autres n'affichent pas la nav « Explorer » → pas de liens morts).
 export const PILLAR_LANGS = ["fr", "en"];
 export const langHref = (lang) => (lang === "fr" ? "/" : `/${lang}/`);
@@ -19,11 +19,12 @@ export const GYG = {
   loader: "https://widget.getyourguide.com/dist/pa.umd.production.min.js", // chargé à la demande (au scroll)
   numberOfItems: 4,
   // GetYourGuide ne propose pas l'arabe → on sert le widget arabe en anglais (repli lisible).
-  locales: { fr: "fr-FR", en: "en-US", es: "es-ES", zh: "zh-CN", ar: "en-US" },
+  locales: { fr: "fr-FR", en: "en-US", es: "es-ES", it: "it-IT", zh: "zh-CN", ar: "en-US" },
   text: {
     fr: { p: "🎟️ Réserver une expérience à Paris — visites, billets, activités (prix en direct) :", note: "Widget partenaire GetYourGuide — nous pouvons percevoir une commission, sans surcoût pour vous." },
     en: { p: "🎟️ Book an experience in Paris — tours, tickets, activities (live prices):", note: "GetYourGuide partner widget — we may earn a commission at no extra cost to you." },
     es: { p: "🎟️ Reserva una experiencia en París — visitas, entradas, actividades (precios en directo):", note: "Widget de socio GetYourGuide — podemos ganar una comisión, sin coste adicional para ti." },
+    it: { p: "🎟️ Prenota un'esperienza a Parigi — visite, biglietti, attività (prezzi in diretta):", note: "Widget partner GetYourGuide — potremmo ricevere una commissione, senza costi aggiuntivi per te." },
     zh: { p: "🎟️ 在巴黎预订体验 —— 导览、门票、活动（实时价格）：", note: "GetYourGuide 合作伙伴组件 — 我们可能获得佣金，您无需额外付费。" },
     ar: { p: "🎟️ احجز تجربة في باريس — جولات وتذاكر وأنشطة (أسعار مباشرة):", note: "أداة شريك GetYourGuide — قد نحصل على عمولة دون أي تكلفة إضافية عليك." },
   },
@@ -162,6 +163,43 @@ const ES = {
   explore: "Explorar:", youAreHere: "Estás aquí", clockLocale: "es-ES", mapLabel: "Mapa de los lugares sugeridos",
 };
 
+const IT = {
+  htmlLang: "it", dir: "ltr", ogLocale: "it_IT",
+  title: "today.paris — Cosa fare a Parigi adesso? Eventi, bar e caffè aperti ora",
+  metaDesc:
+    "Cosa fare a Parigi adesso? Dicci dove sei, l'ora, il tuo budget e la tua voglia: eventi di oggi, bar, caffè e parchi aperti vicino a te, su una mappa. Gratis, in tempo reale.",
+  ogTitle: "today.paris — Cosa fare a Parigi, adesso",
+  ogDesc:
+    "Dicci dove sei, l'ora, il tuo budget e la tua voglia. Ti diciamo cosa fare a Parigi adesso — eventi e luoghi, in diretta.",
+  tagline: "Dicci dove sei, l'ora, il tuo budget e la tua voglia. Ti diciamo cosa fare, adesso.",
+  where: "📍 Dove sei?", geoloc: "📍 Usa la mia posizione", geolocTitle: "Usa la mia posizione",
+  who: "👥 Con chi?", budget: "💶 Budget a persona", mood: "✨ La tua voglia", time: "⏱️ Tempo a disposizione",
+  openNow: "Solo ciò che è aperto adesso", submit: "Cosa faccio adesso?", surprise: "🎲 Sorprendimi",
+  resultsHead: (n) => `Ecco ${n} ide${n > 1 ? "e" : "a"} per te, adesso:`,
+  emptyTitle: "Niente di ideale in questo preciso momento.",
+  emptyHint: "Prova ad aumentare il budget o il tempo disponibile, oppure deseleziona « aperto adesso ».",
+  relax: "🔓 Amplia la ricerca",
+  interest: "👍 Mi interessa", noted: "✓ Salvato", share: "🔗 Condividi", shared: "✓ Link copiato", shareText: (n) => `${n} — trovato su today.paris`,
+  err: "Qualcosa è andato storto. Riprova.",
+  dataErr: "Impossibile contattare gli Open Data di Parigi al momento. Riprova tra poco.",
+  locating: "Localizzazione in corso…", locFound: "📍 Posizione rilevata — partiamo da qui.",
+  locOutside: (city) => `Sembra che tu sia fuori ${city}: manteniamo la zona scelta.`,
+  locDenied: "Localizzazione negata: manteniamo la zona scelta.",
+  locUnavail: "La geolocalizzazione non è disponibile su questo dispositivo.",
+  onNow: "🔴 in questo momento", until: "fino alle", todayAt: "🗓️ oggi alle", showing: "🗓️ in cartellone",
+  openUntil: "⏰ aperto fino alle", open247: "⏰ aperto 24 ore su 24",
+  footer: "today.paris — Eventi: Open Data del Comune di Parigi · Luoghi e mappa: © OpenStreetMap.",
+  aboutH2: "Cosa fare a Parigi adesso?",
+  aboutP:
+    "<strong>today.paris</strong> è uno strumento gratuito che ti dice <strong>cosa fare a Parigi, adesso</strong>, in base a dove sei, all'ora, al tuo budget e alla tua voglia: eventi di oggi, bar, caffè e parchi aperti vicino a te, mostrati su una mappa. In tempo reale, senza registrazione.",
+  faq: [
+    ["È davvero gratis?", "Sì, completamente gratis e senza registrazione."],
+    ["Da dove vengono le informazioni?", "Gli eventi vengono dagli Open Data del Comune di Parigi (« Que faire à Paris ? »); i luoghi (bar, caffè, parchi) da OpenStreetMap. Orari e disponibilità sono reali — mai inventati."],
+    ["Come funziona?", "Dicci dove sei, con chi sei, il tuo budget, la tua voglia e quanto tempo hai. Il motore classifica le migliori idee disponibili adesso, intorno a te."],
+  ],
+  explore: "Esplora:", youAreHere: "Sei qui", clockLocale: "it-IT", mapLabel: "Mappa dei luoghi suggeriti",
+};
+
 // Construit UI[lang] pour zh/ar depuis le lot de données (templates {n}/{city} -> fonctions).
 function fromBundle(lang) {
   const u = UI_DATA[lang].ui;
@@ -177,7 +215,7 @@ function fromBundle(lang) {
   };
 }
 
-export const UI = { fr: FR, en: EN, es: ES, zh: fromBundle("zh"), ar: fromBundle("ar") };
+export const UI = { fr: FR, en: EN, es: ES, it: IT, zh: fromBundle("zh"), ar: fromBundle("ar") };
 
 // --- Traductions des libellés (moteur) : anglais écrit à la main, zh/ar depuis les données ----
 const MOODS = {
@@ -230,9 +268,35 @@ const COPY_ES = {
   priceNotes: { "à la conso": "se paga en el sitio", "à la carte": "a la carta", "à la pièce": "por unidad", "(sous condition)": "(con condiciones)", "(prix libre)": "(precio libre)", "Payant": "De pago", "à p. de": "desde" },
 };
 
+const MOODS_IT = {
+  detente: "Relax", culture: "Cultura", gourmand: "Gastronomia", fete: "Festa / serata",
+  nature: "All'aperto", romantique: "Romantico", sport: "Attivo", decouverte: "Scoperta",
+};
+const GROUPS_IT = {
+  solo: ["Da solo/a", "Perfetto in solitaria"], couple: ["In coppia", "Perfetto per due"],
+  friends: ["Con amici", "Ottimo con gli amici"], family: ["In famiglia", "Per tutta la famiglia"],
+};
+const CATS_IT = {
+  event: "Evento", cafe: "Caffè", restaurant: "Ristorante", bar: "Bar", rooftop: "Rooftop",
+  "wine-bar": "Enoteca", museum: "Museo", gallery: "Galleria", monument: "Monumento", cinema: "Cinema",
+  theatre: "Teatro", "live-music": "Musica dal vivo", jazz: "Jazz", club: "Discoteca", park: "Parco", garden: "Giardino",
+  walk: "Passeggiata", viewpoint: "Belvedere", market: "Mercato", "food-market": "Mercato gastronomico", shopping: "Negozi",
+  spa: "Spa", hammam: "Hammam", sport: "Sport", boat: "Battello", workshop: "Laboratorio", bookshop: "Libreria",
+  patisserie: "Pasticceria",
+};
+const BUDGETS_IT = { "0": "Gratis", "10": "≤ 10 €", "25": "≤ 25 €", "50": "≤ 50 €", "null": "Qualsiasi budget" };
+const TIMES_IT = { "30": "30 min", "60": "1 h", "120": "2 h", "240": "Mezza giornata", "null": "Tutto il mio tempo" };
+const COPY_IT = {
+  decimalSep: ",",
+  distance: "a {distance}", budget: "Nel tuo budget ({price})", free: "Gratis", paid: "A pagamento",
+  mood: "Perfetto per « {mood} »", open: "Aperto fino alle {close}", time: "Ci sta nel tuo tempo",
+  priceNotes: { "à la conso": "si paga sul posto", "à la carte": "alla carta", "à la pièce": "al pezzo", "(sous condition)": "(a condizioni)", "(prix libre)": "(offerta libera)", "Payant": "A pagamento", "à p. de": "da" },
+};
+
 const L10N = {
   en: { moods: MOODS, groups: GROUPS, cats: CATS, budgets: BUDGETS, times: TIMES, copy: COPY_EN },
   es: { moods: MOODS_ES, groups: GROUPS_ES, cats: CATS_ES, budgets: BUDGETS_ES, times: TIMES_ES, copy: COPY_ES },
+  it: { moods: MOODS_IT, groups: GROUPS_IT, cats: CATS_IT, budgets: BUDGETS_IT, times: TIMES_IT, copy: COPY_IT },
   zh: { moods: UI_DATA.zh.moods, groups: UI_DATA.zh.groups, cats: UI_DATA.zh.cats, budgets: UI_DATA.zh.budgets, times: UI_DATA.zh.times, copy: { ...UI_DATA.zh.copy, decimalSep: "." } },
   ar: { moods: UI_DATA.ar.moods, groups: UI_DATA.ar.groups, cats: UI_DATA.ar.cats, budgets: UI_DATA.ar.budgets, times: UI_DATA.ar.times, copy: { ...UI_DATA.ar.copy, decimalSep: "." } },
 };
