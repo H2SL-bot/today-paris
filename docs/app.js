@@ -11,11 +11,13 @@ import { opendataParisAdapter } from "./data/adapters/opendata-paris.js";
 
 const $ = (sel) => document.querySelector(sel);
 const TZ = config.city?.timezone;
-const LANG = (location.pathname.match(/^\/(en|es|it|zh|ar)(\/|$)/) || [])[1] || "fr";
+const LANG = (location.pathname.match(/^\/(en|es|it|de|pt|nl|ru|hi|zh|ja|ko|ar)(\/|$)/) || [])[1] || "fr";
 const L = UI[LANG];
 const CFG = localizeConfig(config, LANG); // config avec libellés/textes traduits pour le moteur
 // Libellés de réservation par langue (les clés sont les valeurs françaises produites par l'adaptateur).
-const BOOK = { en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" }, es: { "Réserver": "Reservar", "En savoir plus": "Saber más", "Site web": "Sitio web", "Y aller": "Cómo llegar" }, it: { "Réserver": "Prenota", "En savoir plus": "Scopri di più", "Site web": "Sito web", "Y aller": "Come arrivare" }, zh: UI_DATA.zh.booking, ar: UI_DATA.ar.booking };
+const BOOK = { en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" }, es: { "Réserver": "Reservar", "En savoir plus": "Saber más", "Site web": "Sitio web", "Y aller": "Cómo llegar" }, it: { "Réserver": "Prenota", "En savoir plus": "Scopri di più", "Site web": "Sito web", "Y aller": "Come arrivare" } };
+// Libellés de réservation des langues bundle : fournis par ui-i18n.data.js.
+for (const l of Object.keys(UI_DATA)) if (!BOOK[l]) BOOK[l] = UI_DATA[l].booking;
 const bookLabel = (s) => (BOOK[LANG] ? BOOK[LANG][s] || s : s);
 const HOME = "https://today.paris" + (LANG === "fr" ? "/" : `/${LANG}/`); // lien de partage par défaut
 // Traduction d'affichage des noms/desc d'événements (dico chargé plus bas ; fr = identité).

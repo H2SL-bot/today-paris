@@ -6,8 +6,17 @@
 
 import { UI_DATA } from "./ui-i18n.data.js";
 
-export const LANGS = ["fr", "en", "es", "it", "zh", "ar"];
-export const LANG_LABELS = { fr: "FR", en: "EN", es: "ES", it: "IT", zh: "中文", ar: "العربية" };
+// Langues « bundle » : celles dont les textes viennent de ui-i18n.data.js (traductions vérifiées).
+// Une langue bundle apparaît sur le site dès que ses données sont présentes dans UI_DATA — rien d'autre à brancher.
+const BUNDLE_LANGS = Object.keys(UI_DATA);
+// Ordre d'affichage du sélecteur : écritures latines d'abord, puis les autres, arabe (RTL) en dernier.
+const LANG_ORDER = ["fr", "en", "es", "it", "de", "pt", "nl", "ru", "hi", "zh", "ja", "ko", "ar"];
+const HAND_LANGS = ["fr", "en", "es", "it"]; // écrites à la main dans ce fichier
+export const LANGS = LANG_ORDER.filter((l) => HAND_LANGS.includes(l) || BUNDLE_LANGS.includes(l));
+export const LANG_LABELS = {
+  fr: "FR", en: "EN", es: "ES", it: "IT", de: "DE", pt: "PT", nl: "NL", ru: "RU",
+  hi: "हिन्दी", zh: "中文", ja: "日本語", ko: "한국어", ar: "العربية",
+};
 // Langues avec pages piliers SEO (les autres n'affichent pas la nav « Explorer » → pas de liens morts).
 export const PILLAR_LANGS = ["fr", "en"];
 export const langHref = (lang) => (lang === "fr" ? "/" : `/${lang}/`);
@@ -18,8 +27,11 @@ export const GYG = {
   partnerId: "PPLGBBV",
   loader: "https://widget.getyourguide.com/dist/pa.umd.production.min.js", // chargé à la demande (au scroll)
   numberOfItems: 4,
-  // GetYourGuide ne propose pas l'arabe → on sert le widget arabe en anglais (repli lisible).
-  locales: { fr: "fr-FR", en: "en-US", es: "es-ES", it: "it-IT", zh: "zh-CN", ar: "en-US" },
+  // GetYourGuide ne propose ni l'arabe, ni le russe, ni l'hindi → widget en anglais (repli lisible).
+  locales: {
+    fr: "fr-FR", en: "en-US", es: "es-ES", it: "it-IT", de: "de-DE", pt: "pt-BR", nl: "nl-NL",
+    ja: "ja-JP", ko: "ko-KR", zh: "zh-CN", ru: "en-US", hi: "en-US", ar: "en-US",
+  },
   text: {
     fr: { p: "🎟️ Réserver une expérience à Paris — visites, billets, activités (prix en direct) :", note: "Widget partenaire GetYourGuide — nous pouvons percevoir une commission, sans surcoût pour vous." },
     en: { p: "🎟️ Book an experience in Paris — tours, tickets, activities (live prices):", note: "GetYourGuide partner widget — we may earn a commission at no extra cost to you." },
@@ -29,6 +41,8 @@ export const GYG = {
     ar: { p: "🎟️ احجز تجربة في باريس — جولات وتذاكر وأنشطة (أسعار مباشرة):", note: "أداة شريك GetYourGuide — قد نحصل على عمولة دون أي تكلفة إضافية عليك." },
   },
 };
+// Textes GYG des langues bundle non écrits ci-dessus : fournis par le bundle (section gyg).
+for (const l of BUNDLE_LANGS) if (!GYG.text[l] && UI_DATA[l].gyg) GYG.text[l] = UI_DATA[l].gyg;
 
 // Pages piliers (le slug d'URL reste en ASCII : /zh/open-now/, /ar/open-now/ — on réutilise le slug EN).
 export const PILLARS = [
@@ -200,22 +214,36 @@ const IT = {
   explore: "Esplora:", youAreHere: "Sei qui", clockLocale: "it-IT", mapLabel: "Mappa dei luoghi suggeriti",
 };
 
-// Construit UI[lang] pour zh/ar depuis le lot de données (templates {n}/{city} -> fonctions).
+// Métadonnées de locale des langues bundle (déterministes — jamais confiées aux traducteurs).
+const BUNDLE_META = {
+  zh: { ogLocale: "zh_CN", clockLocale: "zh-CN" },
+  ar: { ogLocale: "ar_AR", clockLocale: "ar-EG", dir: "rtl" },
+  de: { ogLocale: "de_DE", clockLocale: "de-DE" },
+  pt: { htmlLang: "pt-BR", ogLocale: "pt_BR", clockLocale: "pt-BR" }, // portugais du Brésil
+  nl: { ogLocale: "nl_NL", clockLocale: "nl-NL" },
+  ru: { ogLocale: "ru_RU", clockLocale: "ru-RU" },
+  hi: { ogLocale: "hi_IN", clockLocale: "hi-IN" },
+  ja: { ogLocale: "ja_JP", clockLocale: "ja-JP" },
+  ko: { ogLocale: "ko_KR", clockLocale: "ko-KR" },
+};
+
+// Construit UI[lang] pour une langue bundle depuis ses données (templates {n}/{city} -> fonctions).
 function fromBundle(lang) {
   const u = UI_DATA[lang].ui;
+  const m = BUNDLE_META[lang] || {};
   return {
     ...u,
-    htmlLang: lang,
-    dir: lang === "ar" ? "rtl" : "ltr",
-    ogLocale: lang === "zh" ? "zh_CN" : lang === "ar" ? "ar_AR" : "en_US",
-    clockLocale: lang === "zh" ? "zh-CN" : lang === "ar" ? "ar-EG" : "en-GB",
+    htmlLang: m.htmlLang || lang,
+    dir: m.dir || "ltr",
+    ogLocale: m.ogLocale || "en_US",
+    clockLocale: m.clockLocale || "en-GB",
     resultsHead: (n) => String(u.resultsHead).replace("{n}", n),
     shareText: (n) => String(u.shareText).replace("{n}", n),
     locOutside: (city) => String(u.locOutside).replace("{city}", city),
   };
 }
 
-export const UI = { fr: FR, en: EN, es: ES, it: IT, zh: fromBundle("zh"), ar: fromBundle("ar") };
+export const UI = { fr: FR, en: EN, es: ES, it: IT, ...Object.fromEntries(BUNDLE_LANGS.map((l) => [l, fromBundle(l)])) };
 
 // --- Traductions des libellés (moteur) : anglais écrit à la main, zh/ar depuis les données ----
 const MOODS = {
@@ -297,9 +325,13 @@ const L10N = {
   en: { moods: MOODS, groups: GROUPS, cats: CATS, budgets: BUDGETS, times: TIMES, copy: COPY_EN },
   es: { moods: MOODS_ES, groups: GROUPS_ES, cats: CATS_ES, budgets: BUDGETS_ES, times: TIMES_ES, copy: COPY_ES },
   it: { moods: MOODS_IT, groups: GROUPS_IT, cats: CATS_IT, budgets: BUDGETS_IT, times: TIMES_IT, copy: COPY_IT },
-  zh: { moods: UI_DATA.zh.moods, groups: UI_DATA.zh.groups, cats: UI_DATA.zh.cats, budgets: UI_DATA.zh.budgets, times: UI_DATA.zh.times, copy: { ...UI_DATA.zh.copy, decimalSep: "." } },
-  ar: { moods: UI_DATA.ar.moods, groups: UI_DATA.ar.groups, cats: UI_DATA.ar.cats, budgets: UI_DATA.ar.budgets, times: UI_DATA.ar.times, copy: { ...UI_DATA.ar.copy, decimalSep: "." } },
 };
+// Langues bundle : mêmes sections, fournies par ui-i18n.data.js. Séparateur décimal déterministe.
+const DECIMAL_SEP = { de: ",", pt: ",", nl: ",", ru: "," }; // hi/zh/ja/ko/ar : point
+for (const l of BUNDLE_LANGS) {
+  const d = UI_DATA[l];
+  L10N[l] = { moods: d.moods, groups: d.groups, cats: d.cats, budgets: d.budgets, times: d.times, copy: { ...d.copy, decimalSep: DECIMAL_SEP[l] || "." } };
+}
 
 /**
  * Renvoie une copie de la config avec les libellés/textes traduits pour `lang`.
