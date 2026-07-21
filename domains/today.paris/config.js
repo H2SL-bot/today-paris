@@ -32,7 +32,7 @@ export default {
 
   // --- Réglages du moteur -------------------------------------------------
   output: {
-    count: 4,              // 3 à 5 propositions
+    count: 10,             // 10 propositions par recherche
     maxPerCategory: 2,     // diversité : pas 5 fois la même chose
     maxDistanceKm: 6,      // au-delà, on considère que c'est "trop loin" pour "maintenant"
     travelSpeedKmh: 11,    // vitesse moyenne porte-à-porte (marche + métro)
