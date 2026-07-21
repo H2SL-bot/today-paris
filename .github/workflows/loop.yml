@@ -42,6 +42,16 @@ jobs:
         run: npm run fetch:events
         continue-on-error: true
 
+      # 1c. Traduit les NOUVEAUX événements dans les 12 langues (API Claude, modèle économique).
+      #     INACTIF tant que le secret ANTHROPIC_API_KEY n'est pas posé (le script sort proprement).
+      #     Garde-fous internes : jamais de suppression, langue sautée si résultat suspect,
+      #     échec = repli français (le site ne casse jamais).
+      - name: Traduire le délta d'événements (12 langues)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/translate-delta.mjs
+        continue-on-error: true
+
       # 2-3-4 + 7. Contrôle fraîcheur + rapport d'amélioration (santé des données) dans les logs.
       - name: Boucle (fraîcheur + rapport)
         run: node loop/run.js --once
