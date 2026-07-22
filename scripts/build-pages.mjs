@@ -262,8 +262,11 @@ async function main() {
       const altUrls = Object.fromEntries(SEO_LANGS.map((l) => [l, `${BASE}${l === "fr" ? "" : l + "/"}${pillarSlug(pillar, l)}/`]));
       const spec = pillarSpec(pillar, lang, active, cats, copy, now);
       spec.sections.forEach((s) => { s.cats = cats; s.copy = copy; });
-      // Maillage : les piliers principaux + (sur une page de quartier) ses voisins.
-      const liens = [...PILLARS, ...(pillar._voisins || [])];
+      // Maillage interne. Les 2 pages thématiques (ouvert-maintenant / ce-soir) servent de
+      // HUB : elles listent TOUS les quartiers, ce qui donne à Google un chemin direct
+      // accueil → thématique → 75 quartiers. Les pages de quartier lient leurs 6 voisins.
+      const estHub = pillar.kind === "venues" || pillar.kind === "events";
+      const liens = estHub ? [...PILLARS, ...QUARTIERS] : [...PILLARS, ...(pillar._voisins || [])];
       const related = liens.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" · ");
       const html = pageHtml({ lang, slug, altUrls, ...spec, relatedLinks: related, tr });
       await writePage(lang === "fr" ? [slug] : [lang, slug], html);
