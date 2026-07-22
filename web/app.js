@@ -2,7 +2,7 @@
 // Tout se passe dans le navigateur : config + Open Data + moteur, côté client. Aucun serveur.
 
 import config from "./config.js";
-import { UI, localizeConfig, GYG, MORE } from "./i18n.js";
+import { UI, localizeConfig, GYG, MORE, HORAIRES_INCONNUS } from "./i18n.js";
 import { UI_DATA } from "./ui-i18n.data.js";
 import { makeEventTranslator, localizeNeighborhood } from "./translate.js";
 import { recommend } from "./engine/index.js";
@@ -304,6 +304,8 @@ function availabilityBadge(a) {
   if (a.kind === "ongoing") return L.showing;
   if (a.closingLabel === "24h/24") return L.open247;
   if (a.closingLabel) return `${L.openUntil} ${escapeHtml(a.closingLabel)}`;
+  // Horaires non publiés : on le dit franchement plutôt que de ne rien afficher.
+  if (a.unknown) return HORAIRES_INCONNUS[LANG] || HORAIRES_INCONNUS.fr;
   return "";
 }
 

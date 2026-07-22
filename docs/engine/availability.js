@@ -38,10 +38,14 @@ export function availability(offer, now, timeZone) {
     const closesInMin = isNaN(end) ? Infinity : Math.max(0, (end - now) / 60000);
     return { open: true, ongoing: true, closesInMin, label: null, startsAt: null, kind: "ongoing" };
   }
-  // Lieu à horaires hebdomadaires (ou sans horaires connus)
-  const open = isOpenAt(offer.hours, now, timeZone);
+  // Lieu à horaires hebdomadaires. isOpenAt renvoie null quand les horaires sont
+  // inconnus : on le propage (`unknown`) au lieu de prétendre que c'est ouvert.
+  const etat = isOpenAt(offer.hours, now, timeZone);
+  const unknown = etat === null;
+  const open = etat === true;
   return {
     open,
+    unknown,
     ongoing: open,
     closesInMin: open ? minutesUntilClose(offer.hours, now, timeZone) : 0,
     label: open ? closingTimeLabel(offer.hours, now, timeZone) : null,

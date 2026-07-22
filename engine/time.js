@@ -19,7 +19,12 @@ const toMinutes = (hhmm) => {
  * L'offre est-elle ouverte à l'instant `now` (dans le fuseau `timeZone`) ?
  */
 export function isOpenAt(hours, now, timeZone) {
-  if (!hours) return true; // pas d'horaires connus -> on considère disponible
+  // Horaires inconnus : on ne PEUT pas affirmer que c'est ouvert. On renvoie null
+  // (« on ne sait pas »), distinct de false (« fermé »). Le filtre « ouvert
+  // maintenant » écarte les inconnus ; sans ce filtre, le lieu reste proposé avec
+  // une mention honnête. Renvoyer true reviendrait à envoyer quelqu'un devant une
+  // grille fermée — un parc clôturé n'est pas ouvert à 3 h du matin.
+  if (!hours) return null;
   if (hours === "24/7") return true;
 
   const wc = wallClock(now, timeZone);

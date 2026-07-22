@@ -46,6 +46,16 @@ export const GYG = {
 // Textes GYG des langues bundle non écrits ci-dessus : fournis par le bundle (section gyg).
 for (const l of BUNDLE_LANGS) if (!GYG.text[l] && UI_DATA[l].gyg) GYG.text[l] = UI_DATA[l].gyg;
 
+// Mention affichée quand les horaires d'un lieu ne sont pas publiés (certains parcs
+// clôturés). On le DIT au visiteur plutôt que de laisser croire qu'il est ouvert.
+export const HORAIRES_INCONNUS = {
+  fr: "⏰ horaires variables", en: "⏰ hours vary", es: "⏰ horario variable",
+  it: "⏰ orari variabili", de: "⏰ Öffnungszeiten variabel", pt: "⏰ horário variável",
+  nl: "⏰ wisselende openingstijden", ru: "⏰ часы работы уточняйте",
+  hi: "⏰ समय बदलता रहता है", zh: "⏰ 开放时间不定", ja: "⏰ 時間は変動します",
+  ko: "⏰ 운영 시간 상이", ar: "⏰ المواعيد متغيرة",
+};
+
 // Bouton « voir plus » sous les premiers résultats (le moteur en calcule 2× plus,
 // on n'en montre que la première moitié — les meilleurs — et le reste à la demande).
 export const MORE = {

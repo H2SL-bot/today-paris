@@ -80,6 +80,7 @@ function present(r, config, now) {
       ongoing: a.ongoing,
       closingLabel: a.label,
       startsAt: a.startsAt,
+      unknown: a.unknown === true, // horaires non publiés : à dire, pas à masquer
     },
     closingLabel: a.kind === "venue" ? a.label : null, // rétro-compat
     durationMin: o.durationMin ?? null,

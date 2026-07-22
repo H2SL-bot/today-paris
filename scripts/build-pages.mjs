@@ -204,9 +204,12 @@ function pillarSpec(pillar, lang, active, cats, copy, now) {
     title: fill(S.quartier.title, { name }), description: fill(S.quartier.description, { name }),
     h1: fill(S.quartier.h1, { name }), intro: fill(S.quartier.intro, { name }),
     sections: [
-      { h2: fill(S.sec.eventsNear, { n: name }), offers: near.filter((o) => o.source !== "openstreetmap").slice(0, 8) },
+      { h2: fill(S.sec.eventsNear, { n: name }), offers: near.filter((o) => o.source === "opendata-paris" && o.occurrences).slice(0, 8) },
       { h2: fill(S.sec.barsIn, { n: name }), offers: near.filter((o) => o.category === "bar").slice(0, 6) },
       { h2: fill(S.sec.cafesIn, { n: name }), offers: near.filter((o) => o.category === "cafe").slice(0, 6) },
+      // Les espaces verts du quartier : ce que cherche un visiteur, et le libellé
+      // « Parcs & jardins » est déjà traduit dans les 13 langues.
+      { h2: S.sec.parks, offers: near.filter((o) => ["park", "garden"].includes(o.category)).slice(0, 6) },
     ],
   };
 }
