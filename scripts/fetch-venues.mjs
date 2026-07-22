@@ -31,8 +31,8 @@ const wrap = (body) => `[out:json][timeout:180];(${body});out center tags;`;
 // `cap` = plafond par groupe (échantillon uniforme) pour borner le poids du fichier.
 const QUERIES = [
   { label: "cafés/bars", cats: ["cafe", "bar", "wine-bar"], cap: Infinity, data: wrap(`nwr["amenity"~"^(cafe|bar|pub)$"]["opening_hours"]["name"](${BBOX});`) },
-  { label: "restaurants", cats: ["restaurant"], cap: 1500, data: wrap(`nwr["amenity"="restaurant"]["opening_hours"]["name"](${BBOX});`) },
-  { label: "pâtisseries/halles", cats: ["patisserie", "food-market"], cap: 650, data: wrap(`nwr["shop"~"^(bakery|pastry|confectionery|chocolate|deli)$"]["opening_hours"]["name"](${BBOX});nwr["amenity"="marketplace"]["opening_hours"]["name"](${BBOX});`) },
+  { label: "restaurants", cats: ["restaurant"], cap: Infinity, data: wrap(`nwr["amenity"="restaurant"]["opening_hours"]["name"](${BBOX});`) },
+  { label: "pâtisseries/halles", cats: ["patisserie", "food-market"], cap: Infinity, data: wrap(`nwr["shop"~"^(bakery|pastry|confectionery|chocolate|deli)$"]["opening_hours"]["name"](${BBOX});nwr["amenity"="marketplace"]["opening_hours"]["name"](${BBOX});`) },
   { label: "parcs/jardins", cats: ["park", "garden"], cap: Infinity, data: wrap(`nwr["leisure"~"^(park|garden)$"]["opening_hours"]["name"](${BBOX});`) },
 ];
 
