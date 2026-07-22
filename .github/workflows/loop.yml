@@ -9,7 +9,18 @@ name: Boucle today.paris
 
 on:
   schedule:
-    - cron: "23 4 * * *" # chaque jour à 04h23 UTC (~06h23 Paris)
+    # L'ordonnanceur GitHub ne tient PAS l'heure : sur les 9 dernières exécutions,
+    # le retard entre l'heure cron et la création du run allait de 5h28 à 8h47
+    # (médiane 6h07). Un créneau unique ne peut donc rien garantir. On en pose
+    # cinq dans la nuit : le premier qui part fait le travail, les suivants
+    # sortent immédiatement grâce au contrôle de fraîcheur ci-dessous.
+    # Tous tombent APRÈS minuit à Paris, donc fetch:events construit bien le
+    # bon jour (la date est calculée en Europe/Paris, pas en UTC).
+    - cron: "7 22 * * *" # 00h07 Paris
+    - cron: "13 23 * * *" # 01h13 Paris
+    - cron: "23 0 * * *" # 02h23 Paris
+    - cron: "37 1 * * *" # 03h37 Paris
+    - cron: "47 2 * * *" # 04h47 Paris
   workflow_dispatch: {} # + lancement manuel depuis l'onglet Actions
 
 permissions:
@@ -24,14 +35,35 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Historique complet : un clone superficiel n'a pas de base de fusion,
+          # donc pas de rebase fiable avant la publication.
+          fetch-depth: 0
 
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      # Contrôle de fraîcheur : avec cinq créneaux nocturnes, seul le premier
+      # doit réellement aller chercher les données. Les suivants sortent ici,
+      # ce qui évite de marteler Overpass et l'Open Data quatre fois pour rien.
+      - name: Les données du jour sont-elles déjà là ?
+        id: fraicheur
+        run: |
+          JOUR=$(TZ=Europe/Paris date +%F)
+          POUR=$(node -e "try{process.stdout.write(String(require('./domains/today.paris/events.json').builtFor||''))}catch(e){}")
+          echo "aujourd'hui (Paris) = $JOUR · instantané = ${POUR:-aucun}"
+          if [ "$POUR" = "$JOUR" ]; then
+            echo "frais=true" >> "$GITHUB_OUTPUT"
+            echo "Données du jour déjà en place — récupération sautée."
+          else
+            echo "frais=false" >> "$GITHUB_OUTPUT"
+          fi
+
       # 1a. Récupère les lieux (cafés, bars, parcs) avec leurs vrais horaires.
       #     Si Overpass est momentanément indisponible, on garde l'instantané précédent.
       - name: Rafraîchir les lieux (OpenStreetMap)
+        if: steps.fraicheur.outputs.frais != 'true'
         run: npm run fetch:venues
         continue-on-error: true
 
@@ -39,6 +71,7 @@ jobs:
       #     Si l'API est momentanément indisponible, on garde l'instantané précédent
       #     (et le site repasse en direct côté navigateur).
       - name: Rafraîchir les événements (Open Data Paris)
+        if: steps.fraicheur.outputs.frais != 'true'
         run: npm run fetch:events
         continue-on-error: true
 
@@ -71,8 +104,24 @@ jobs:
           git add -A
           if git diff --cached --quiet; then
             echo "Aucun changement de données — rien à republier."
-          else
-            git commit -m "boucle: rafraîchissement automatique (événements Open Data + lieux OpenStreetMap)"
-            git push
-            echo "Site republié avec les lieux à jour."
+            exit 0
           fi
+          git commit -m "boucle: rafraîchissement automatique (événements Open Data + lieux OpenStreetMap)"
+          # Un autre écrivain peut avoir poussé entre le checkout et ici : on rebase
+          # et on retente au lieu d'échouer sèchement. En cas de conflit on abandonne
+          # proprement — le créneau suivant refera le travail, le site reste intact.
+          for essai in 1 2 3; do
+            if git push; then
+              echo "Site republié (tentative $essai)."
+              exit 0
+            fi
+            echo "Push rejeté — un commit est arrivé entre-temps ; rebase puis nouvelle tentative."
+            git fetch origin main
+            if ! git rebase origin/main; then
+              git rebase --abort || true
+              echo "Conflit de rebase — publication abandonnée, rien de cassé ; prochain créneau."
+              exit 0
+            fi
+          done
+          echo "Publication impossible après 3 tentatives — prochain créneau."
+          exit 0

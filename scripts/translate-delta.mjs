@@ -10,7 +10,7 @@
 //       TRANSLATE_MODEL   (défaut claude-haiku-4-5 — économique, validé par Gérald)
 //       MAX_DELTA         (défaut 200 — borne le coût quotidien par langue)
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -125,24 +125,43 @@ async function main() {
     if (delta.length > MAX_DELTA) { console.log(`  ${lang}: délta ${delta.length} borné à ${MAX_DELTA}`); delta = delta.slice(0, MAX_DELTA); }
 
     // Le manifeste : seules ces clés (normalisées) pourront entrer au dictionnaire.
-    const manifest = new Map(delta.map((e) => [normKey(e.fr), e.fr]));
+    // On garde l'entrée SOURCE complète pour pouvoir vérifier la description après coup.
+    const manifest = new Map(delta.map((e) => [normKey(e.fr), e]));
     const results = new Map();
-    try {
-      for (let i = 0; i < delta.length; i += BATCH) {
-        const batch = delta.slice(i, i + BATCH);
+    let lots = 0, lotsKO = 0;
+    for (let i = 0; i < delta.length; i += BATCH) {
+      const batch = delta.slice(i, i + BATCH);
+      lots++;
+      try {
         // 1re passe : traduction (contenu EMBARQUÉ dans le prompt — jamais de lecture de fichier).
         const t = await callClaude(`${RULES(L)}\n\nBatch (JSON, entries {fr, tag, desc}) — translate EVERY entry, in order:\n${JSON.stringify(batch)}\n\nReturn {items:[{fr,n,d}]} for all ${batch.length} entries.`);
         // 2e passe : relecture stricte contre la source.
         const v = await callClaude(`You are a STRICT bilingual editor (French → ${L.name}). ${L.extra}\nGround truth (JSON):\n${JSON.stringify(batch)}\n\nProposed translations:\n${JSON.stringify(t.items)}\n\nFIX: translated/transliterated proper nouns → restore LATIN original; leftover French → translate; drift/inventions → correct; unnatural phrasing → smooth. Keep every "fr" verbatim. Return the FULL corrected {items:[{fr,n,d}]} in order.`);
-        const items = (v.items && v.items.length ? v.items : t.items) || [];
-        for (const it of items) {
-          if (!it || !it.fr || !it.n) continue;
-          const canon = manifest.get(normKey(it.fr));
-          if (canon) results.set(canon, { n: it.n, ...(it.d && it.d.trim() ? { d: it.d } : {}) });
+        // Une relecture TRONQUÉE (moins d'entrées que la source) perdrait des traductions
+        // valides : on retombe alors sur la 1re passe plutôt que d'accepter le lot amputé.
+        const relu = Array.isArray(v.items) && v.items.length === batch.length;
+        if (!relu && Array.isArray(v.items) && v.items.length) {
+          console.log(`  ${lang}: lot ${lots} relecture tronquée (${v.items.length}/${batch.length}) — 1re passe conservée`);
         }
+        const items = (relu ? v.items : t.items) || [];
+        for (const it of items) {
+          if (!it || !it.fr || !it.n || !String(it.n).trim()) continue;
+          const src = manifest.get(normKey(it.fr));
+          if (!src) continue; // hors manifeste → rejeté
+          // Pas de description inventée quand la source est vide ; borne à 160 caractères.
+          let d = typeof it.d === "string" ? it.d.trim() : "";
+          if (!src.desc) d = "";
+          if (d.length > 160) d = d.slice(0, 160).replace(/\s+\S*$/, "");
+          results.set(src.fr, { n: it.n, ...(d ? { d } : {}) });
+        }
+      } catch (e) {
+        // Un lot qui échoue ne doit PAS emporter les lots déjà traduits.
+        lotsKO++;
+        console.log(`  ${lang}: lot ${lots} en échec (${e.message}) — lot ignoré, les autres sont conservés`);
       }
-    } catch (e) {
-      console.log(`  ${lang}: ERREUR (${e.message}) — langue sautée aujourd'hui, dictionnaire intact`);
+    }
+    if (lotsKO === lots) {
+      console.log(`  ${lang}: tous les lots en échec — langue sautée, dictionnaire intact`);
       continue;
     }
     // Garde-fou : couverture < 50 % du délta = suspect → on ne touche pas.
@@ -150,8 +169,17 @@ async function main() {
       console.log(`  ${lang}: ${results.size}/${delta.length} seulement — suspect, dictionnaire intact`);
       continue;
     }
+    const avant = Object.keys(dict).length;
     for (const [canon, val] of results) dict[canon] = val; // ajout uniquement — jamais de suppression
-    writeFileSync(dictPath, JSON.stringify(dict));
+    if (Object.keys(dict).length < avant) {
+      console.log(`  ${lang}: incohérence de comptage — écriture annulée, dictionnaire intact`);
+      continue;
+    }
+    // Écriture ATOMIQUE : un runner interrompu en plein writeFileSync laisserait
+    // un JSON tronqué, et le site perdrait la langue. tmp + rename est indivisible.
+    const tmp = `${dictPath}.tmp`;
+    writeFileSync(tmp, JSON.stringify(dict));
+    renameSync(tmp, dictPath);
     totalNew += results.size;
     console.log(`  ${lang}: +${results.size}/${delta.length} traduits ✓`);
   }
