@@ -51,8 +51,10 @@
   <url><loc>https://today.paris/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -67,10 +69,12 @@
   <url><loc>https://today.paris/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -80,6 +84,7 @@
   <url><loc>https://today.paris/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -132,8 +137,10 @@
   <url><loc>https://today.paris/en/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/en/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/en/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -148,10 +155,12 @@
   <url><loc>https://today.paris/en/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/en/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/en/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -161,6 +170,7 @@
   <url><loc>https://today.paris/en/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/en/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/en/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -213,8 +223,10 @@
   <url><loc>https://today.paris/es/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/es/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/es/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -229,10 +241,12 @@
   <url><loc>https://today.paris/es/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/es/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/es/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -242,6 +256,7 @@
   <url><loc>https://today.paris/es/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/es/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/es/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -294,8 +309,10 @@
   <url><loc>https://today.paris/it/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/it/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/it/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -310,10 +327,12 @@
   <url><loc>https://today.paris/it/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/it/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/it/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -323,6 +342,7 @@
   <url><loc>https://today.paris/it/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/it/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/it/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -375,8 +395,10 @@
   <url><loc>https://today.paris/de/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -391,10 +413,12 @@
   <url><loc>https://today.paris/de/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -404,6 +428,7 @@
   <url><loc>https://today.paris/de/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/de/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/de/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -456,8 +481,10 @@
   <url><loc>https://today.paris/pt/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -472,10 +499,12 @@
   <url><loc>https://today.paris/pt/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -485,6 +514,7 @@
   <url><loc>https://today.paris/pt/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/pt/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/pt/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -537,8 +567,10 @@
   <url><loc>https://today.paris/nl/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -553,10 +585,12 @@
   <url><loc>https://today.paris/nl/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -566,6 +600,7 @@
   <url><loc>https://today.paris/nl/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/nl/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/nl/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -618,8 +653,10 @@
   <url><loc>https://today.paris/ru/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -634,10 +671,12 @@
   <url><loc>https://today.paris/ru/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -647,6 +686,7 @@
   <url><loc>https://today.paris/ru/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ru/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ru/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -699,8 +739,10 @@
   <url><loc>https://today.paris/hi/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -715,10 +757,12 @@
   <url><loc>https://today.paris/hi/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -728,6 +772,7 @@
   <url><loc>https://today.paris/hi/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/hi/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/hi/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -780,8 +825,10 @@
   <url><loc>https://today.paris/zh/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/zh/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/zh/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -796,10 +843,12 @@
   <url><loc>https://today.paris/zh/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/zh/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/zh/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -809,6 +858,7 @@
   <url><loc>https://today.paris/zh/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/zh/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/zh/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -861,8 +911,10 @@
   <url><loc>https://today.paris/ja/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -877,10 +929,12 @@
   <url><loc>https://today.paris/ja/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -890,6 +944,7 @@
   <url><loc>https://today.paris/ja/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ja/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ja/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -942,8 +997,10 @@
   <url><loc>https://today.paris/ko/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -958,10 +1015,12 @@
   <url><loc>https://today.paris/ko/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -971,6 +1030,7 @@
   <url><loc>https://today.paris/ko/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ko/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ko/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -1023,8 +1083,10 @@
   <url><loc>https://today.paris/ar/gros-caillou/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/halles/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/hopital-saint-louis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ar/invalides/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/jardin-des-plantes/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/javel/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ar/la-chapelle/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/madeleine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/mail/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/maison-blanche/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -1039,10 +1101,12 @@
   <url><loc>https://today.paris/ar/parc-de-montsouris/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/pere-lachaise/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/petit-montrouge/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ar/picpus/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/place-vendome/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/plaine-de-monceaux/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/plaisance/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/pont-de-flandre/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ar/porte-dauphine/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/porte-saint-denis/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/porte-saint-martin/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/quinze-vingts/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -1052,6 +1116,7 @@
   <url><loc>https://today.paris/ar/saint-fargeau/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/saint-georges/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/saint-germain-des-pres/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://today.paris/ar/saint-germain-l-auxerrois/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/saint-gervais/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/saint-lambert/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://today.paris/ar/saint-merri/</loc><changefreq>daily</changefreq><priority>0.8</priority></url>

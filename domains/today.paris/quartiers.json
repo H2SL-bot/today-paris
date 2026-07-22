@@ -1,8 +1,8 @@
 {
  "_source": "Open Data Ville de Paris — quartier_paris (80 quartiers administratifs)",
- "_filtre": "conservés si ≥8 lieux et ≥1 événement en attribution exclusive (au centre le plus proche)",
+ "_filtre": "TOUS les quartiers administratifs (choix de Gérald, 22/07)",
  "_genere": "2026-07-22",
- "count": 75,
+ "count": 80,
  "quartiers": [
   {
    "slug": "amerique",
@@ -229,6 +229,13 @@
    "lng": 2.36812301788768
   },
   {
+   "slug": "invalides",
+   "nom": "Invalides",
+   "ar": 7,
+   "lat": 48.858514966137854,
+   "lng": 2.3164447403399206
+  },
+  {
    "slug": "jardin-des-plantes",
    "nom": "Jardin-des-Plantes",
    "ar": 5,
@@ -241,6 +248,13 @@
    "ar": 15,
    "lat": 48.83906040108164,
    "lng": 2.2780763469189345
+  },
+  {
+   "slug": "la-chapelle",
+   "nom": "La Chapelle",
+   "ar": 18,
+   "lat": 48.894012169582226,
+   "lng": 2.3643867790293243
   },
   {
    "slug": "madeleine",
@@ -341,6 +355,13 @@
    "lng": 2.3264369992249008
   },
   {
+   "slug": "picpus",
+   "nom": "Picpus",
+   "ar": 12,
+   "lat": 48.830359242366505,
+   "lng": 2.428826815083849
+  },
+  {
    "slug": "place-vendome",
    "nom": "Place-Vendôme",
    "ar": 1,
@@ -367,6 +388,13 @@
    "ar": 19,
    "lat": 48.89555577457166,
    "lng": 2.384777229270242
+  },
+  {
+   "slug": "porte-dauphine",
+   "nom": "Porte-Dauphine",
+   "ar": 16,
+   "lat": 48.871765634282355,
+   "lng": 2.2719177404675657
   },
   {
    "slug": "porte-saint-denis",
@@ -430,6 +458,13 @@
    "ar": 6,
    "lat": 48.85528871996157,
    "lng": 2.3336568680904577
+  },
+  {
+   "slug": "saint-germain-l-auxerrois",
+   "nom": "Saint-Germain-l'Auxerrois",
+   "ar": 1,
+   "lat": 48.86065013520993,
+   "lng": 2.3349103292801994
   },
   {
    "slug": "saint-gervais",
