@@ -96,6 +96,12 @@ jobs:
           CUSTOM_DOMAIN: today.paris
         run: npm run build
 
+      # FILET DE SÉCURITÉ : contrôle le site construit AVANT publication.
+      # Volontairement SANS continue-on-error : s'il échoue, l'étape suivante ne
+      # s'exécute pas et le site en ligne reste sur sa dernière version saine.
+      - name: Contrôler la santé du site (bloque la publication si cassé)
+        run: node scripts/healthcheck.mjs
+
       # 8. Republie UNIQUEMENT si les données ont réellement changé.
       - name: Publier si changement
         run: |
