@@ -7,6 +7,7 @@ import { cp, mkdir, rm, writeFile, readdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { normKey } from "../domains/today.paris/translate.js";
 import { UI, PILLARS, LANGS, LANG_LABELS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
 
 // Langues qui ont réellement des pages piliers (mêmes règles que build-pages.mjs) :
@@ -87,10 +88,39 @@ async function build() {
   await copy(`domains/${DOMAIN}/i18n.js`, "i18n.js");
   await copy(`domains/${DOMAIN}/translate.js`, "translate.js");
   await copy(`domains/${DOMAIN}/ui-i18n.data.js`, "ui-i18n.data.js");
+  // Ce dont le visiteur a réellement besoin : les noms des événements à l'affiche
+  // aujourd'hui et ceux des lieux servis. Tout le reste de l'historique reste au dépôt.
+  const besoins = new Set();
+  for (const f of ["events.json", "venues.json"]) {
+    const p = path.join(ROOT, "domains", DOMAIN, f);
+    if (!existsSync(p)) continue;
+    for (const o of JSON.parse(await readFile(p, "utf8")).offers || []) {
+      if (o.name) besoins.add(o.name);
+      if (o.descriptionShort) besoins.add(o.descriptionShort);
+    }
+  }
+  const allege = [];
+
   // Dictionnaires de traduction des événements, par langue (facultatifs — repli français sinon).
   for (const lang of LANGS.filter((l) => l !== "fr")) {
-    if (existsSync(path.join(ROOT, "domains", DOMAIN, `translations.${lang}.json`)))
-      await copy(`domains/${DOMAIN}/translations.${lang}.json`, `translations.${lang}.json`);
+    const src = path.join(ROOT, "domains", DOMAIN, `translations.${lang}.json`);
+    if (!existsSync(src)) continue;
+    // On NE publie QUE les traductions des événements réellement à l'affiche.
+    // Le dictionnaire complet reste dans le dépôt (capital réutilisable : un
+    // événement qui revient retrouve sa traduction sans la repayer), mais le
+    // visiteur ne télécharge jamais l'historique des événements terminés.
+    const dict = JSON.parse(await readFile(src, "utf8"));
+    // Appariement par clé NORMALISÉE — exactement comme le fait le site à l'exécution
+    // (translate.js). En comparaison stricte, une apostrophe courbe suffirait à rater
+    // une traduction qui existe, et l'événement s'afficherait en français pour rien.
+    const parNorm = new Map(Object.keys(dict).map((k) => [normKey(k), k]));
+    const utile = {};
+    for (const nom of besoins) {
+      const k = parNorm.get(normKey(nom));
+      if (k) utile[k] = dict[k];
+    }
+    await writeFile(path.join(DOCS, `translations.${lang}.json`), JSON.stringify(utile));
+    allege.push(`${lang} ${Object.keys(utile).length}/${Object.keys(dict).length}`);
   }
   // 4. Lieux (instantané OpenStreetMap)
   if (existsSync(path.join(ROOT, "domains", DOMAIN, "venues.json"))) await copy(`domains/${DOMAIN}/venues.json`, "venues.json");
@@ -131,6 +161,7 @@ async function build() {
   if (CUSTOM_DOMAIN) await writeFile(path.join(DOCS, "CNAME"), CUSTOM_DOMAIN + "\n");
 
   console.log(`[build:web] docs/ généré (${LANGS.join(", ")}).`);
+  if (allege.length) console.log(`[build:web] dictionnaires publiés (utiles/total) : ${allege.join(" · ")}`);
 }
 
 build().catch((e) => { console.error("[build:web] échec :", e); process.exit(1); });

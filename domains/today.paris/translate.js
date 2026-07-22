@@ -46,7 +46,8 @@ const VENUE_DESC = { en: VENUE_DESC_EN, es: VENUE_DESC_ES, it: VENUE_DESC_IT };
 const ARR_FORMAT = { es: "distrito {n}", it: "{n}° arrondissement" };
 
 // Clé normalisée : neutralise espaces insécables/fines et apostrophes/guillemets courbes.
-function normKey(s) {
+// Exportée : le build s'en sert pour publier exactement les entrées que le site retrouvera.
+export function normKey(s) {
   return String(s == null ? "" : s)
     .replace(/[   ​]/g, " ")
     .replace(/[‘’′]/g, "'")
