@@ -10,7 +10,7 @@
 //       TRANSLATE_MODEL   (défaut claude-haiku-4-5 — économique, validé par Gérald)
 //       MAX_DELTA         (défaut 200 — borne le coût quotidien par langue)
 
-import { readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, renameSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -64,6 +64,52 @@ const SCHEMA = {
   },
 };
 
+// --- Suivi du solde de crédit ------------------------------------------------
+// L'API ne publie pas le solde ; on le suit nous-mêmes en additionnant le coût réel
+// de chaque appel (tokens facturés renvoyés par l'API × tarif du modèle).
+// C'est une ESTIMATION : elle ignore la clé utilisée ailleurs qu'ici.
+const SUIVI = path.join(ROOT, "data-store", "credit-api.json");
+const TARIFS = { // $ par million de tokens
+  "claude-haiku-4-5": { in: 1, out: 5 },
+  "claude-sonnet-5": { in: 3, out: 15 },
+  "claude-opus-4-8": { in: 5, out: 25 },
+};
+const SEUIL = Number(process.env.CREDIT_ALERTE || 1); // $ — sous ce seuil, on alerte
+let suivi = { solde_estime: Number(process.env.CREDIT_DEPART || 7.73), depense_totale: 0, alerte_envoyee: false };
+try { suivi = { ...suivi, ...JSON.parse(readFileSync(SUIVI, "utf8")) }; } catch { /* premier passage */ }
+let depenseSession = 0;
+
+function compter(usage) {
+  const t = TARIFS[MODEL] || TARIFS["claude-haiku-4-5"];
+  const cout = ((usage?.input_tokens || 0) / 1e6) * t.in + ((usage?.output_tokens || 0) / 1e6) * t.out;
+  depenseSession += cout;
+}
+
+// Alerte : ouvre un ticket dans le dépôt GitHub → notification par e-mail.
+async function alerter(solde) {
+  const tok = process.env.GITHUB_TOKEN, repo = process.env.GITHUB_REPOSITORY;
+  const msg = `Le crédit API estimé de today.paris est descendu à ${solde.toFixed(2)} $US.
+
+Sans crédit, la traduction quotidienne des nouveaux événements s'arrête :
+le site continue de fonctionner, mais les nouveautés restent en français.
+
+Pour recharger : https://console.anthropic.com → Billing → Add funds.
+Puis remettez le solde à jour dans data-store/credit-api.json (champ "solde_estime")
+ou lancez la boucle avec CREDIT_DEPART=<montant>.
+
+Estimation calculée à partir des tokens facturés ; elle ne voit pas les autres
+usages de la même clé.`;
+  if (!tok || !repo) { console.log(`\n⚠️  CRÉDIT BAS : ${solde.toFixed(2)} $US restants.\n${msg}`); return; }
+  try {
+    const r = await fetch(`https://api.github.com/repos/${repo}/issues`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${tok}`, accept: "application/vnd.github+json", "content-type": "application/json" },
+      body: JSON.stringify({ title: `⚠️ today.paris : crédit API bas (${solde.toFixed(2)} $US)`, body: msg }),
+    });
+    console.log(r.ok ? "  → alerte crédit envoyée (ticket GitHub + e-mail)" : `  → alerte crédit non envoyée (HTTP ${r.status})`);
+  } catch (e) { console.log(`  → alerte crédit non envoyée (${e.message})`); }
+}
+
 // Appel API avec retries (429/5xx/529 + erreurs réseau), délai retry-after respecté.
 async function callClaude(prompt) {
   const body = JSON.stringify({
@@ -91,6 +137,7 @@ async function callClaude(prompt) {
       }
       if (!res.ok) throw new Error(`HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`); // 4xx : définitif
       const msg = await res.json();
+      compter(msg.usage); // coût réel de cet appel, quel qu'en soit l'issue
       if (msg.stop_reason === "refusal") throw new Error("refusal");
       if (msg.stop_reason === "max_tokens") throw new Error("max_tokens (lot trop gros)");
       const text = (msg.content || []).filter((b) => b.type === "text").map((b) => b.text).join("");
@@ -184,6 +231,24 @@ async function main() {
     console.log(`  ${lang}: +${results.size}/${delta.length} traduits ✓`);
   }
   console.log(`[translate-delta] terminé : ${totalNew} traductions ajoutées.`);
+
+  // Bilan du crédit : on décompte ce qui vient d'être dépensé et on alerte si besoin.
+  const soldeAvant = suivi.solde_estime;
+  suivi.solde_estime = Math.max(0, soldeAvant - depenseSession);
+  suivi.depense_totale = (suivi.depense_totale || 0) + depenseSession;
+  suivi.derniere_maj = new Date().toISOString().slice(0, 16).replace("T", " ");
+  if (depenseSession > 0) console.log(`[crédit] dépensé ${depenseSession.toFixed(4)} $US · solde estimé ${suivi.solde_estime.toFixed(2)} $US`);
+  // Une seule alerte par passage sous le seuil ; réarmée dès que le solde remonte.
+  if (suivi.solde_estime < SEUIL && !suivi.alerte_envoyee) {
+    await alerter(suivi.solde_estime);
+    suivi.alerte_envoyee = true;
+  } else if (suivi.solde_estime >= SEUIL) {
+    suivi.alerte_envoyee = false;
+  }
+  try {
+    mkdirSync(path.dirname(SUIVI), { recursive: true });
+    writeFileSync(SUIVI, JSON.stringify(suivi, null, 1) + "\n");
+  } catch (e) { console.log(`[crédit] suivi non enregistré : ${e.message}`); }
 }
 
 main().catch((e) => {
