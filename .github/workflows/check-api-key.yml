@@ -1,0 +1,49 @@
+name: Vérifier la clé API de traduction
+
+# Diagnostic MANUEL (onglet Actions → « Run workflow »). Ne traduit rien, ne publie rien :
+# il envoie une requête minimale à l'API Claude pour répondre à une seule question —
+# la clé ANTHROPIC_API_KEY fonctionne-t-elle ? Coût : moins d'un centime.
+# À lancer si la traduction quotidienne semble ne plus rien produire.
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  verifier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Tester la clé (requête minimale)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          node -e '
+          const key = process.env.ANTHROPIC_API_KEY;
+          if (!key) { console.log("❌ Le secret ANTHROPIC_API_KEY est ABSENT du dépôt."); process.exit(1); }
+          console.log("✓ Secret présent (longueur " + key.length + ", commence par " + key.slice(0, 7) + "…)");
+          const res = await fetch("https://api.anthropic.com/v1/messages", {
+            method: "POST",
+            headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+            body: JSON.stringify({ model: "claude-haiku-4-5", max_tokens: 10, messages: [{ role: "user", content: "Réponds exactement : OK" }] }),
+          });
+          const txt = await res.text();
+          if (res.ok) {
+            const m = JSON.parse(txt);
+            const rep = (m.content || []).filter(b => b.type === "text").map(b => b.text).join("").trim();
+            console.log("✅ LA CLÉ FONCTIONNE. Réponse du modèle : « " + rep + " »");
+            console.log("   La traduction quotidienne s\x27exécutera normalement.");
+          } else if (res.status === 401) {
+            console.log("❌ CLÉ INVALIDE (401). Recréez une clé sur console.anthropic.com et remplacez le secret.");
+            process.exit(1);
+          } else if (res.status === 400 && /credit|balance/i.test(txt)) {
+            console.log("❌ CRÉDIT ÉPUISÉ. Rechargez le solde sur console.anthropic.com → Billing.");
+            process.exit(1);
+          } else {
+            console.log("❌ Échec HTTP " + res.status + " : " + txt.slice(0, 300));
+            process.exit(1);
+          }
+          '
