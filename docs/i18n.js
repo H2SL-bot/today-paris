@@ -18,6 +18,8 @@ export const LANG_LABELS = {
   hi: "हिन्दी", zh: "中文", ja: "日本語", ko: "한국어", ar: "العربية",
 };
 // Langues avec pages piliers SEO (les autres n'affichent pas la nav « Explorer » → pas de liens morts).
+// NB : la liste effective des langues à pages piliers est calculée par les scripts de build
+// (présence des textes SEO traduits dans pillar-seo.data.js). Conservé pour compatibilité.
 export const PILLAR_LANGS = ["fr", "en"];
 export const langHref = (lang) => (lang === "fr" ? "/" : `/${lang}/`);
 
@@ -43,6 +45,15 @@ export const GYG = {
 };
 // Textes GYG des langues bundle non écrits ci-dessus : fournis par le bundle (section gyg).
 for (const l of BUNDLE_LANGS) if (!GYG.text[l] && UI_DATA[l].gyg) GYG.text[l] = UI_DATA[l].gyg;
+
+// Libellés des boutons de réservation (clé = libellé français d'origine des données).
+// SOURCE UNIQUE partagée par l'appli (web/app.js) et les pages piliers (build-pages.mjs).
+export const BOOKING = {
+  en: { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website", "Y aller": "Go there" },
+  es: { "Réserver": "Reservar", "En savoir plus": "Saber más", "Site web": "Sitio web", "Y aller": "Cómo llegar" },
+  it: { "Réserver": "Prenota", "En savoir plus": "Scopri di più", "Site web": "Sito web", "Y aller": "Come arrivare" },
+};
+for (const l of BUNDLE_LANGS) if (!BOOKING[l] && UI_DATA[l].booking) BOOKING[l] = UI_DATA[l].booking;
 
 // Pages piliers (le slug d'URL reste en ASCII : /zh/open-now/, /ar/open-now/ — on réutilise le slug EN).
 export const PILLARS = [

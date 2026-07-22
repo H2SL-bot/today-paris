@@ -12,7 +12,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import config from "../domains/today.paris/config.js";
-import { UI, PILLARS, localizeConfig, LANGS } from "../domains/today.paris/i18n.js";
+import { UI, PILLARS, localizeConfig, LANGS, langHref, pillarSlug, pillarLabel, quartierName, BOOKING } from "../domains/today.paris/i18n.js";
 import { opendataParisAdapter } from "../data/adapters/opendata-paris.js";
 import { validateAndExpire } from "../data/freshness.js";
 import { distanceKm } from "../engine/geo.js";
@@ -35,15 +35,30 @@ function safeUrl(u) {
 const localDate = (d) => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
 const hhmm = (d) => new Intl.DateTimeFormat("fr-FR", { timeZone: TZ, hour: "2-digit", minute: "2-digit" }).format(d).replace(":", "h");
 
-const BOOK_EN = { "Réserver": "Book", "En savoir plus": "Learn more", "Site web": "Website" };
-const SEC = {
-  fr: { barsIn: (n) => `Bars à ${n}`, cafesIn: (n) => `Cafés à ${n}`, parks: "Parcs & jardins", bars: "Bars à Paris", cafes: "Cafés à Paris", eventsTonight: "Événements de ce soir", eventsNear: (n) => `Événements près de ${n}` },
-  en: { barsIn: (n) => `Bars in ${n}`, cafesIn: (n) => `Cafés in ${n}`, parks: "Parks & gardens", bars: "Bars in Paris", cafes: "Cafés in Paris", eventsTonight: "Tonight's events", eventsNear: (n) => `Events near ${n}` },
+
+// Textes SEO des piliers. fr/en écrits à la main ; les autres langues viennent de
+// pillar-seo.data.js (traduit + relu par workflow). Une langue absente du fichier
+// n'est simplement pas générée — jamais de page à moitié traduite.
+const SEO_FR = {
+  sec: { barsIn: "Bars à {n}", cafesIn: "Cafés à {n}", parks: "Parcs & jardins", bars: "Bars à Paris", cafes: "Cafés à Paris", eventsTonight: "Événements de ce soir", eventsNear: "Événements près de {n}" },
+  chrome: { cta: "👉 Voir ce qui est ouvert <strong>maintenant</strong> près de vous", explore: "À explorer :", note: `Données réelles : événements de l'Open Data de la Ville de Paris, lieux d'OpenStreetMap. Les disponibilités changent en continu — <a href="{home}">ouvrez l'outil</a> pour voir ce qui est ouvert à l'instant, autour de vous.` },
+  openNow: { title: "Ouvert maintenant à Paris — bars, cafés & parcs près de vous | today.paris", description: "Que faire à Paris maintenant ? Bars, cafés et parcs ouverts, autour de vous, en temps réel et sur une carte. Gratuit.", h1: "Ouvert maintenant à Paris", intro: "Bars, cafés et parcs ouverts à Paris — repérez en un clic ce qui est ouvert autour de vous, à l'heure qu'il est, sur une carte." },
+  tonight: { title: "Que faire à Paris ce soir — événements & sorties du jour | today.paris", description: "Que faire à Paris ce soir ? Concerts, expos, sorties et événements du jour, près de vous, sur une carte. En temps réel, gratuit.", h1: "Que faire à Paris ce soir", intro: "Les événements de ce soir à Paris ({date}) : concerts, spectacles, expos et sorties, autour de vous." },
+  quartier: { title: "Que faire à {name} (Paris) — sorties, bars & cafés | today.paris", description: "Que faire à {name} à Paris ? Événements du jour, bars et cafés ouverts près de vous, sur une carte. En temps réel.", h1: "Que faire à {name}", intro: "Sorties, événements, bars et cafés à {name} — ce qui est ouvert et se passe autour de vous, maintenant." },
 };
-const CHROME = {
-  fr: { cta: "👉 Voir ce qui est ouvert <strong>maintenant</strong> près de vous", explore: "À explorer :", note: (h) => `Données réelles : événements de l'Open Data de la Ville de Paris, lieux d'OpenStreetMap. Les disponibilités changent en continu — <a href="/">ouvrez l'outil</a> pour voir ce qui est ouvert à l'instant, autour de vous.` },
-  en: { cta: "👉 See what's open <strong>now</strong> near you", explore: "Explore:", note: () => `Real data: events from the City of Paris Open Data, places from OpenStreetMap. Availability changes continuously — <a href="/en/">open the tool</a> to see what's open right now, around you.` },
+const SEO_EN = {
+  sec: { barsIn: "Bars in {n}", cafesIn: "Cafés in {n}", parks: "Parks & gardens", bars: "Bars in Paris", cafes: "Cafés in Paris", eventsTonight: "Tonight's events", eventsNear: "Events near {n}" },
+  chrome: { cta: "👉 See what's open <strong>now</strong> near you", explore: "Explore:", note: `Real data: events from the City of Paris Open Data, places from OpenStreetMap. Availability changes continuously — <a href="{home}">open the tool</a> to see what's open right now, around you.` },
+  openNow: { title: "Open now in Paris — bars, cafés & parks near you | today.paris", description: "What's open right now in Paris? Bars, cafés and parks open around you, in real time and on a map. Free.", h1: "Open now in Paris", intro: "Bars, cafés and parks open in Paris — see at a glance what's open around you right now, on a map." },
+  tonight: { title: "What to do in Paris tonight — today's events & outings | today.paris", description: "What to do in Paris tonight? Concerts, exhibitions and outings happening today, near you, on a map. Real-time, free.", h1: "What to do in Paris tonight", intro: "Tonight's events in Paris ({date}): concerts, shows, exhibitions and outings, around you." },
+  quartier: { title: "What to do in {name} (Paris) — outings, bars & cafés | today.paris", description: "What to do in {name}, Paris? Today's events, bars and cafés open near you, on a map. Real-time.", h1: "What to do in {name}", intro: "Outings, events, bars and cafés in {name} — what's open and happening around you, right now." },
 };
+let BUNDLE_SEO = {};
+try { ({ PILLAR_SEO: BUNDLE_SEO } = await import("../domains/today.paris/pillar-seo.data.js")); } catch { /* pas encore traduit */ }
+const SEO = { fr: SEO_FR, en: SEO_EN, ...BUNDLE_SEO };
+// Langues qui auront des pages piliers : celles dont les textes SEO existent.
+const SEO_LANGS = LANGS.filter((l) => SEO[l]);
+const fill = (tpl, vars) => String(tpl ?? "").replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
 
 function priceLabel(offer, copy) {
   const free = copy.free || "Gratuit", paid = copy.paid || "Payant";
@@ -72,32 +87,35 @@ function cardHtml(o, lang, cats, copy, extra = "", tr = (n) => ({ name: n })) {
   let link = "";
   const bookUrl = safeUrl(o.bookingUrl);
   if (bookUrl) {
-    const raw = o.bookingLabel || (lang === "en" ? "learn more" : "en savoir plus");
-    const label = lang === "en" ? BOOK_EN[raw] || raw : raw;
+    const raw = o.bookingLabel || "En savoir plus";
+    const label = (BOOKING[lang] || {})[raw] || raw; // repli : libellé d'origine (français)
     link = ` — <a href="${esc(bookUrl)}" target="_blank" rel="noopener nofollow">${esc(label)}</a>`;
   }
   return `<li class="pcard"><span class="pemoji">${emoji}</span><span class="pbody"><strong>${esc(tr(o.name).name)}</strong><span class="pmeta">${esc(cat)} · ${esc(localizeNeighborhood(o.neighborhood || "Paris", lang))}${extra ? " · " + esc(extra) : ""} · ${esc(priceLabel(o, copy))}${link}</span></span></li>`;
 }
 
-function pageHtml({ lang, slug, altUrl, title, description, h1, intro, sections, relatedLinks, tr = (n) => ({ name: n }) }) {
-  const L = UI[lang], C = CHROME[lang];
-  const home = lang === "en" ? "/en/" : "/";
-  const url = `${BASE}${lang === "en" ? "en/" : ""}${slug}/`;
+function pageHtml({ lang, slug, altUrls, title, description, h1, intro, sections, relatedLinks, tr = (n) => ({ name: n }) }) {
+  const L = UI[lang], S = SEO[lang];
+  const home = langHref(lang);
+  const url = `${BASE}${lang === "fr" ? "" : lang + "/"}${slug}/`;
+  const C = { cta: S.chrome.cta, explore: S.chrome.explore, note: fill(S.chrome.note, { home }) };
   const ld = {
     "@context": "https://schema.org",
     "@graph": [
-      { "@type": "WebPage", name: title, url, description, inLanguage: lang, isPartOf: { "@type": "WebSite", url: BASE, name: "today.paris" } },
-      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "today.paris", item: BASE + (lang === "en" ? "en/" : "") }, { "@type": "ListItem", position: 2, name: h1 }] },
+      { "@type": "WebPage", name: title, url, description, inLanguage: L.htmlLang || lang, isPartOf: { "@type": "WebSite", url: BASE, name: "today.paris" } },
+      { "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "today.paris", item: BASE + (lang === "fr" ? "" : lang + "/") }, { "@type": "ListItem", position: 2, name: h1 }] },
       ...sections.filter((s) => s.offers.length).map((s) => ({ "@type": "ItemList", name: s.h2, numberOfItems: s.offers.length, itemListElement: s.offers.slice(0, 20).map((o, i) => ({ "@type": "ListItem", position: i + 1, name: tr(o.name).name })) })),
     ],
   };
   const body = sections.map((s) => (s.offers.length ? `<h2>${esc(s.h2)}</h2>\n<ul class="plist">\n${s.offers.map((o) => cardHtml(o, lang, s.cats, s.copy, s.extra?.(o), tr)).join("\n")}\n</ul>` : "")).join("\n");
-  const alt = altUrl
-    ? `  <link rel="alternate" hreflang="${lang === "en" ? "fr" : "en"}" href="${altUrl}" />\n  <link rel="alternate" hreflang="${lang}" href="${url}" />\n  <link rel="alternate" hreflang="x-default" href="${url.replace("/en/", "/")}" />`
-    : "";
+  // hreflang complet : la même page dans toutes les langues où elle existe.
+  const alt = [
+    ...Object.entries(altUrls || {}).map(([l, u]) => `  <link rel="alternate" hreflang="${UI[l]?.htmlLang || l}" href="${u}" />`),
+    `  <link rel="alternate" hreflang="x-default" href="${altUrls?.fr || url}" />`,
+  ].join("\n");
 
   return `<!DOCTYPE html>
-<html lang="${lang}">
+<html lang="${L.htmlLang || lang}" dir="${L.dir || "ltr"}">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -126,7 +144,7 @@ ${alt}
     <article class="page">
       ${body}
       <nav class="prelated"><span>${esc(C.explore)}</span> ${relatedLinks}</nav>
-      <p class="pnote">${C.note(h1)}</p>
+      <p class="pnote">${C.note}</p>
     </article>
   </main>
   <footer class="footer"><p>${esc(L.footer)}</p></footer>
@@ -143,43 +161,35 @@ async function writePage(segments, html) {
 }
 
 function pillarSpec(pillar, lang, active, cats, copy, now) {
-  const en = lang === "en";
-  const name = en ? pillar.nameEn : pillar.nameFr;
-  const S = SEC[lang];
+  const S = SEO[lang];
+  const name = quartierName(pillar, lang);
   if (pillar.kind === "venues") {
     const bars = active.filter((o) => o.category === "bar").slice(0, 8);
     const cafes = active.filter((o) => o.category === "cafe").slice(0, 8);
     const parks = active.filter((o) => ["park", "garden"].includes(o.category)).slice(0, 6);
     return {
-      title: en ? "Open now in Paris — bars, cafés & parks near you | today.paris" : "Ouvert maintenant à Paris — bars, cafés & parcs près de vous | today.paris",
-      description: en ? "What's open right now in Paris? Bars, cafés and parks open around you, in real time and on a map. Free." : "Que faire à Paris maintenant ? Bars, cafés et parcs ouverts, autour de vous, en temps réel et sur une carte. Gratuit.",
-      h1: en ? "Open now in Paris" : "Ouvert maintenant à Paris",
-      intro: en ? "Bars, cafés and parks open in Paris — see at a glance what's open around you right now, on a map." : "Bars, cafés et parcs ouverts à Paris — repérez en un clic ce qui est ouvert autour de vous, à l'heure qu'il est, sur une carte.",
-      sections: [{ h2: S.bars, offers: bars }, { h2: S.cafes, offers: cafes }, { h2: S.parks, offers: parks }],
+      ...S.openNow,
+      sections: [{ h2: S.sec.bars, offers: bars }, { h2: S.sec.cafes, offers: cafes }, { h2: S.sec.parks, offers: parks }],
     };
   }
   if (pillar.kind === "events") {
     const evts = active.map((o) => ({ o, t: tonight(o, now) })).filter((x) => x.t).sort((a, b) => a.t.date - b.t.date).slice(0, 18).map((x) => ({ ...x.o, _time: x.t.label }));
-    const dateFr = new Intl.DateTimeFormat(en ? "en-GB" : "fr-FR", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" }).format(now);
+    const dateStr = new Intl.DateTimeFormat(UI[lang].clockLocale || "en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" }).format(now);
     return {
-      title: en ? "What to do in Paris tonight — today's events & outings | today.paris" : "Que faire à Paris ce soir — événements & sorties du jour | today.paris",
-      description: en ? "What to do in Paris tonight? Concerts, exhibitions and outings happening today, near you, on a map. Real-time, free." : "Que faire à Paris ce soir ? Concerts, expos, sorties et événements du jour, près de vous, sur une carte. En temps réel, gratuit.",
-      h1: en ? "What to do in Paris tonight" : "Que faire à Paris ce soir",
-      intro: en ? `Tonight's events in Paris (${dateFr}): concerts, shows, exhibitions and outings, around you.` : `Les événements de ce soir à Paris (${dateFr}) : concerts, spectacles, expos et sorties, autour de vous.`,
-      sections: [{ h2: S.eventsTonight, offers: evts, extra: (o) => (o._time ? (en ? "at " : "à ") + o._time : "") }],
+      title: S.tonight.title, description: S.tonight.description, h1: S.tonight.h1,
+      intro: fill(S.tonight.intro, { date: dateStr }),
+      sections: [{ h2: S.sec.eventsTonight, offers: evts, extra: (o) => (o._time ? o._time : "") }],
     };
   }
   // quartier
   const near = active.map((o) => ({ o, d: distanceKm({ lat: pillar.lat, lng: pillar.lng }, { lat: o.lat, lng: o.lng }) })).filter((x) => x.d <= 1.3).sort((a, b) => a.d - b.d).map((x) => x.o);
   return {
-    title: en ? `What to do in ${name} (Paris) — outings, bars & cafés | today.paris` : `Que faire à ${name} (Paris) — sorties, bars & cafés | today.paris`,
-    description: en ? `What to do in ${name}, Paris? Today's events, bars and cafés open near you, on a map. Real-time.` : `Que faire à ${name} à Paris ? Événements du jour, bars et cafés ouverts près de vous, sur une carte. En temps réel.`,
-    h1: en ? `What to do in ${name}` : `Que faire à ${name}`,
-    intro: en ? `Outings, events, bars and cafés in ${name} — what's open and happening around you, right now.` : `Sorties, événements, bars et cafés à ${name} — ce qui est ouvert et se passe autour de vous, maintenant.`,
+    title: fill(S.quartier.title, { name }), description: fill(S.quartier.description, { name }),
+    h1: fill(S.quartier.h1, { name }), intro: fill(S.quartier.intro, { name }),
     sections: [
-      { h2: S.eventsNear(name), offers: near.filter((o) => o.source !== "openstreetmap").slice(0, 8) },
-      { h2: S.barsIn(name), offers: near.filter((o) => o.category === "bar").slice(0, 6) },
-      { h2: S.cafesIn(name), offers: near.filter((o) => o.category === "cafe").slice(0, 6) },
+      { h2: fill(S.sec.eventsNear, { n: name }), offers: near.filter((o) => o.source !== "openstreetmap").slice(0, 8) },
+      { h2: fill(S.sec.barsIn, { n: name }), offers: near.filter((o) => o.category === "bar").slice(0, 6) },
+      { h2: fill(S.sec.cafesIn, { n: name }), offers: near.filter((o) => o.category === "cafe").slice(0, 6) },
     ],
   };
 }
@@ -195,28 +205,31 @@ async function main() {
   const venues = existsSync(venuesPath) ? JSON.parse(await readFile(venuesPath, "utf8")).offers : [];
   const { active } = validateAndExpire([...events, ...venues], now, { timeZone: TZ });
 
-  // Dictionnaire de traduction des événements (facultatif) : noms/desc en anglais.
-  const trPath = path.join(ROOT, "domains", "today.paris", "translations.events.json");
-  const dict = existsSync(trPath) ? JSON.parse(await readFile(trPath, "utf8")) : null;
+  // Dictionnaires de traduction des ÉVÉNEMENTS, un par langue (repli français si absent).
+  const dicts = {};
+  for (const l of SEO_LANGS) {
+    if (l === "fr") continue;
+    const p = path.join(ROOT, "domains", "today.paris", `translations.${l}.json`);
+    if (existsSync(p)) dicts[l] = JSON.parse(await readFile(p, "utf8"));
+  }
 
-  // Sitemap : tous les accueils de langue (fr, en, zh, ar) + les piliers fr/en ajoutés plus bas.
+  // Sitemap : tous les accueils de langue + les piliers de chaque langue, ajoutés plus bas.
   const urls = LANGS.map((l) => BASE + (l === "fr" ? "" : l + "/"));
   let count = 0;
-  for (const lang of ["fr", "en"]) {
-    const cats = localizeConfig(config, lang).categories;
-    const copy = localizeConfig(config, lang).copy;
-    const tr = makeEventTranslator(dict, lang);
-    const en = lang === "en";
+  for (const lang of SEO_LANGS) {
+    const localized = localizeConfig(config, lang);
+    const cats = localized.categories, copy = localized.copy;
+    const tr = makeEventTranslator(dicts[lang] || null, lang);
     for (const pillar of PILLARS) {
-      const slug = en ? pillar.en : pillar.fr;
-      const altSlug = en ? pillar.fr : pillar.en;
-      const altUrl = `${BASE}${en ? "" : "en/"}${altSlug}/`;
+      const slug = pillarSlug(pillar, lang);
+      // La même page dans toutes les langues où elle existe → hreflang réciproques.
+      const altUrls = Object.fromEntries(SEO_LANGS.map((l) => [l, `${BASE}${l === "fr" ? "" : l + "/"}${pillarSlug(pillar, l)}/`]));
       const spec = pillarSpec(pillar, lang, active, cats, copy, now);
       spec.sections.forEach((s) => { s.cats = cats; s.copy = copy; });
-      const related = PILLARS.map((p) => `<a href="/${en ? "en/" + p.en : p.fr}/">${esc(en ? p.labelEn : p.labelFr)}</a>`).join(" · ");
-      const html = pageHtml({ lang, slug, altUrl, ...spec, relatedLinks: related, tr });
-      await writePage(en ? ["en", slug] : [slug], html);
-      urls.push(`${BASE}${en ? "en/" : ""}${slug}/`);
+      const related = PILLARS.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" · ");
+      const html = pageHtml({ lang, slug, altUrls, ...spec, relatedLinks: related, tr });
+      await writePage(lang === "fr" ? [slug] : [lang, slug], html);
+      urls.push(`${BASE}${lang === "fr" ? "" : lang + "/"}${slug}/`);
       count++;
     }
   }
@@ -225,7 +238,7 @@ async function main() {
     urls.map((u) => `  <url><loc>${u}</loc><changefreq>daily</changefreq><priority>${u === BASE ? "1.0" : "0.8"}</priority></url>`).join("\n") + `\n</urlset>\n`;
   await writeFile(path.join(DOCS, "sitemap.xml"), sitemap);
 
-  console.log(`[pages] ${count} pages piliers générées (fr + en). Sitemap : ${urls.length} URLs.`);
+  console.log(`[pages] ${count} pages piliers générées (${SEO_LANGS.join(", ")}). Sitemap : ${urls.length} URLs.`);
 }
 
 main().catch((e) => { console.error("[pages] échec :", e); process.exit(1); });

@@ -7,7 +7,14 @@ import { cp, mkdir, rm, writeFile, readdir, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { UI, PILLARS, LANGS, LANG_LABELS, PILLAR_LANGS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
+import { UI, PILLARS, LANGS, LANG_LABELS, langHref, pillarSlug, pillarLabel, GYG } from "../domains/today.paris/i18n.js";
+
+// Langues qui ont réellement des pages piliers (mêmes règles que build-pages.mjs) :
+// fr/en écrites à la main + celles dont les textes SEO sont traduits. Une langue sans
+// textes SEO n'affiche pas la nav « Explorer » → jamais de lien mort.
+let BUNDLE_SEO = {};
+try { ({ PILLAR_SEO: BUNDLE_SEO } = await import("../domains/today.paris/pillar-seo.data.js")); } catch { /* pas encore traduit */ }
+const PILLAR_LANGS = LANGS.filter((l) => l === "fr" || l === "en" || BUNDLE_SEO[l]);
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
