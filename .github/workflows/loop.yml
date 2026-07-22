@@ -85,6 +85,13 @@ jobs:
         run: node scripts/translate-delta.mjs
         continue-on-error: true
 
+      # 1b bis. Complète les parcs avec les espaces verts de la Ville de Paris (sans clôture).
+      #         Inutile quand les lieux n'ont pas été rafraîchis : ils y sont déjà.
+      - name: Compléter les espaces verts (Open Data Paris)
+        if: steps.fraicheur.outputs.frais != 'true'
+        run: node scripts/fetch-parcs.mjs
+        continue-on-error: true
+
       # 2-3-4 + 7. Contrôle fraîcheur + rapport d'amélioration (santé des données) dans les logs.
       - name: Boucle (fraîcheur + rapport)
         run: node loop/run.js --once

@@ -19,7 +19,8 @@
     "fetch:events": "node scripts/fetch-events.mjs",
     "translate:events": "node scripts/translate-events.mjs",
     "test": "node --test",
-    "healthcheck": "node scripts/healthcheck.mjs"
+    "healthcheck": "node scripts/healthcheck.mjs",
+    "fetch:parcs": "node scripts/fetch-parcs.mjs"
   },
   "keywords": [
     "recommandation",
