@@ -1,0 +1,533 @@
+{
+ "_source": "Open Data Ville de Paris — quartier_paris (80 quartiers administratifs)",
+ "_filtre": "conservés si ≥8 lieux et ≥1 événement en attribution exclusive (au centre le plus proche)",
+ "_genere": "2026-07-22",
+ "count": 75,
+ "quartiers": [
+  {
+   "slug": "amerique",
+   "nom": "Amérique",
+   "ar": 19,
+   "lat": 48.88163816729657,
+   "lng": 2.3954401666237373
+  },
+  {
+   "slug": "archives",
+   "nom": "Archives",
+   "ar": 3,
+   "lat": 48.859192412713874,
+   "lng": 2.3632050573309638
+  },
+  {
+   "slug": "arsenal",
+   "nom": "Arsenal",
+   "ar": 4,
+   "lat": 48.851585175021285,
+   "lng": 2.3647679538731117
+  },
+  {
+   "slug": "arts-et-metiers",
+   "nom": "Arts-et-Métiers",
+   "ar": 3,
+   "lat": 48.86647028948414,
+   "lng": 2.3570831310567835
+  },
+  {
+   "slug": "auteuil",
+   "nom": "Auteuil",
+   "ar": 16,
+   "lat": 48.850622342726865,
+   "lng": 2.252276907538065
+  },
+  {
+   "slug": "batignolles",
+   "nom": "Batignolles",
+   "ar": 17,
+   "lat": 48.888481513920595,
+   "lng": 2.313856169006357
+  },
+  {
+   "slug": "bel-air",
+   "nom": "Bel-Air",
+   "ar": 12,
+   "lat": 48.8379956461218,
+   "lng": 2.4331784419569793
+  },
+  {
+   "slug": "belleville",
+   "nom": "Belleville",
+   "ar": 20,
+   "lat": 48.87153120058614,
+   "lng": 2.3875492398498035
+  },
+  {
+   "slug": "bercy",
+   "nom": "Bercy",
+   "ar": 12,
+   "lat": 48.835209049865114,
+   "lng": 2.3862100842120184
+  },
+  {
+   "slug": "bonne-nouvelle",
+   "nom": "Bonne-Nouvelle",
+   "ar": 2,
+   "lat": 48.8671501183107,
+   "lng": 2.3500801904088187
+  },
+  {
+   "slug": "chaillot",
+   "nom": "Chaillot",
+   "ar": 16,
+   "lat": 48.86843361445447,
+   "lng": 2.2916790427412166
+  },
+  {
+   "slug": "champs-elysees",
+   "nom": "Champs-Elysées",
+   "ar": 8,
+   "lat": 48.867074492185395,
+   "lng": 2.3086516846814
+  },
+  {
+   "slug": "charonne",
+   "nom": "Charonne",
+   "ar": 20,
+   "lat": 48.854760283035255,
+   "lng": 2.407430328235969
+  },
+  {
+   "slug": "chaussee-d-antin",
+   "nom": "Chaussée-d'Antin",
+   "ar": 9,
+   "lat": 48.87354738020911,
+   "lng": 2.332268868869704
+  },
+  {
+   "slug": "clignancourt",
+   "nom": "Clignancourt",
+   "ar": 18,
+   "lat": 48.89166759106752,
+   "lng": 2.3459787545931863
+  },
+  {
+   "slug": "combat",
+   "nom": "Combat",
+   "ar": 19,
+   "lat": 48.87863907572485,
+   "lng": 2.380127281829295
+  },
+  {
+   "slug": "croulebarbe",
+   "nom": "Croulebarbe",
+   "ar": 13,
+   "lat": 48.83373367612219,
+   "lng": 2.3476730460658106
+  },
+  {
+   "slug": "ecole-militaire",
+   "nom": "Ecole-Militaire",
+   "ar": 7,
+   "lat": 48.85035926154756,
+   "lng": 2.3110309362657557
+  },
+  {
+   "slug": "enfants-rouges",
+   "nom": "Enfants-Rouges",
+   "ar": 3,
+   "lat": 48.86388739200144,
+   "lng": 2.363123300986952
+  },
+  {
+   "slug": "epinettes",
+   "nom": "Epinettes",
+   "ar": 17,
+   "lat": 48.8949426537908,
+   "lng": 2.321118743705154
+  },
+  {
+   "slug": "europe",
+   "nom": "Europe",
+   "ar": 8,
+   "lat": 48.87814767585099,
+   "lng": 2.3171746113048903
+  },
+  {
+   "slug": "faubourg-du-roule",
+   "nom": "Faubourg-du-Roule",
+   "ar": 8,
+   "lat": 48.874135575605415,
+   "lng": 2.3041188097211407
+  },
+  {
+   "slug": "faubourg-montmartre",
+   "nom": "Faubourg-Montmartre",
+   "ar": 9,
+   "lat": 48.873934691758095,
+   "lng": 2.343252579473346
+  },
+  {
+   "slug": "folie-mericourt",
+   "nom": "Folie-Méricourt",
+   "ar": 11,
+   "lat": 48.86740319007272,
+   "lng": 2.3729648249267643
+  },
+  {
+   "slug": "gaillon",
+   "nom": "Gaillon",
+   "ar": 2,
+   "lat": 48.869306638088744,
+   "lng": 2.3334318076581146
+  },
+  {
+   "slug": "gare",
+   "nom": "Gare",
+   "ar": 13,
+   "lat": 48.82752745777257,
+   "lng": 2.3723977369189355
+  },
+  {
+   "slug": "goutte-d-or",
+   "nom": "Goutte-d'Or",
+   "ar": 18,
+   "lat": 48.89213818760241,
+   "lng": 2.355536163296278
+  },
+  {
+   "slug": "grandes-carrieres",
+   "nom": "Grandes-Carrières",
+   "ar": 18,
+   "lat": 48.89257777114592,
+   "lng": 2.334363089913081
+  },
+  {
+   "slug": "grenelle",
+   "nom": "Grenelle",
+   "ar": 15,
+   "lat": 48.850171655497846,
+   "lng": 2.291852642697574
+  },
+  {
+   "slug": "gros-caillou",
+   "nom": "Gros-Caillou",
+   "ar": 7,
+   "lat": 48.85829990387876,
+   "lng": 2.3015415556941874
+  },
+  {
+   "slug": "halles",
+   "nom": "Halles",
+   "ar": 1,
+   "lat": 48.86228910809422,
+   "lng": 2.3448988583110166
+  },
+  {
+   "slug": "hopital-saint-louis",
+   "nom": "Hôpital-Saint-Louis",
+   "ar": 10,
+   "lat": 48.876008290020586,
+   "lng": 2.36812301788768
+  },
+  {
+   "slug": "jardin-des-plantes",
+   "nom": "Jardin-des-Plantes",
+   "ar": 5,
+   "lat": 48.84194019337512,
+   "lng": 2.356893889624744
+  },
+  {
+   "slug": "javel",
+   "nom": "Javel",
+   "ar": 15,
+   "lat": 48.83906040108164,
+   "lng": 2.2780763469189345
+  },
+  {
+   "slug": "madeleine",
+   "nom": "Madeleine",
+   "ar": 8,
+   "lat": 48.87126549302095,
+   "lng": 2.320053028649194
+  },
+  {
+   "slug": "mail",
+   "nom": "Mail",
+   "ar": 2,
+   "lat": 48.868008337402706,
+   "lng": 2.3446991274274604
+  },
+  {
+   "slug": "maison-blanche",
+   "nom": "Maison-Blanche",
+   "ar": 13,
+   "lat": 48.82312780567426,
+   "lng": 2.352433149542824
+  },
+  {
+   "slug": "monnaie",
+   "nom": "Monnaie",
+   "ar": 6,
+   "lat": 48.85438440363996,
+   "lng": 2.340035371130514
+  },
+  {
+   "slug": "montparnasse",
+   "nom": "Montparnasse",
+   "ar": 14,
+   "lat": 48.8376230959726,
+   "lng": 2.331783822887114
+  },
+  {
+   "slug": "muette",
+   "nom": "Muette",
+   "ar": 16,
+   "lat": 48.86327454383974,
+   "lng": 2.259935831704838
+  },
+  {
+   "slug": "necker",
+   "nom": "Necker",
+   "ar": 15,
+   "lat": 48.84271125032415,
+   "lng": 2.3107774536393966
+  },
+  {
+   "slug": "notre-dame",
+   "nom": "Notre-Dame",
+   "ar": 4,
+   "lat": 48.852895586218004,
+   "lng": 2.3527750121216795
+  },
+  {
+   "slug": "notre-dame-des-champs",
+   "nom": "Notre-Dame-des-Champs",
+   "ar": 6,
+   "lat": 48.84642759400415,
+   "lng": 2.327356878234607
+  },
+  {
+   "slug": "odeon",
+   "nom": "Odéon",
+   "ar": 6,
+   "lat": 48.847800629292664,
+   "lng": 2.3363388275876775
+  },
+  {
+   "slug": "palais-royal",
+   "nom": "Palais-Royal",
+   "ar": 1,
+   "lat": 48.86465997810256,
+   "lng": 2.3363089189653063
+  },
+  {
+   "slug": "parc-de-montsouris",
+   "nom": "Parc-de-Montsouris",
+   "ar": 14,
+   "lat": 48.823452771575106,
+   "lng": 2.337070179863054
+  },
+  {
+   "slug": "pere-lachaise",
+   "nom": "Père-Lachaise",
+   "ar": 20,
+   "lat": 48.86371948395739,
+   "lng": 2.395272820760115
+  },
+  {
+   "slug": "petit-montrouge",
+   "nom": "Petit-Montrouge",
+   "ar": 14,
+   "lat": 48.82665262554388,
+   "lng": 2.3264369992249008
+  },
+  {
+   "slug": "place-vendome",
+   "nom": "Place-Vendôme",
+   "ar": 1,
+   "lat": 48.867018590627694,
+   "lng": 2.328581664931248
+  },
+  {
+   "slug": "plaine-de-monceaux",
+   "nom": "Plaine de Monceaux",
+   "ar": 17,
+   "lat": 48.88504369140323,
+   "lng": 2.302909824651906
+  },
+  {
+   "slug": "plaisance",
+   "nom": "Plaisance",
+   "ar": 14,
+   "lat": 48.83031704260011,
+   "lng": 2.315304931573413
+  },
+  {
+   "slug": "pont-de-flandre",
+   "nom": "Pont-de-Flandre",
+   "ar": 19,
+   "lat": 48.89555577457166,
+   "lng": 2.384777229270242
+  },
+  {
+   "slug": "porte-saint-denis",
+   "nom": "Porte-Saint-Denis",
+   "ar": 10,
+   "lat": 48.87361766097465,
+   "lng": 2.352282894951218
+  },
+  {
+   "slug": "porte-saint-martin",
+   "nom": "Porte-Saint-Martin",
+   "ar": 10,
+   "lat": 48.87124465089237,
+   "lng": 2.3615036473450113
+  },
+  {
+   "slug": "quinze-vingts",
+   "nom": "Quinze-Vingts",
+   "ar": 12,
+   "lat": 48.84691594405347,
+   "lng": 2.374401626479208
+  },
+  {
+   "slug": "rochechouart",
+   "nom": "Rochechouart",
+   "ar": 9,
+   "lat": 48.87981191977869,
+   "lng": 2.3448612910024424
+  },
+  {
+   "slug": "roquette",
+   "nom": "Roquette",
+   "ar": 11,
+   "lat": 48.85706404083103,
+   "lng": 2.380364061726767
+  },
+  {
+   "slug": "saint-ambroise",
+   "nom": "Saint-Ambroise",
+   "ar": 11,
+   "lat": 48.86234502354463,
+   "lng": 2.376118055918989
+  },
+  {
+   "slug": "saint-fargeau",
+   "nom": "Saint-Fargeau",
+   "ar": 20,
+   "lat": 48.87103473909125,
+   "lng": 2.406171530151038
+  },
+  {
+   "slug": "saint-georges",
+   "nom": "Saint-Georges",
+   "ar": 9,
+   "lat": 48.87993433878255,
+   "lng": 2.3328501965554715
+  },
+  {
+   "slug": "saint-germain-des-pres",
+   "nom": "Saint-Germain-des-Prés",
+   "ar": 6,
+   "lat": 48.85528871996157,
+   "lng": 2.3336568680904577
+  },
+  {
+   "slug": "saint-gervais",
+   "nom": "Saint-Gervais",
+   "ar": 4,
+   "lat": 48.85571865089275,
+   "lng": 2.358162333852766
+  },
+  {
+   "slug": "saint-lambert",
+   "nom": "Saint-Lambert",
+   "ar": 15,
+   "lat": 48.83429362836976,
+   "lng": 2.296919974448867
+  },
+  {
+   "slug": "saint-merri",
+   "nom": "Saint-Merri",
+   "ar": 4,
+   "lat": 48.85852137232379,
+   "lng": 2.3516669671389687
+  },
+  {
+   "slug": "saint-thomas-d-aquin",
+   "nom": "Saint-Thomas-d'Aquin",
+   "ar": 7,
+   "lat": 48.85526326937375,
+   "lng": 2.3255876525808024
+  },
+  {
+   "slug": "saint-victor",
+   "nom": "Saint-Victor",
+   "ar": 5,
+   "lat": 48.84766363545046,
+   "lng": 2.354093153377686
+  },
+  {
+   "slug": "saint-vincent-de-paul",
+   "nom": "Saint-Vincent-de-Paul",
+   "ar": 10,
+   "lat": 48.88073523727109,
+   "lng": 2.35747081044636
+  },
+  {
+   "slug": "sainte-avoie",
+   "nom": "Sainte-Avoie",
+   "ar": 3,
+   "lat": 48.862557245043206,
+   "lng": 2.354851518245669
+  },
+  {
+   "slug": "sainte-marguerite",
+   "nom": "Sainte-Marguerite",
+   "ar": 11,
+   "lat": 48.85209650697998,
+   "lng": 2.3887648336025635
+  },
+  {
+   "slug": "salpetriere",
+   "nom": "Salpêtrière",
+   "ar": 13,
+   "lat": 48.83740588522813,
+   "lng": 2.3633186351497177
+  },
+  {
+   "slug": "sorbonne",
+   "nom": "Sorbonne",
+   "ar": 5,
+   "lat": 48.8490447659431,
+   "lng": 2.3457466001872485
+  },
+  {
+   "slug": "ternes",
+   "nom": "Ternes",
+   "ar": 17,
+   "lat": 48.88117755028415,
+   "lng": 2.289963738115156
+  },
+  {
+   "slug": "val-de-grace",
+   "nom": "Val-de-Grace",
+   "ar": 5,
+   "lat": 48.84168428795317,
+   "lng": 2.3438609263160095
+  },
+  {
+   "slug": "villette",
+   "nom": "Villette",
+   "ar": 19,
+   "lat": 48.88766108880349,
+   "lng": 2.3744682121256666
+  },
+  {
+   "slug": "vivienne",
+   "nom": "Vivienne",
+   "ar": 2,
+   "lat": 48.86910019977125,
+   "lng": 2.3394607437483312
+  }
+ ]
+}

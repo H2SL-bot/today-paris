@@ -7,7 +7,7 @@
 // À lancer APRÈS build:web.
 
 import { writeFile, mkdir, readFile } from "node:fs/promises";
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -56,6 +56,19 @@ const SEO_EN = {
 let BUNDLE_SEO = {};
 try { ({ PILLAR_SEO: BUNDLE_SEO } = await import("../domains/today.paris/pillar-seo.data.js")); } catch { /* pas encore traduit */ }
 const SEO = { fr: SEO_FR, en: SEO_EN, ...BUNDLE_SEO };
+
+// Quartiers administratifs de Paris (Open Data), filtrés à la génération du référentiel :
+// seuls ceux ayant assez de contenu RÉEL ont une page. Leur nom est un nom propre —
+// identique dans les 13 langues — donc aucune traduction supplémentaire n'est nécessaire.
+let QUARTIERS = [];
+try {
+  const q = JSON.parse(readFileSync(path.join(ROOT, "domains", "today.paris", "quartiers.json"), "utf8"));
+  QUARTIERS = (q.quartiers || []).map((x) => ({
+    fr: x.slug, en: x.slug, labelFr: x.nom, labelEn: x.nom,
+    kind: "quartier-admin", lat: x.lat, lng: x.lng, nameFr: x.nom, nameEn: x.nom, ar: x.ar,
+  }));
+} catch { /* référentiel absent : on garde seulement les piliers historiques */ }
+const TOUS_PILIERS = [...PILLARS, ...QUARTIERS];
 // Langues qui auront des pages piliers : celles dont les textes SEO existent.
 const SEO_LANGS = LANGS.filter((l) => SEO[l]);
 const fill = (tpl, vars) => String(tpl ?? "").replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
@@ -181,8 +194,12 @@ function pillarSpec(pillar, lang, active, cats, copy, now) {
       sections: [{ h2: S.sec.eventsTonight, offers: evts, extra: (o) => (o._time ? o._time : "") }],
     };
   }
-  // quartier
-  const near = active.map((o) => ({ o, d: distanceKm({ lat: pillar.lat, lng: pillar.lng }, { lat: o.lat, lng: o.lng }) })).filter((x) => x.d <= 1.3).sort((a, b) => a.d - b.d).map((x) => x.o);
+  // quartier : les 4 quartiers « vedettes » agrègent dans un rayon ; les quartiers
+  // administratifs reçoivent chacun le contenu qui leur est EXCLUSIVEMENT rattaché
+  // (calculé une fois dans main) — deux pages voisines ne montrent jamais la même liste.
+  const near = pillar.kind === "quartier-admin"
+    ? (pillar._offers || [])
+    : active.map((o) => ({ o, d: distanceKm({ lat: pillar.lat, lng: pillar.lng }, { lat: o.lat, lng: o.lng }) })).filter((x) => x.d <= 1.3).sort((a, b) => a.d - b.d).map((x) => x.o);
   return {
     title: fill(S.quartier.title, { name }), description: fill(S.quartier.description, { name }),
     h1: fill(S.quartier.h1, { name }), intro: fill(S.quartier.intro, { name }),
@@ -213,6 +230,25 @@ async function main() {
     if (existsSync(p)) dicts[l] = JSON.parse(await readFile(p, "utf8"));
   }
 
+  // Attribution EXCLUSIVE du contenu aux quartiers administratifs : chaque lieu/événement
+  // est rattaché au quartier dont le centre est le plus proche (≤ 1,2 km). Garantit que
+  // deux pages de quartiers voisins n'affichent pas le même contenu (pas de duplication).
+  if (QUARTIERS.length) {
+    const bacs = new Map(QUARTIERS.map((q) => [q.fr, []]));
+    for (const o of active) {
+      if (!Number.isFinite(o.lat) || !Number.isFinite(o.lng)) continue;
+      let best = null, bd = Infinity;
+      for (const q of QUARTIERS) { const d = distanceKm(q, { lat: o.lat, lng: o.lng }); if (d < bd) { bd = d; best = q; } }
+      if (best && bd <= 1.2) bacs.get(best.fr).push(o);
+    }
+    for (const q of QUARTIERS) q._offers = bacs.get(q.fr) || [];
+    // Voisins géographiques : maillage interne entre pages de quartiers.
+    for (const q of QUARTIERS) {
+      q._voisins = QUARTIERS.filter((x) => x !== q)
+        .map((x) => ({ x, d: distanceKm(q, x) })).sort((a, b) => a.d - b.d).slice(0, 6).map((v) => v.x);
+    }
+  }
+
   // Sitemap : tous les accueils de langue + les piliers de chaque langue, ajoutés plus bas.
   const urls = LANGS.map((l) => BASE + (l === "fr" ? "" : l + "/"));
   let count = 0;
@@ -220,13 +256,15 @@ async function main() {
     const localized = localizeConfig(config, lang);
     const cats = localized.categories, copy = localized.copy;
     const tr = makeEventTranslator(dicts[lang] || null, lang);
-    for (const pillar of PILLARS) {
+    for (const pillar of TOUS_PILIERS) {
       const slug = pillarSlug(pillar, lang);
       // La même page dans toutes les langues où elle existe → hreflang réciproques.
       const altUrls = Object.fromEntries(SEO_LANGS.map((l) => [l, `${BASE}${l === "fr" ? "" : l + "/"}${pillarSlug(pillar, l)}/`]));
       const spec = pillarSpec(pillar, lang, active, cats, copy, now);
       spec.sections.forEach((s) => { s.cats = cats; s.copy = copy; });
-      const related = PILLARS.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" · ");
+      // Maillage : les piliers principaux + (sur une page de quartier) ses voisins.
+      const liens = [...PILLARS, ...(pillar._voisins || [])];
+      const related = liens.map((p) => `<a href="${langHref(lang)}${pillarSlug(p, lang)}/">${esc(pillarLabel(p, lang))}</a>`).join(" · ");
       const html = pageHtml({ lang, slug, altUrls, ...spec, relatedLinks: related, tr });
       await writePage(lang === "fr" ? [slug] : [lang, slug], html);
       urls.push(`${BASE}${lang === "fr" ? "" : lang + "/"}${slug}/`);
