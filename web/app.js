@@ -2,7 +2,7 @@
 // Tout se passe dans le navigateur : config + Open Data + moteur, côté client. Aucun serveur.
 
 import config from "./config.js";
-import { UI, localizeConfig, GYG } from "./i18n.js";
+import { UI, localizeConfig, GYG, MORE } from "./i18n.js";
 import { UI_DATA } from "./ui-i18n.data.js";
 import { makeEventTranslator, localizeNeighborhood } from "./translate.js";
 import { recommend } from "./engine/index.js";
@@ -187,7 +187,11 @@ async function getRecommendations(e) {
   };
 
   try {
-    renderResults(recommend({ context, candidates: offers, config: CFG }));
+    // On demande au moteur 2× le quota affiché : les meilleurs sont montrés d'emblée,
+    // le reste attend derrière « voir plus » (sans nouvelle recherche).
+    const visibles = CFG.output?.count ?? 10;
+    const large = { ...CFG, output: { ...CFG.output, count: visibles * 2 } };
+    renderResults(recommend({ context, candidates: offers, config: large }), visibles);
   } catch (err) {
     console.error(err);
     results.innerHTML = `<div class="error">${L.err}</div>`;
@@ -197,10 +201,11 @@ async function getRecommendations(e) {
 }
 
 // --- Rendu des résultats ------------------------------------------------
-function renderResults(data) {
+function renderResults(data, visibles) {
   const results = $("#results");
   const cats = CFG.categories || {};
   const list = data.results || [];
+  const nbVisibles = Math.min(visibles || list.length, list.length);
 
   if (list.length === 0) {
     $("#map").hidden = true;
@@ -209,11 +214,25 @@ function renderResults(data) {
     return;
   }
 
-  results.innerHTML = `<p class="results-head">${L.resultsHead(list.length)}</p>` + list.map((o, i) => card(o, i, cats)).join("");
-  results.querySelectorAll("[data-offer]").forEach((btn) => btn.addEventListener("click", () => onAction(btn)));
-  results.querySelectorAll(".btn-share").forEach((btn) => btn.addEventListener("click", () => onShare(btn)));
-  sendEvents(list.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
-  renderMap(list);
+  const montres = list.slice(0, nbVisibles);
+  const reste = list.slice(nbVisibles);
+  const btnPlus = reste.length ? `<button class="btn-ghost btn-more" id="showMore" type="button">${MORE[LANG] || MORE.fr} (+${reste.length})</button>` : "";
+  results.innerHTML = `<p class="results-head">${L.resultsHead(montres.length)}</p>` + montres.map((o, i) => card(o, i, cats)).join("") + btnPlus;
+  const brancher = () => {
+    results.querySelectorAll("[data-offer]").forEach((btn) => btn.addEventListener("click", () => onAction(btn)));
+    results.querySelectorAll(".btn-share").forEach((btn) => btn.addEventListener("click", () => onShare(btn)));
+  };
+  brancher();
+  // « Voir plus » : on ajoute la suite déjà calculée, sans relancer de recherche.
+  $("#showMore")?.addEventListener("click", (e) => {
+    e.currentTarget.remove();
+    results.insertAdjacentHTML("beforeend", reste.map((o, i) => card(o, nbVisibles + i, cats)).join(""));
+    brancher();
+    sendEvents(reste.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
+    renderMap(list);
+  });
+  sendEvents(montres.map((o) => ({ type: "impression", category: o.category, offerId: o.id })));
+  renderMap(montres);
   // La réponse d'abord : on l'amène à l'écran (sur mobile elle était sous la carte, hors champ).
   const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   results.querySelector(".results-head")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });

@@ -46,6 +46,15 @@ export const GYG = {
 // Textes GYG des langues bundle non écrits ci-dessus : fournis par le bundle (section gyg).
 for (const l of BUNDLE_LANGS) if (!GYG.text[l] && UI_DATA[l].gyg) GYG.text[l] = UI_DATA[l].gyg;
 
+// Bouton « voir plus » sous les premiers résultats (le moteur en calcule 2× plus,
+// on n'en montre que la première moitié — les meilleurs — et le reste à la demande).
+export const MORE = {
+  fr: "Voir plus d'idées", en: "Show more ideas", es: "Ver más ideas", it: "Altre idee",
+  de: "Mehr Ideen anzeigen", pt: "Ver mais ideias", nl: "Meer ideeën tonen",
+  ru: "Показать ещё", hi: "और आइडिया देखें", zh: "查看更多", ja: "もっと見る",
+  ko: "더 보기", ar: "عرض المزيد",
+};
+
 // Libellés des boutons de réservation (clé = libellé français d'origine des données).
 // SOURCE UNIQUE partagée par l'appli (web/app.js) et les pages piliers (build-pages.mjs).
 export const BOOKING = {
