@@ -10,6 +10,13 @@ import { UI_DATA } from "./ui-i18n.data.js";
 
 // Descriptions-gabarits génériques des LIEUX en anglais (les autres langues via UI_DATA[lang].venueDesc).
 const VENUE_DESC_EN = {
+  "Un musée à visiter.": "A museum to visit.",
+  "Une galerie d'art à parcourir.": "An art gallery to wander through.",
+  "Une salle de cinéma.": "A cinema.",
+  "Un théâtre pour un spectacle.": "A theatre for a show.",
+  "Une librairie où flâner.": "A bookshop to browse.",
+  "Un club pour danser.": "A club to dance in.",
+  "Une salle de concert.": "A concert venue.",
   "Un café où se poser.": "A café to settle into.",
   "Un bar pour boire un verre.": "A bar for a drink.",
   "Un bar à vin pour un verre choisi.": "A wine bar for a good glass.",
@@ -20,6 +27,13 @@ const VENUE_DESC_EN = {
   "Un jardin pour une pause au calme.": "A garden for a quiet break.",
 };
 const VENUE_DESC_ES = {
+  "Un musée à visiter.": "Un museo para visitar.",
+  "Une galerie d'art à parcourir.": "Una galería de arte para recorrer.",
+  "Une salle de cinéma.": "Un cine.",
+  "Un théâtre pour un spectacle.": "Un teatro para ver un espectáculo.",
+  "Une librairie où flâner.": "Una librería para curiosear.",
+  "Un club pour danser.": "Un club para bailar.",
+  "Une salle de concert.": "Una sala de conciertos.",
   "Un café où se poser.": "Un café para sentarse un rato.",
   "Un bar pour boire un verre.": "Un bar para tomar algo.",
   "Un bar à vin pour un verre choisi.": "Un bar de vinos para una buena copa.",
@@ -30,6 +44,13 @@ const VENUE_DESC_ES = {
   "Un jardin pour une pause au calme.": "Un jardín para una pausa tranquila.",
 };
 const VENUE_DESC_IT = {
+  "Un musée à visiter.": "Un museo da visitare.",
+  "Une galerie d'art à parcourir.": "Una galleria d'arte da percorrere.",
+  "Une salle de cinéma.": "Un cinema.",
+  "Un théâtre pour un spectacle.": "Un teatro per uno spettacolo.",
+  "Une librairie où flâner.": "Una libreria in cui curiosare.",
+  "Un club pour danser.": "Un club per ballare.",
+  "Une salle de concert.": "Una sala da concerti.",
   "Un café où se poser.": "Un caffè dove fermarsi un po'.",
   "Un bar pour boire un verre.": "Un bar per bere qualcosa.",
   "Un bar à vin pour un verre choisi.": "Un'enoteca per un buon bicchiere.",

@@ -34,6 +34,12 @@ const QUERIES = [
   { label: "restaurants", cats: ["restaurant"], cap: Infinity, data: wrap(`nwr["amenity"="restaurant"]["opening_hours"]["name"](${BBOX});`) },
   { label: "pâtisseries/halles", cats: ["patisserie", "food-market"], cap: Infinity, data: wrap(`nwr["shop"~"^(bakery|pastry|confectionery|chocolate|deli)$"]["opening_hours"]["name"](${BBOX});nwr["amenity"="marketplace"]["opening_hours"]["name"](${BBOX});`) },
   { label: "parcs/jardins", cats: ["park", "garden"], cap: Infinity, data: wrap(`nwr["leisure"~"^(park|garden)$"]["opening_hours"]["name"](${BBOX});`) },
+  // Culture et sorties : ce que cherche d'abord un visiteur à Paris, et qui manquait
+  // entièrement. Horaires exigés comme partout — pas d'horaires, pas de lieu.
+  { label: "musées/galeries", cats: ["museum", "gallery"], cap: Infinity, data: wrap(`nwr["tourism"~"^(museum|gallery)$"]["opening_hours"]["name"](${BBOX});`) },
+  { label: "cinémas/théâtres", cats: ["cinema", "theatre"], cap: Infinity, data: wrap(`nwr["amenity"~"^(cinema|theatre)$"]["opening_hours"]["name"](${BBOX});`) },
+  { label: "librairies", cats: ["bookshop"], cap: Infinity, data: wrap(`nwr["shop"="books"]["opening_hours"]["name"](${BBOX});`) },
+  { label: "concerts/clubs", cats: ["live-music", "club"], cap: Infinity, data: wrap(`nwr["amenity"~"^(nightclub|music_venue)$"]["opening_hours"]["name"](${BBOX});`) },
 ];
 
 // Échantillon UNIFORME (pas les N premiers) : on garde 1 lieu sur k pour atteindre le plafond,
@@ -60,8 +66,13 @@ const CATEGORY = {
   park: "park", garden: "garden",
   bakery: "patisserie", pastry: "patisserie", confectionery: "patisserie", chocolate: "patisserie",
   deli: "food-market", marketplace: "food-market",
+  museum: "museum", gallery: "gallery",
+  cinema: "cinema", theatre: "theatre",
+  books: "bookshop",
+  nightclub: "club", music_venue: "live-music",
 };
-const DURATION = { cafe: 45, bar: 90, "wine-bar": 90, restaurant: 75, patisserie: 20, "food-market": 40, park: 60, garden: 45 };
+const DURATION = { cafe: 45, bar: 90, "wine-bar": 90, restaurant: 75, patisserie: 20, "food-market": 40, park: 60, garden: 45,
+  museum: 120, gallery: 45, cinema: 120, theatre: 120, bookshop: 30, club: 150, "live-music": 120 };
 const DESC = {
   cafe: "Un café où se poser.",
   bar: "Un bar pour boire un verre.",
@@ -71,6 +82,13 @@ const DESC = {
   "food-market": "Un marché / une épicerie fine à parcourir.",
   park: "Un espace vert pour souffler.",
   garden: "Un jardin pour une pause au calme.",
+  museum: "Un musée à visiter.",
+  gallery: "Une galerie d'art à parcourir.",
+  cinema: "Une salle de cinéma.",
+  theatre: "Un théâtre pour un spectacle.",
+  bookshop: "Une librairie où flâner.",
+  club: "Un club pour danser.",
+  "live-music": "Une salle de concert.",
 };
 // Un "bar à vin" est un bar OSM avec un signal vin (cuisine ou boisson) : on affine la catégorie.
 const isWineBar = (t) => /wine|vin/i.test(t.cuisine || "") || t["drink:wine"] === "yes" || /bar à vin|wine bar|cave à/i.test(t.name || "");
@@ -84,12 +102,13 @@ function arrondissement(zip) {
 }
 
 function suitableFor(category) {
-  if (category === "bar" || category === "wine-bar") return ["solo", "couple", "friends"];
+  if (["bar", "wine-bar", "club", "live-music"].includes(category)) return ["solo", "couple", "friends"];
   return ["solo", "couple", "friends", "family"]; // café, resto, pâtisserie, halle, parc, jardin
 }
 
 function price(category) {
-  if (category === "park" || category === "garden") return { free: true };
+  if (["park", "garden", "gallery", "bookshop"].includes(category)) return { free: true }; // entrée libre
+  if (["museum", "cinema", "theatre", "club", "live-music"].includes(category)) return { unknown: true, note: "" }; // billet : « Payant »
   if (category === "restaurant") return { unknown: true, note: "à la carte" };
   if (category === "patisserie") return { unknown: true, note: "à la pièce" };
   return { unknown: true, note: "à la conso" }; // café, bar, bar à vin, halle
@@ -97,7 +116,7 @@ function price(category) {
 
 function toOffer(el) {
   const t = el.tags || {};
-  const kind = t.amenity || t.leisure || t.shop;
+  const kind = t.amenity || t.leisure || t.shop || t.tourism;
   let category = CATEGORY[kind];
   if (!category) return null;
   if (category === "bar" && isWineBar(t)) category = "wine-bar"; // affine bar -> bar à vin
@@ -196,6 +215,16 @@ async function main() {
       if (seen.has(key)) continue;
       seen.add(key);
       groupOffers.push(offer);
+    }
+    // Overpass répond parfois 200 avec un résultat vide ou tronqué (surcharge). Sans ce
+    // contrôle, une réponse « réussie » mais amputée effaçait une famille entière de lieux
+    // — c'est ainsi que 1666 cafés et bars ont disparu d'un instantané.
+    const avant = q.cats.flatMap((c) => existing.byCat.get(c) || []);
+    if (avant.length > 0 && groupOffers.length < avant.length * 0.5) {
+      console.warn(`[venues] ${q.label} : ${groupOffers.length} lieux seulement contre ${avant.length} précédemment — réponse suspecte, repli sur l'instantané précédent.`);
+      offers.push(...avant);
+      await sleep(1500);
+      continue;
     }
     console.log(`[venues] ${q.label} : ${els.length} éléments → ${groupOffers.length} lieux`);
     offers.push(...capUniform(groupOffers, q.cap, q.label));

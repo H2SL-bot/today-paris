@@ -20,8 +20,11 @@ const PILLAR_LANGS = LANGS.filter((l) => l === "fr" || l === "en" || BUNDLE_SEO[
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS = path.join(ROOT, "docs");
 const DOMAIN = process.env.DOMAIN || "today.paris";
-const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || "";
-const BASE = CUSTOM_DOMAIN ? `https://${CUSTOM_DOMAIN}/` : "https://h2sl-bot.github.io/today-paris/";
+// Même défaut que build-pages.mjs : sans cet alignement, une construction sans la variable
+// d'environnement produisait des hreflang vers github.io alors que les pages pointaient vers
+// today.paris — des liens croisés morts pour Google.
+const CUSTOM_DOMAIN = process.env.CUSTOM_DOMAIN || "today.paris";
+const BASE = `https://${CUSTOM_DOMAIN}/`;
 const urlFor = (lang) => BASE + (lang === "fr" ? "" : lang + "/"); // accueil d'une langue
 
 const copy = (from, to) => cp(path.join(ROOT, from), path.join(DOCS, to), { recursive: true });
